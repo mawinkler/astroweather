@@ -1,0 +1,11 @@
+{
+  "name": "AstroWeather",
+  "render_readme": true,
+  "domains": [
+    "binary_sensor",
+    "sensor",
+  ],
+  "iot_class": [
+    "Cloud Polling"
+  ]
+}

@@ -1,0 +1,24 @@
+{
+    "config": {
+        "step": {
+            "user": {
+                "title": "AstroWeather",
+                "description": "Configuration of the geographic location and forecast update interval.",
+                "data": {
+                    "latitude": "Latitude",
+                    "longitude": "Longitude",
+                    "forecast_interval": "Interval between forecast updates (min)"
+                }
+            }
+        }
+    },
+    "options": {
+        "step": {
+            "init": {
+                "data": {
+                    "forecast_interval": "Interval between forecast updates (min)"
+                }
+            }
+        }
+    }
+}
