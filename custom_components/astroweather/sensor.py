@@ -196,7 +196,7 @@ async def async_setup_entry(
             )
         )
 
-        _LOGGER.debug(f"SENSOR ADDED: {sensor}")
+        _LOGGER.debug(f"Sensor added: {sensor}")
 
     async_add_entities(sensors, True)
     return True

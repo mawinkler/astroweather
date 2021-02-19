@@ -47,7 +47,7 @@ async def async_setup_entry(
     sensors = []
     for sensor in SENSOR_TYPES:
         sensors.append(AstroWeatherBinarySensor(entry.data, sensor, coordinator))
-        _LOGGER.debug(f"BINARY SENSOR ADDED: {sensor}")
+        _LOGGER.debug(f"Binary sensor added: {sensor}")
 
     async_add_entities(sensors, True)
 

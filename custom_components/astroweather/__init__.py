@@ -81,8 +81,6 @@ async def async_setup_entry(hass: HomeAssistantType, entry: ConfigEntry) -> bool
 
     await coordinator.async_refresh()
 
-    _LOGGER.debug("async_setup_entry - Entry ID " + str(entry.entry_id))
-    _LOGGER.debug("" + str(hass.data[DOMAIN][entry.entry_id]))
     hass.data[DOMAIN][entry.entry_id] = {
         "coordinator": coordinator,
         "aw": astroweather,
