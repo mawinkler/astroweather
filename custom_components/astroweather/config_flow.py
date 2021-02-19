@@ -47,7 +47,7 @@ class AstroWeatherFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
             for _ in range(12)
         )
 
-        _LOGGER.info(
+        _LOGGER.debug(
             "Configured geolocation {}, {}".format(
                 round(user_input[CONF_LATITUDE], 6),
                 round(user_input[CONF_LONGITUDE], 6),

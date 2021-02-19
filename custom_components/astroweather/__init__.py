@@ -35,7 +35,6 @@ async def async_setup(hass: HomeAssistantType, config: ConfigType) -> bool:
     """Set up configured AstroWeather."""
 
     # We allow setup only through config flow type of config
-    _LOGGER.info("async_setup - Starting up")
 
     return True
 
@@ -43,7 +42,7 @@ async def async_setup(hass: HomeAssistantType, config: ConfigType) -> bool:
 async def async_setup_entry(hass: HomeAssistantType, entry: ConfigEntry) -> bool:
     """Set up AstroWeather platforms as config entry."""
 
-    _LOGGER.info("init - async_setup_entry - Starting up")
+    _LOGGER.debug("Starting up")
 
     if not entry.options:
         hass.config_entries.async_update_entry(
@@ -63,13 +62,9 @@ async def async_setup_entry(hass: HomeAssistantType, entry: ConfigEntry) -> bool
         entry.data[CONF_LATITUDE],
         entry.data[CONF_LONGITUDE],
     )
-    _LOGGER.debug("init - async_setup_entry - Connected to AstroWeather Platform")
-    _LOGGER.debug(
-        "init - async_setup_entry - Latitude " + str(entry.data[CONF_LATITUDE])
-    )
-    _LOGGER.debug(
-        "init - async_setup_entry - Longitude " + str(entry.data[CONF_LONGITUDE])
-    )
+    _LOGGER.debug("Connected to AstroWeather Platform")
+    _LOGGER.debug("Latitude " + str(entry.data[CONF_LATITUDE]))
+    _LOGGER.debug("Longitude " + str(entry.data[CONF_LONGITUDE]))
 
     hass.data.setdefault(DOMAIN, {})[entry.entry_id] = astroweather
 
@@ -82,7 +77,7 @@ async def async_setup_entry(hass: HomeAssistantType, entry: ConfigEntry) -> bool
             minutes=entry.options.get(CONF_FORECAST_INTERVAL, DEFAULT_FORECAST_INTERVAL)
         ),
     )
-    _LOGGER.debug("init - async_setup_entry - Forecast Coordinator created")
+    _LOGGER.debug("Forecast Coordinator created")
 
     await coordinator.async_refresh()
 
@@ -93,11 +88,11 @@ async def async_setup_entry(hass: HomeAssistantType, entry: ConfigEntry) -> bool
         "aw": astroweather,
     }
 
-    _LOGGER.debug("init - async_setup_entry - Forecast updated")
+    _LOGGER.debug("Forecast updated")
 
     for platform in ASTROWEATHER_PLATFORMS:
 
-        _LOGGER.debug("init - async_setup_entry - Creating " + str(platform))
+        _LOGGER.debug("Creating " + str(platform))
         hass.async_create_task(
             hass.config_entries.async_forward_entry_setup(entry, platform)
         )
