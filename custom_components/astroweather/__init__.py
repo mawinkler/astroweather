@@ -21,12 +21,13 @@ from pyastroweatherio import AstroWeather, AstroWeatherError, RequestError, Resu
 
 from .const import (
     ASTROWEATHER_PLATFORMS,
+    DOMAIN,
     CONF_FORECAST_INTERVAL,
     DEFAULT_FORECAST_INTERVAL,
-    DOMAIN,
     CONF_LATITUDE,
     CONF_LONGITUDE,
     CONF_ELEVATION,
+    DEFAULT_ELEVATION,
 )
 
 _LOGGER = logging.getLogger(__name__)
@@ -52,6 +53,9 @@ async def async_setup_entry(hass: HomeAssistantType, entry: ConfigEntry) -> bool
                 CONF_SCAN_INTERVAL: entry.data.get(1, 1),
                 CONF_FORECAST_INTERVAL: entry.data.get(
                     CONF_FORECAST_INTERVAL, DEFAULT_FORECAST_INTERVAL
+                ),
+                CONF_ELEVATION: entry.data.get(
+                    CONF_ELEVATION, DEFAULT_ELEVATION
                 ),
             },
         )
