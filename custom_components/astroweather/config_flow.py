@@ -10,6 +10,7 @@ from homeassistant.const import (
     CONF_ID,
     CONF_LATITUDE,
     CONF_LONGITUDE,
+    CONF_ELEVATION,
 )
 from homeassistant.core import callback
 from homeassistant.helpers import aiohttp_client
@@ -48,20 +49,23 @@ class AstroWeatherFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
         )
 
         _LOGGER.debug(
-            "Configured geolocation {}, {}".format(
+            "Configured geolocation {}°, {}°, {}m".format(
                 round(user_input[CONF_LATITUDE], 6),
                 round(user_input[CONF_LONGITUDE], 6),
+                round(user_input[CONF_ELEVATION], 0),
             )
         )
         return self.async_create_entry(
-            title="{}, {}".format(
+            title="{}°, {}°, {}m".format(
                 round(user_input[CONF_LATITUDE], 6),
                 round(user_input[CONF_LONGITUDE], 6),
+                round(user_input[CONF_ELEVATION], 0),
             ),
             data={
                 CONF_ID: unique_id,
                 CONF_LATITUDE: user_input[CONF_LATITUDE],
                 CONF_LONGITUDE: user_input[CONF_LONGITUDE],
+                CONF_ELEVATION: user_input[CONF_ELEVATION],
                 CONF_FORECAST_INTERVAL: user_input.get(CONF_FORECAST_INTERVAL),
             },
         )
@@ -71,6 +75,7 @@ class AstroWeatherFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
 
         latitude = self.hass.config.latitude
         longitude = self.hass.config.longitude
+        elevation = 0
 
         return self.async_show_form(
             step_id="user",
@@ -81,6 +86,9 @@ class AstroWeatherFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
                     ),
                     vol.Required(CONF_LONGITUDE, default=longitude): vol.All(
                         vol.Coerce(float), vol.Range(min=-180, max=180)
+                    ),
+                    vol.Required(CONF_ELEVATION, default=elevation): vol.All(
+                        vol.Coerce(int), vol.Range(min=0, max=4000)
                     ),
                     vol.Optional(
                         CONF_FORECAST_INTERVAL, default=DEFAULT_FORECAST_INTERVAL

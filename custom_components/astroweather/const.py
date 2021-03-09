@@ -9,6 +9,7 @@ DOMAIN = "astroweather"
 CONF_FORECAST_INTERVAL = "forecast_interval"
 CONF_LATITUDE = "latitude"
 CONF_LONGITUDE = "longitude"
+CONF_ELEVATION = "elevation"
 
 ASTROWEATHER_PLATFORMS = [
     "binary_sensor",

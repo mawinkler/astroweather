@@ -2,7 +2,7 @@
 
 This is a *Custom Integration* for [Home Assistant](https://www.home-assistant.io/). It uses the forecast data from 7Timer! to create sensor data for Home Assistant. It uses the public [Machine-readable API](http://www.7timer.info/doc.php?lang=en#machine_readable_api) to pull data from 7Timer!.
 
-![GitHub release](https://img.shields.io/badge/release-v0.0.17-blue)
+![GitHub release](https://img.shields.io/badge/release-v0.0.18.1-blue)
 [![hacs_badge](https://img.shields.io/badge/HACS-Default-orange.svg)](https://github.com/custom-components/hacs)
 
 There is currently support for the following device types within Home Assistant:
@@ -45,9 +45,10 @@ To add AstroWeather to your installation, go to the Integration page inside the 
 During installation you will have the option to:
 
 * verify the longitude and latitude for the forecast
+* set the elevation
 * set the interval for updating forecast data
 
-These settings can also be changed after you add the Integration, by using the *Options* link on the Integration widget.
+The interval for updating forecast data can also be changed after you add the Integration, by using the *Options* link on the Integration widget.
 
 ## Lovelace Example
 
@@ -134,6 +135,10 @@ The following sensors are being added to Home Assistant:
 * *sensor.astroweather_transparency_plain* - Atmospheric Transparency in plain text
 * *sensor.astroweather_view_condition* - Current Viewing Conditions
 * *sensor.astroweather_view_condition_plain* - Current Viewing Conditions in plain text
+* *sensor.astroweather_sun_next_setting* - Next setting of the Sun, calculated for the astronomical twilight (-18°)
+* *sensor.astroweather_moon_next_rising* - Next rising of the Moon
+* *sensor.astroweather_moon_next_setting* - Nect setting of the Moon
+* *sensor.astroweather_moon_phase* - Current Moon phase in percentage
 
 They all have a Unique ID, so you can rename them to whatever you like afterwards.
 

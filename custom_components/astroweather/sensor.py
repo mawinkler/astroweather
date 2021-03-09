@@ -26,13 +26,13 @@ _LOGGER = logging.getLogger(__name__)
 SENSOR_TYPES = {
     "latitude": [
         "Latitude",
-        "",
+        "°",
         "mdi:latitude",
         None,
     ],
     "longitude": [
         "Longitude",
-        "",
+        "°",
         "mdi:longitude",
         None,
     ],
@@ -50,7 +50,7 @@ SENSOR_TYPES = {
     ],
     "cloudcover_plain": [
         "Clouds Plain",
-        "",
+        "%",
         "mdi:weather-night-partly-cloudy",
         None,
     ],
@@ -62,7 +62,7 @@ SENSOR_TYPES = {
     ],
     "seeing_plain": [
         "Seeing Plain",
-        "",
+        "\"",
         "mdi:waves",
         None,
     ],
@@ -74,7 +74,7 @@ SENSOR_TYPES = {
     ],
     "transparency_plain": [
         "Transparency Plain",
-        "",
+        "mag",
         "mdi:safety-goggles",
         None,
     ],
@@ -86,7 +86,7 @@ SENSOR_TYPES = {
     ],
     "lifted_index_plain": [
         "Lifted Index Plain",
-        "",
+        "°",
         "mdi:arrow-expand-up",
         None,
     ],
@@ -98,7 +98,7 @@ SENSOR_TYPES = {
     ],
     "rh2m_plain": [
         "2m Relative Humidity Plain",
-        "",
+        "%",
         "mdi:water-percent",
         None,
     ],
@@ -166,6 +166,30 @@ SENSOR_TYPES = {
         "Forecast Tomorrow Plain",
         "",
         "mdi:calendar-star",
+        None,
+    ],
+    "sun_next_setting": [
+        "Sun Next Setting",
+        "",
+        "mdi:weather-sunset-down",
+        None,
+    ],
+    "moon_next_rising": [
+        "Moon Next Rising",
+        "",
+        "mdi:arrow-top-right-thick",
+        None,
+    ],
+    "moon_next_setting": [
+        "Moon Next Setting",
+        "",
+        "mdi:arrow-bottom-right-thick",
+        None,
+    ],
+    "moon_phase": [
+        "Moon Phase",
+        "%",
+        "mdi:moon-waning-gibbous",
         None,
     ],
 }

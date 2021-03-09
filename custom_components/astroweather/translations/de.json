@@ -7,6 +7,7 @@
                 "data": {
                     "latitude": "Breitengrad",
                     "longitude": "Längengrad",
+                    "elevation": "Höhe über dem Meeresspiegel",
                     "forecast_interval": "Aktualisierungsintervall (Min)"
                 }
             }

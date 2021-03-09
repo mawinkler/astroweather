@@ -7,6 +7,7 @@
                 "data": {
                     "latitude": "Latitude",
                     "longitude": "Longitude",
+                    "elevation": "Elevation",
                     "forecast_interval": "Interval between forecast updates (min)"
                 }
             }

@@ -10,6 +10,6 @@
         "@mawinkler"
     ],
     "requirements": [
-        "pyastroweatherio==0.0.17"
+        "pyastroweatherio==0.0.18.1"
     ]
 }

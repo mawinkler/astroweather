@@ -26,6 +26,7 @@ from .const import (
     DOMAIN,
     CONF_LATITUDE,
     CONF_LONGITUDE,
+    CONF_ELEVATION,
 )
 
 _LOGGER = logging.getLogger(__name__)
@@ -61,10 +62,12 @@ async def async_setup_entry(hass: HomeAssistantType, entry: ConfigEntry) -> bool
         session,
         entry.data[CONF_LATITUDE],
         entry.data[CONF_LONGITUDE],
+        entry.data[CONF_ELEVATION],
     )
     _LOGGER.debug("Connected to AstroWeather Platform")
     _LOGGER.debug("Latitude " + str(entry.data[CONF_LATITUDE]))
     _LOGGER.debug("Longitude " + str(entry.data[CONF_LONGITUDE]))
+    _LOGGER.debug("Elevation " + str(entry.data[CONF_ELEVATION]))
 
     hass.data.setdefault(DOMAIN, {})[entry.entry_id] = astroweather
 
