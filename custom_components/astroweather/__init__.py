@@ -7,7 +7,7 @@ import homeassistant.helpers.device_registry as dr
 import voluptuous as vol
 from aiohttp.client_exceptions import ServerDisconnectedError
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import CONF_API_KEY, CONF_ID, CONF_SCAN_INTERVAL
+from homeassistant.const import CONF_API_KEY, CONF_ID
 from homeassistant.exceptions import ConfigEntryNotReady
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from homeassistant.helpers.dispatcher import (
@@ -46,32 +46,51 @@ async def async_setup_entry(hass: HomeAssistantType, entry: ConfigEntry) -> bool
 
     _LOGGER.debug("Starting up")
 
-    if not entry.options:
+    if (
+        not entry.options
+        or not entry.options.get(CONF_LATITUDE)
+        or not entry.options.get(CONF_LONGITUDE)
+        or not entry.options.get(CONF_ELEVATION)
+    ):
         hass.config_entries.async_update_entry(
             entry,
             options={
-                CONF_SCAN_INTERVAL: entry.data.get(1, 1),
                 CONF_FORECAST_INTERVAL: entry.data.get(
                     CONF_FORECAST_INTERVAL, DEFAULT_FORECAST_INTERVAL
                 ),
-                CONF_ELEVATION: entry.data.get(
-                    CONF_ELEVATION, DEFAULT_ELEVATION
-                ),
+                CONF_LATITUDE: entry.data[CONF_LATITUDE],
+                CONF_LONGITUDE: entry.data[CONF_LONGITUDE],
+                CONF_ELEVATION: entry.data.get(CONF_ELEVATION, DEFAULT_ELEVATION),
             },
         )
 
     session = async_get_clientsession(hass)
 
+    # Apparently 7Timer has problems with a longitude of 0 degrees
+    if entry.options.get(CONF_LONGITUDE) == 0:
+        hass.config_entries.async_update_entry(
+            entry,
+            options={
+                CONF_FORECAST_INTERVAL: entry.data.get(
+                    CONF_FORECAST_INTERVAL, DEFAULT_FORECAST_INTERVAL
+                ),
+                CONF_LATITUDE: entry.data[CONF_LATITUDE],
+                CONF_LONGITUDE: 0.000001,
+                CONF_ELEVATION: entry.data.get(CONF_ELEVATION, DEFAULT_ELEVATION),
+            },
+        )
+
+    _LOGGER.debug("Options Latitude " + str(entry.options.get(CONF_LATITUDE)))
+    _LOGGER.debug("Options Longitude " + str(entry.options.get(CONF_LONGITUDE)))
+    _LOGGER.debug("Options Elevation " + str(entry.options.get(CONF_ELEVATION)))
+
     astroweather = AstroWeather(
         session,
-        entry.data[CONF_LATITUDE],
-        entry.data[CONF_LONGITUDE],
-        entry.data[CONF_ELEVATION],
+        entry.options.get(CONF_LATITUDE),
+        entry.options.get(CONF_LONGITUDE),
+        entry.options.get(CONF_ELEVATION),
     )
     _LOGGER.debug("Connected to AstroWeather Platform")
-    _LOGGER.debug("Latitude " + str(entry.data[CONF_LATITUDE]))
-    _LOGGER.debug("Longitude " + str(entry.data[CONF_LONGITUDE]))
-    _LOGGER.debug("Elevation " + str(entry.data[CONF_ELEVATION]))
 
     hass.data.setdefault(DOMAIN, {})[entry.entry_id] = astroweather
 

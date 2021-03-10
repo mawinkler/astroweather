@@ -2,7 +2,7 @@
 
 This is a *Custom Integration* for [Home Assistant](https://www.home-assistant.io/). It uses the forecast data from 7Timer! to create sensor data for Home Assistant. It uses the public [Machine-readable API](http://www.7timer.info/doc.php?lang=en#machine_readable_api) to pull data from 7Timer!.
 
-![GitHub release](https://img.shields.io/badge/release-v0.0.18.1-blue)
+![GitHub release](https://img.shields.io/badge/release-v0.0.18.2-blue)
 [![hacs_badge](https://img.shields.io/badge/HACS-Default-orange.svg)](https://github.com/custom-components/hacs)
 
 There is currently support for the following device types within Home Assistant:
@@ -119,6 +119,7 @@ The following sensors are being added to Home Assistant:
 * *sensor.astroweather_2m_temperature* - Temperature at 2m
 * *sensor.astroweather_clouds* - Cloud Cover
 * *sensor.astroweather_clouds_plain* - Cloud Cover in plain text
+* *sensor.astroweather_elevation* - Elevation configured for this AstroWeather instance
 * *sensor.astroweather_forecast_today* - Forecast for viewing conditions this evening (9pm to 3am)
 * *sensor.astroweather_forecast_today_plain* - Forecast in plain text
 * *sensor.astroweather_forecast_tomorrow* - Forecast for viewing conditions tomorrow evening (9pm to 3am)
@@ -126,7 +127,7 @@ The following sensors are being added to Home Assistant:
 * *sensor.astroweather_latitude* - Latitude configured for this AstroWeather instance
 * *sensor.astroweather_lifted_index* - Lifted Index
 * *sensor.astroweather_lifted_index_plain* - Lifted Index in plain text
-* *sensor.astroweather_lungitude* - Longitude configured for this AstroWeather instance
+* *sensor.astroweather_longitude* - Longitude configured for this AstroWeather instance
 * *sensor.astroweather_precipitation_type* - Expected Precipitation Type in plain text
 * *sensor.astroweather_seeing* - Seeing Conditions
 * *sensor.astroweather_seeing_plain* - Seeing Conditions in plain text

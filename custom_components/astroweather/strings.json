@@ -5,9 +5,9 @@
                 "title": "AstroWeather",
                 "description": "Configuration of the geographic location and forecast update interval.",
                 "data": {
-                    "latitude": "Latitude",
-                    "longitude": "Longitude",
-                    "elevation": "Elevation",
+                    "latitude": "Latitude (-89° to 89°)",
+                    "longitude": "Longitude (-180° to 180°)",
+                    "elevation": "Elevation (0m to 4000m)",
                     "forecast_interval": "Interval between forecast updates (min)"
                 }
             }
@@ -17,6 +17,9 @@
         "step": {
             "init": {
                 "data": {
+                    "latitude": "Latitude (-89° to 89°)",
+                    "longitude": "Longitude (-180° to 180°)",
+                    "elevation": "Elevation (0m to 4000m)",
                     "forecast_interval": "Interval between forecast updates (min)"
                 }
             }

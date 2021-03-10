@@ -20,6 +20,7 @@ from pyastroweatherio import AstroWeather, AstroWeatherError, RequestError, Resu
 from .const import (
     CONF_FORECAST_INTERVAL,
     DEFAULT_FORECAST_INTERVAL,
+    DEFAULT_ELEVATION,
     DOMAIN,
 )
 
@@ -50,15 +51,15 @@ class AstroWeatherFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
 
         _LOGGER.debug(
             "Configured geolocation {}°, {}°, {}m".format(
-                round(user_input[CONF_LATITUDE], 6),
-                round(user_input[CONF_LONGITUDE], 6),
+                round(user_input[CONF_LATITUDE], 3),
+                round(user_input[CONF_LONGITUDE], 3),
                 round(user_input[CONF_ELEVATION], 0),
             )
         )
         return self.async_create_entry(
-            title="{}°, {}°, {}m".format(
-                round(user_input[CONF_LATITUDE], 6),
-                round(user_input[CONF_LONGITUDE], 6),
+            title="{} °, {} °, {} m".format(
+                round(user_input[CONF_LATITUDE], 3),
+                round(user_input[CONF_LONGITUDE], 3),
                 round(user_input[CONF_ELEVATION], 0),
             ),
             data={
@@ -73,21 +74,17 @@ class AstroWeatherFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
     async def _show_setup_form(self, errors=None):
         """Show the setup form to the user."""
 
-        latitude = self.hass.config.latitude
-        longitude = self.hass.config.longitude
-        elevation = 0
-
         return self.async_show_form(
             step_id="user",
             data_schema=vol.Schema(
                 {
-                    vol.Required(CONF_LATITUDE, default=latitude): vol.All(
-                        vol.Coerce(float), vol.Range(min=-90, max=90)
-                    ),
-                    vol.Required(CONF_LONGITUDE, default=longitude): vol.All(
-                        vol.Coerce(float), vol.Range(min=-180, max=180)
-                    ),
-                    vol.Required(CONF_ELEVATION, default=elevation): vol.All(
+                    vol.Required(
+                        CONF_LATITUDE, default=self.hass.config.latitude
+                    ): vol.All(vol.Coerce(float), vol.Range(min=-89, max=89)),
+                    vol.Required(
+                        CONF_LONGITUDE, default=self.hass.config.longitude
+                    ): vol.All(vol.Coerce(float), vol.Range(min=-180, max=180)),
+                    vol.Required(CONF_ELEVATION, default=DEFAULT_ELEVATION): vol.All(
                         vol.Coerce(int), vol.Range(min=0, max=4000)
                     ),
                     vol.Optional(
@@ -108,6 +105,7 @@ class OptionsFlowHandler(config_entries.OptionsFlow):
 
     async def async_step_init(self, user_input=None):
         """Manage the options."""
+
         if user_input is not None:
             return self.async_create_entry(title="", data=user_input)
 
@@ -115,6 +113,24 @@ class OptionsFlowHandler(config_entries.OptionsFlow):
             step_id="init",
             data_schema=vol.Schema(
                 {
+                    vol.Required(
+                        CONF_LATITUDE,
+                        default=self.config_entry.options.get(
+                            CONF_LATITUDE, self.hass.config.latitude
+                        ),
+                    ): vol.All(vol.Coerce(float), vol.Range(min=-89, max=89)),
+                    vol.Required(
+                        CONF_LONGITUDE,
+                        default=self.config_entry.options.get(
+                            CONF_LONGITUDE, self.hass.config.longitude
+                        ),
+                    ): vol.All(vol.Coerce(float), vol.Range(min=-180, max=180)),
+                    vol.Required(
+                        CONF_ELEVATION,
+                        default=self.config_entry.options.get(
+                            CONF_ELEVATION, DEFAULT_ELEVATION
+                        ),
+                    ): vol.All(vol.Coerce(int), vol.Range(min=0, max=4000)),
                     vol.Optional(
                         CONF_FORECAST_INTERVAL,
                         default=self.config_entry.options.get(

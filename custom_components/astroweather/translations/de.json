@@ -5,9 +5,9 @@
                 "title": "AstroWeather",
                 "description": "Konfiguration der geografischen Lokation und des Aktualisierungsintervalls.",
                 "data": {
-                    "latitude": "Breitengrad",
-                    "longitude": "Längengrad",
-                    "elevation": "Höhe über dem Meeresspiegel",
+                    "latitude": "Breitengrad (-89° bis 89°)",
+                    "longitude": "Längengrad (-180° bis 180°)",
+                    "elevation": "Höhe über dem Meeresspiegel (0m bis 4000m)",
                     "forecast_interval": "Aktualisierungsintervall (Min)"
                 }
             }
@@ -17,6 +17,9 @@
         "step": {
             "init": {
                 "data": {
+                    "latitude": "Breitengrad (-89° bis 89°)",
+                    "longitude": "Längengrad (-180° bis 180°)",
+                    "elevation": "Höhe über dem Meeresspiegel (0m bis 4000m)",
                     "forecast_interval": "Aktualisierungsintervall (Min)"
                 }
             }

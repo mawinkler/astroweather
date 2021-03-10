@@ -36,6 +36,12 @@ SENSOR_TYPES = {
         "mdi:longitude",
         None,
     ],
+    "elevation": [
+        "Elevation",
+        "m",
+        "mdi:image-filter-hdr",
+        None,
+    ],
     "timestamp": [
         "Timestamp",
         "",
@@ -62,7 +68,7 @@ SENSOR_TYPES = {
     ],
     "seeing_plain": [
         "Seeing Plain",
-        "\"",
+        '"',
         "mdi:waves",
         None,
     ],
