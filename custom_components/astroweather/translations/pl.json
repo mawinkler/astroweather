@@ -1,0 +1,28 @@
+{
+    "config": {
+        "step": {
+            "user": {
+                "title": "AstroWeather",
+                "description": "Konfiguracja lokalizacji geograficznej i częstotliwości aktualizacji prognozy.",
+                "data": {
+                    "latitude": "Szerokość geograficzna (-89° do 89°)",
+                    "longitude": "Długość geograficzna (-180° do 180°)",
+                    "elevation": "Wzniesienie (0m do 4000m n.p.m.)",
+                    "forecast_interval": "Odstęp czasu między aktualizacjami prognoz (min.)"
+                }
+            }
+        }
+    },
+    "options": {
+        "step": {
+            "init": {
+                "data": {
+                    "latitude": "Szerokość geograficzna (-89° do 89°)",
+                    "longitude": "Długość geograficzna (-180° do 180°)",
+                    "elevation": "Wzniesienie (0m do 4000m n.p.m.)",
+                    "forecast_interval": "Odstęp czasu między aktualizacjami prognoz (min.)"
+                }
+            }
+        }
+    }
+}
