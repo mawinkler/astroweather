@@ -36,6 +36,18 @@ After the update to the actual version, you will need to open the integration op
 
 {% endif %}
 
+{% if version_installed.replace("v", "").replace(".","") | int < 00183  %}
+
+### Bugfixes
+
+- Added missing `iot_class` to manifest.json
+
+### Features
+
+- Added polish language. Thanks to @nepozs
+
+{% endif %}
+
 ---
 
 This is a Custom Integration for [Home Assistant](https://www.home-assistant.io/). It uses the forecast data from 7Timer! to create sensor data for Home Assistant. It uses the public Machine-readable API to pull data from 7Timer!.
