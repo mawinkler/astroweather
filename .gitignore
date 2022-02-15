@@ -108,3 +108,4 @@ custom_components/.DS_Store
 .vscode/settings.json
 .devcontainer/secrets.yaml
 custom_components/smartweather/__init__org.py
+.dccache

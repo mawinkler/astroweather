@@ -3,7 +3,8 @@
   "render_readme": true,
   "domains": [
     "binary_sensor",
-    "sensor"
+    "sensor",
+    "weather"
   ],
   "iot_class": [
     "Cloud Polling"

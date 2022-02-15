@@ -1,27 +1,27 @@
 """AstroWeather Integration for Home Assistant"""
 import asyncio
 import logging
-from datetime import datetime, timedelta
+from datetime import timedelta
 
-import homeassistant.helpers.device_registry as dr
-import voluptuous as vol
-from aiohttp.client_exceptions import ServerDisconnectedError
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import CONF_API_KEY, CONF_ID
+
 from homeassistant.exceptions import ConfigEntryNotReady
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
-from homeassistant.helpers.dispatcher import (
-    async_dispatcher_connect,
-    async_dispatcher_send,
-)
-from homeassistant.helpers.event import async_track_time_interval
 from homeassistant.helpers.typing import ConfigType, HomeAssistantType
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator
-from pyastroweatherio import AstroWeather, AstroWeatherError, RequestError, ResultError
+from pyastroweatherio import (
+    AstroWeather,
+    AstroWeatherError,
+    RequestError,
+    ResultError,
+    FORECAST_TYPE_DAILY,
+    FORECAST_TYPE_HOURLY,
+)
 
 from .const import (
     ASTROWEATHER_PLATFORMS,
     DOMAIN,
+    CONF_FORECAST_TYPE,
     CONF_FORECAST_INTERVAL,
     DEFAULT_FORECAST_INTERVAL,
     CONF_LATITUDE,
@@ -37,7 +37,6 @@ async def async_setup(hass: HomeAssistantType, config: ConfigType) -> bool:
     """Set up configured AstroWeather."""
 
     # We allow setup only through config flow type of config
-
     return True
 
 
@@ -58,6 +57,9 @@ async def async_setup_entry(hass: HomeAssistantType, entry: ConfigEntry) -> bool
                 CONF_FORECAST_INTERVAL: entry.data.get(
                     CONF_FORECAST_INTERVAL, DEFAULT_FORECAST_INTERVAL
                 ),
+                CONF_FORECAST_TYPE: entry.data.get(
+                    CONF_FORECAST_TYPE, FORECAST_TYPE_HOURLY
+                ),
                 CONF_LATITUDE: entry.data[CONF_LATITUDE],
                 CONF_LONGITUDE: entry.data[CONF_LONGITUDE],
                 CONF_ELEVATION: entry.data.get(CONF_ELEVATION, DEFAULT_ELEVATION),
@@ -74,15 +76,18 @@ async def async_setup_entry(hass: HomeAssistantType, entry: ConfigEntry) -> bool
                 CONF_FORECAST_INTERVAL: entry.data.get(
                     CONF_FORECAST_INTERVAL, DEFAULT_FORECAST_INTERVAL
                 ),
+                CONF_FORECAST_TYPE: entry.data.get(
+                    CONF_FORECAST_TYPE, FORECAST_TYPE_HOURLY
+                ),
                 CONF_LATITUDE: entry.data[CONF_LATITUDE],
                 CONF_LONGITUDE: 0.000001,
                 CONF_ELEVATION: entry.data.get(CONF_ELEVATION, DEFAULT_ELEVATION),
             },
         )
 
-    _LOGGER.debug("Options Latitude " + str(entry.options.get(CONF_LATITUDE)))
-    _LOGGER.debug("Options Longitude " + str(entry.options.get(CONF_LONGITUDE)))
-    _LOGGER.debug("Options Elevation " + str(entry.options.get(CONF_ELEVATION)))
+    _LOGGER.debug("Options latitude %s", str(entry.options.get(CONF_LATITUDE)))
+    _LOGGER.debug("Options longitude %s", str(entry.options.get(CONF_LONGITUDE)))
+    _LOGGER.debug("Options elevation %s", str(entry.options.get(CONF_ELEVATION)))
 
     astroweather = AstroWeather(
         session,
@@ -90,7 +95,7 @@ async def async_setup_entry(hass: HomeAssistantType, entry: ConfigEntry) -> bool
         entry.options.get(CONF_LONGITUDE),
         entry.options.get(CONF_ELEVATION),
     )
-    _LOGGER.debug("Connected to AstroWeather Platform")
+    _LOGGER.debug("Connected to AstroWeather platform")
 
     hass.data.setdefault(DOMAIN, {})[entry.entry_id] = astroweather
 
@@ -98,25 +103,61 @@ async def async_setup_entry(hass: HomeAssistantType, entry: ConfigEntry) -> bool
         hass,
         _LOGGER,
         name=DOMAIN,
-        update_method=astroweather.get_forecast,
+        update_method=astroweather.get_location_data,
         update_interval=timedelta(
             minutes=entry.options.get(CONF_FORECAST_INTERVAL, DEFAULT_FORECAST_INTERVAL)
         ),
     )
-    _LOGGER.debug("Forecast Coordinator created")
+    await coordinator.async_config_entry_first_refresh()
+    if not coordinator.last_update_success:
+        raise ConfigEntryNotReady
+    _LOGGER.debug(
+        "Data update coordinator created (update interval: %d)",
+        entry.options.get(CONF_FORECAST_INTERVAL),
+    )
+    # # Currently, the only supported forecast type is 3-hourly since 7Timer
+    # # does only deliver data for more than 3 days
+    fcst_type = entry.options.get(CONF_FORECAST_TYPE, FORECAST_TYPE_HOURLY)
+    # if fcst_type == FORECAST_TYPE_DAILY:
+    #     # Update Forecast with Daily data
+    #     fcst_coordinator = DataUpdateCoordinator(
+    #         hass,
+    #         _LOGGER,
+    #         name=DOMAIN,
+    #         update_method=astroweather.get_daily_forecast,
+    #         update_interval=timedelta(
+    #             minutes=entry.options.get(CONF_FORECAST_INTERVAL, DEFAULT_FORECAST_INTERVAL)
+    #         ),
+    #     )
+    # else:
+    # Update Forecast with Hourly data
+    fcst_coordinator = DataUpdateCoordinator(
+        hass,
+        _LOGGER,
+        name=DOMAIN,
+        update_method=astroweather.get_hourly_forecast,
+        update_interval=timedelta(
+            minutes=entry.options.get(CONF_FORECAST_INTERVAL, DEFAULT_FORECAST_INTERVAL)
+        ),
+    )
+    await fcst_coordinator.async_config_entry_first_refresh()
+    if not fcst_coordinator.last_update_success:
+        raise ConfigEntryNotReady
+    _LOGGER.debug(
+        "Forecast update coordinator created (update interval: %d)",
+        entry.options.get(CONF_FORECAST_INTERVAL),
+    )
 
-    await coordinator.async_refresh()
-
-    hass.data[DOMAIN][entry.entry_id] = {
+    hass.data.setdefault(DOMAIN, {})[entry.entry_id] = {
         "coordinator": coordinator,
+        "fcst_coordinator": fcst_coordinator,
         "aw": astroweather,
+        "fcst_type": fcst_type,
     }
 
     _LOGGER.debug("Forecast updated")
 
     for platform in ASTROWEATHER_PLATFORMS:
-
-        _LOGGER.debug("Creating " + str(platform))
         hass.async_create_task(
             hass.config_entries.async_forward_entry_setup(entry, platform)
         )

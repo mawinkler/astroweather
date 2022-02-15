@@ -3,9 +3,8 @@ import logging
 import random
 import string
 
-import homeassistant.helpers.config_validation as cv
 import voluptuous as vol
-from homeassistant import config_entries, core
+from homeassistant import config_entries
 from homeassistant.const import (
     CONF_ID,
     CONF_LATITUDE,
@@ -13,12 +12,11 @@ from homeassistant.const import (
     CONF_ELEVATION,
 )
 from homeassistant.core import callback
-from homeassistant.helpers import aiohttp_client
-from homeassistant.util import slugify
-from pyastroweatherio import AstroWeather, AstroWeatherError, RequestError, ResultError
+from pyastroweatherio import FORECAST_TYPE_HOURLY, FORECAST_TYPE_DAILY, FORECAST_TYPES
 
 from .const import (
     CONF_FORECAST_INTERVAL,
+    CONF_FORECAST_TYPE,
     DEFAULT_FORECAST_INTERVAL,
     DEFAULT_ELEVATION,
     DOMAIN,
@@ -49,24 +47,20 @@ class AstroWeatherFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
             for _ in range(12)
         )
 
-        _LOGGER.debug(
-            "Configured geolocation {}°, {}°, {}m".format(
-                round(user_input[CONF_LATITUDE], 3),
-                round(user_input[CONF_LONGITUDE], 3),
-                round(user_input[CONF_ELEVATION], 0),
-            )
+        unique_id = (
+            f"{str(user_input[CONF_LATITUDE])}_{str(user_input[CONF_LONGITUDE])}"
         )
+        await self.async_set_unique_id(unique_id)
+
+        _LOGGER.debug("Unique id: %s", str(unique_id))
         return self.async_create_entry(
-            title="{} °, {} °, {} m".format(
-                round(user_input[CONF_LATITUDE], 3),
-                round(user_input[CONF_LONGITUDE], 3),
-                round(user_input[CONF_ELEVATION], 0),
-            ),
+            title=f"{round(user_input[CONF_LATITUDE], 3)}°, {round(user_input[CONF_LONGITUDE], 3)}°, {round(user_input[CONF_ELEVATION], 0)}m",
             data={
                 CONF_ID: unique_id,
                 CONF_LATITUDE: user_input[CONF_LATITUDE],
                 CONF_LONGITUDE: user_input[CONF_LONGITUDE],
                 CONF_ELEVATION: user_input[CONF_ELEVATION],
+                # CONF_FORECAST_TYPE: user_input[CONF_FORECAST_TYPE],
                 CONF_FORECAST_INTERVAL: user_input.get(CONF_FORECAST_INTERVAL),
             },
         )
@@ -87,6 +81,9 @@ class AstroWeatherFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
                     vol.Required(CONF_ELEVATION, default=DEFAULT_ELEVATION): vol.All(
                         vol.Coerce(int), vol.Range(min=0, max=4000)
                     ),
+                    # vol.Optional(
+                    #     CONF_FORECAST_TYPE, default=FORECAST_TYPE_DAILY
+                    # ): vol.In(FORECAST_TYPES),
                     vol.Optional(
                         CONF_FORECAST_INTERVAL, default=DEFAULT_FORECAST_INTERVAL
                     ): vol.All(vol.Coerce(int), vol.Range(min=5, max=60)),
@@ -131,6 +128,12 @@ class OptionsFlowHandler(config_entries.OptionsFlow):
                             CONF_ELEVATION, DEFAULT_ELEVATION
                         ),
                     ): vol.All(vol.Coerce(int), vol.Range(min=0, max=4000)),
+                    # vol.Optional(
+                    #     CONF_FORECAST_TYPE,
+                    #     default=self.config_entry.options.get(
+                    #         CONF_FORECAST_TYPE, FORECAST_TYPE_DAILY
+                    #     ),
+                    # ): vol.In(FORECAST_TYPES),
                     vol.Optional(
                         CONF_FORECAST_INTERVAL,
                         default=self.config_entry.options.get(
