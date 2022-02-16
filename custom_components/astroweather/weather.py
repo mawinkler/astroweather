@@ -249,7 +249,7 @@ class AstroWeatherWeather(AstroWeatherEntity, WeatherEntity):
     def sun_next_rising(self) -> datetime:
         """Return sun next rising."""
         if self._current is not None:
-            return self._current.sun_next_setting
+            return self._current.sun_next_rising
         return None
 
     @property
