@@ -1,4 +1,11 @@
-# [0.20.0](https://github.com/mawinkler/astroweather/compare/v0.20.0...v0.0.18.3) (2022-02-15)
+# [0.20.1](https://github.com/mawinkler/astroweather/compare/v0.20.0...v0.20.1) (2022-02-16)
+
+### Fixes
+
+- Timestamps not showing correctly on the companion app
+- The sun_next_rising attribute was actually showing the sun_next_setting value
+
+# [0.20.0](https://github.com/mawinkler/astroweather/compare/v0.0.18.3...v0.20.0) (2022-02-15)
 
 ### Features
 
