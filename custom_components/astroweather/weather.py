@@ -41,6 +41,7 @@ from .const import (
     ATTR_WEATHER_CONDITION,
     ATTR_WEATHER_CONDITION_PLAIN,
     ATTR_WEATHER_PREC_TYPE,
+    ATTR_WEATHER_WIND_SPEED_PLAIN,
     ATTR_WEATHER_DEEPSKY_TODAY_PLAIN,
     ATTR_WEATHER_DEEPSKY_TODAY_DESC,
     ATTR_WEATHER_DEEPSKY_TOMORROW_PLAIN,
@@ -239,6 +240,13 @@ class AstroWeatherWeather(AstroWeatherEntity, WeatherEntity):
         return None
 
     @property
+    def wind_speed_plain(self) -> str:
+        """Return the wind speed plain."""
+        if self._current is not None:
+            return self._current.wind10m_speed_plain
+        return None
+
+    @property
     def wind_bearing(self) -> int:
         """Return the wind bearing."""
         if self._current is not None:
@@ -305,9 +313,9 @@ class AstroWeatherWeather(AstroWeatherEntity, WeatherEntity):
             ATTR_WEATHER_CONDITION: self.condition_percentage,
             ATTR_WEATHER_CONDITION_PLAIN: self.condition_plain,
             ATTR_WEATHER_PREC_TYPE: self.prec_type,
-            ATTR_WEATHER_HUMIDITY: self.humidity,
-            ATTR_WEATHER_WIND_BEARING: self.wind_bearing,
             ATTR_WEATHER_WIND_SPEED: self.wind_speed,
+            ATTR_WEATHER_WIND_SPEED_PLAIN: self.wind_speed_plain,
+            ATTR_WEATHER_WIND_BEARING: self.wind_bearing,
             ATTR_WEATHER_DEEPSKY_TODAY_PLAIN: self.deepsky_forecast_today_plain,
             ATTR_WEATHER_DEEPSKY_TODAY_DESC: self.deepsky_forecast_today_desc,
             ATTR_WEATHER_DEEPSKY_TOMORROW_PLAIN: self.deepsky_forecast_tomorrow_plain,

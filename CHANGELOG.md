@@ -1,3 +1,14 @@
+# [0.20.4](https://github.com/mawinkler/astroweather/compare/v0.20.1...v0.20.4) (2022-02-19)
+
+### Fixes
+
+- Wind speed now showing in m/s
+
+### Changes
+
+- New icons for moon rising and setting
+- Added sensor astroweatherq_10m_wind_speed_plain
+
 # [0.20.1](https://github.com/mawinkler/astroweather/compare/v0.20.0...v0.20.1) (2022-02-16)
 
 ### Fixes

@@ -97,12 +97,6 @@ SENSOR_TYPES = {
         "mdi:water-percent",
         None,
     ],
-    "rh2m_plain": [
-        "2m Relative Humidity Plain",
-        "%",
-        "mdi:water-percent",
-        None,
-    ],
     "wind10m_direction": [
         "10m Wind Direction",
         "",
@@ -111,7 +105,7 @@ SENSOR_TYPES = {
     ],
     "wind10m_speed": [
         "10m Wind Speed",
-        "",
+        "m/s",
         "mdi:windsock",
         None,
     ],
@@ -166,13 +160,13 @@ SENSOR_TYPES = {
     "moon_next_rising": [
         "Moon Next Rising",
         "",
-        "mdi:arrow-top-right-thick",
+        "mdi:arrow-up-circle-outline",
         None,
     ],
     "moon_next_setting": [
         "Moon Next Setting",
         "",
-        "mdi:arrow-bottom-right-thick",
+        "mdi:arrow-down-circle-outline",
         None,
     ],
     "moon_phase": [

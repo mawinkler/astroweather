@@ -31,7 +31,7 @@ ATTR_WEATHER_SUN_NEXT_RISING_ASTRO = "sun_next_rising_astro"
 ATTR_WEATHER_SUN_NEXT_SETTING_ASTRO = "sun_next_setting_astro"
 ATTR_WEATHER_MOON_NEXT_RISING = "moon_next_rising"
 ATTR_WEATHER_MOON_NEXT_SETTING = "moon_next_setting"
-
+ATTR_WEATHER_WIND_SPEED_PLAIN = "wind_speed_plain"
 ATTR_FORECAST_CLOUDCOVER = "cloudcover_percentage"
 ATTR_FORECAST_SEEING = "seeing_percentage"
 ATTR_FORECAST_TRANSPARENCY = "transparency_percentage"
