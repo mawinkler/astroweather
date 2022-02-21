@@ -10,10 +10,23 @@ import logging
 from homeassistant.components.sensor import SensorEntity
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.helpers.typing import HomeAssistantType
+from homeassistant.const import (
+    DEVICE_CLASS_HUMIDITY,
+    DEVICE_CLASS_TEMPERATURE,
+    DEVICE_CLASS_TIMESTAMP,
+)
 from .const import (
     DOMAIN,
 )
 from .entity import AstroWeatherEntity
+
+SENSOR_NAME = 0
+SENSOR_UNIT = 1
+SENSOR_ICON = 2
+SENSOR_DEVICE_CLASS = 3
+SENSOR_STATE_CLASS = 4
+
+STATE_CLASS_MEASUREMENT = "measurement"
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -24,11 +37,13 @@ SENSOR_TYPES = {
         "°",
         "mdi:latitude",
         None,
+        None,
     ],
     "longitude": [
         "Longitude",
         "°",
         "mdi:longitude",
+        None,
         None,
     ],
     "elevation": [
@@ -36,11 +51,13 @@ SENSOR_TYPES = {
         "m",
         "mdi:image-filter-hdr",
         None,
+        None,
     ],
     "timestamp": [
         "Timestamp",
         "",
         "mdi:calendar",
+        DEVICE_CLASS_TIMESTAMP,
         None,
     ],
     "cloudcover_percentage": [
@@ -48,11 +65,13 @@ SENSOR_TYPES = {
         "%",
         "mdi:weather-night-partly-cloudy",
         None,
+        STATE_CLASS_MEASUREMENT,
     ],
     "cloudcover_plain": [
         "Clouds Plain",
         "",
         "mdi:weather-night-partly-cloudy",
+        None,
         None,
     ],
     "seeing_percentage": [
@@ -60,11 +79,13 @@ SENSOR_TYPES = {
         "%",
         "mdi:waves",
         None,
+        STATE_CLASS_MEASUREMENT,
     ],
     "seeing_plain": [
         "Seeing Plain",
         "",
         "mdi:waves",
+        None,
         None,
     ],
     "transparency_percentage": [
@@ -72,35 +93,41 @@ SENSOR_TYPES = {
         "%",
         "mdi:safety-goggles",
         None,
+        STATE_CLASS_MEASUREMENT,
     ],
     "transparency_plain": [
         "Transparency Plain",
         "mag",
         "mdi:safety-goggles",
         None,
+        None,
     ],
     "lifted_index": [
         "Lifted Index",
         "°",
         "mdi:arrow-expand-up",
-        None,
+        DEVICE_CLASS_TEMPERATURE,
+        STATE_CLASS_MEASUREMENT,
     ],
     "lifted_index_plain": [
         "Lifted Index Plain",
         "",
         "mdi:arrow-expand-up",
         None,
+        None,
     ],
     "rh2m": [
         "2m Relative Humidity",
         "%",
         "mdi:water-percent",
-        None,
+        DEVICE_CLASS_HUMIDITY,
+        STATE_CLASS_MEASUREMENT,
     ],
     "wind10m_direction": [
         "10m Wind Direction",
         "",
         "mdi:weather-windy",
+        None,
         None,
     ],
     "wind10m_speed": [
@@ -108,23 +135,27 @@ SENSOR_TYPES = {
         "m/s",
         "mdi:windsock",
         None,
+        STATE_CLASS_MEASUREMENT,
     ],
     "wind10m_speed_plain": [
         "10m Wind Speed Plain",
         "",
         "mdi:windsock",
         None,
+        None,
     ],
     "temp2m": [
         "2m Temperature",
         "°C",
         "mdi:thermometer",
-        None,
+        DEVICE_CLASS_TEMPERATURE,
+        STATE_CLASS_MEASUREMENT,
     ],
     "prec_type": [
         "Precipitation Type",
         "",
         "mdi:weather-snowy-rainy",
+        None,
         None,
     ],
     "condition_percentage": [
@@ -132,41 +163,48 @@ SENSOR_TYPES = {
         "%",
         "mdi:weather-snowy-rainy",
         None,
+        STATE_CLASS_MEASUREMENT,
     ],
     "sun_next_setting": [
         "Sun Next Setting",
         "",
         "mdi:weather-sunset-down",
+        DEVICE_CLASS_TIMESTAMP,
         None,
     ],
     "sun_next_setting_astro": [
         "Sun Next Setting Astronomical",
         "",
         "mdi:weather-sunset-down",
+        DEVICE_CLASS_TIMESTAMP,
         None,
     ],
     "sun_next_rising": [
         "Sun Next Rising",
         "",
         "mdi:weather-sunset-down",
+        DEVICE_CLASS_TIMESTAMP,
         None,
     ],
     "sun_next_rising_astro": [
         "Sun Next Rising Astronomical",
         "",
         "mdi:weather-sunset-down",
+        DEVICE_CLASS_TIMESTAMP,
         None,
     ],
     "moon_next_rising": [
         "Moon Next Rising",
         "",
         "mdi:arrow-up-circle-outline",
+        DEVICE_CLASS_TIMESTAMP,
         None,
     ],
     "moon_next_setting": [
         "Moon Next Setting",
         "",
         "mdi:arrow-down-circle-outline",
+        DEVICE_CLASS_TIMESTAMP,
         None,
     ],
     "moon_phase": [
@@ -174,11 +212,13 @@ SENSOR_TYPES = {
         "%",
         "mdi:moon-waning-gibbous",
         None,
+        None,
     ],
     "deepsky_forecast_today": [
         "Deepsky Forecast Today",
-        "",
+        "%",
         "mdi:calendar-star",
+        None,
         None,
     ],
     "deepsky_forecast_today_plain": [
@@ -186,17 +226,20 @@ SENSOR_TYPES = {
         "",
         "mdi:calendar-star",
         None,
+        None,
     ],
     "deepsky_forecast_today_desc": [
         "Deepsky Forecast Today Description",
         "",
         "mdi:calendar-star",
         None,
+        None,
     ],
     "deepsky_forecast_tomorrow": [
         "Deepsky Forecast Tomorrow",
-        "",
+        "%",
         "mdi:calendar-star",
+        None,
         None,
     ],
     "deepsky_forecast_tomorrow_plain": [
@@ -204,11 +247,13 @@ SENSOR_TYPES = {
         "",
         "mdi:calendar-star",
         None,
+        None,
     ],
     "deepsky_forecast_tomorrow_desc": [
         "Deepsky Forecast Tomorrow Description",
         "",
         "mdi:calendar-star",
+        None,
         None,
     ],
 }
@@ -250,7 +295,7 @@ class AstroWeatherSensor(AstroWeatherEntity, SensorEntity):
         super().__init__(coordinator, entries, sensor, fcst_coordinator)
         self._sensor = sensor
         self._state = None
-        self._name = f"{DOMAIN.capitalize()} {SENSOR_TYPES[self._sensor][0]}"
+        self._name = f"{DOMAIN.capitalize()} {SENSOR_TYPES[self._sensor][SENSOR_NAME]}"
 
     @property
     def name(self):
@@ -260,19 +305,24 @@ class AstroWeatherSensor(AstroWeatherEntity, SensorEntity):
     @property
     def state(self):
         """Return the state of the sensor."""
-        return getattr(self.coordinator.data[0], self._sensor, None)
+        return getattr(self.coordinator.data[SENSOR_NAME], self._sensor, None)
 
     @property
     def unit_of_measurement(self):
         """Return the unit of measurement."""
-        return SENSOR_TYPES[self._sensor][1]
+        return SENSOR_TYPES[self._sensor][SENSOR_UNIT]
 
     @property
     def icon(self):
         """Icon to use in the frontend."""
-        return SENSOR_TYPES[self._sensor][2]
+        return SENSOR_TYPES[self._sensor][SENSOR_ICON]
 
     @property
     def device_class(self):
         """Return the device class of the sensor."""
-        return SENSOR_TYPES[self._sensor][3]
+        return SENSOR_TYPES[self._sensor][SENSOR_DEVICE_CLASS]
+
+    @property
+    def state_class(self) -> str:
+        """State class of sensor."""
+        return SENSOR_TYPES[self._sensor][SENSOR_STATE_CLASS]
