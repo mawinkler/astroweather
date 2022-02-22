@@ -1,3 +1,9 @@
+# [0.20.5](https://github.com/mawinkler/astroweather/compare/v0.20.4...v0.20.5) (2022-02-22)
+
+### Fixes
+
+- Proper handling of timestamps
+
 # [0.20.4](https://github.com/mawinkler/astroweather/compare/v0.20.1...v0.20.4) (2022-02-19)
 
 ### Fixes

@@ -359,7 +359,7 @@ class AstroWeatherWeather(AstroWeatherEntity, WeatherEntity):
             # else:
             data.append(
                 {
-                    ATTR_FORECAST_TIME: (forecast.timestamp).isoformat(),
+                    ATTR_FORECAST_TIME: forecast.timestamp,
                     ATTR_FORECAST_PRECIPITATION: None,
                     ATTR_FORECAST_PRECIPITATION_PROBABILITY: None,
                     ATTR_FORECAST_CLOUDCOVER: forecast.cloudcover_percentage,

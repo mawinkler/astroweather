@@ -1,7 +1,7 @@
 {
     "domain": "astroweather",
     "name": "AstroWeather",
-    "version": "0.20.4",
+    "version": "0.20.5",
     "documentation": "https://github.com/mawinkler/astroweather",
     "issue_tracker": "https://github.com/mawinkler/astroweather/issues",
     "config_flow": true,
@@ -10,7 +10,7 @@
         "@mawinkler"
     ],
     "requirements": [
-        "pyastroweatherio==0.20.4"
+        "pyastroweatherio==0.20.5"
     ],
     "iot_class": "cloud_polling"
 }
