@@ -104,7 +104,7 @@ SENSOR_TYPES = {
     ],
     "lifted_index": [
         "Lifted Index",
-        "°",
+        "°C",
         "mdi:arrow-expand-up",
         DEVICE_CLASS_TEMPERATURE,
         STATE_CLASS_MEASUREMENT,

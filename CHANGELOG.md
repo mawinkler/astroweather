@@ -1,3 +1,9 @@
+# [0.20.6](https://github.com/mawinkler/astroweather/compare/v0.20.5...v0.20.6) (2022-02-22)
+
+### Fixes
+
+- Corrected unit for lifted index (LI)
+
 # [0.20.5](https://github.com/mawinkler/astroweather/compare/v0.20.4...v0.20.5) (2022-02-22)
 
 ### Fixes
