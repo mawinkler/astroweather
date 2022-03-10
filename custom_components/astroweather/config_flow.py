@@ -18,6 +18,8 @@ from .const import (
     CONF_FORECAST_INTERVAL,
     CONF_FORECAST_TYPE,
     DEFAULT_FORECAST_INTERVAL,
+    FORECAST_INTERVAL_MIN,
+    FORECAST_INTERVAL_MAX,
     DEFAULT_ELEVATION,
     DOMAIN,
 )
@@ -42,10 +44,10 @@ class AstroWeatherFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
         if user_input is None:
             return await self._show_setup_form(user_input)
 
-        unique_id = "".join(
-            random.SystemRandom().choice(string.ascii_uppercase + string.digits)
-            for _ in range(12)
-        )
+        # unique_id = "".join(
+        #     random.SystemRandom().choice(string.ascii_uppercase + string.digits)
+        #     for _ in range(12)
+        # )
 
         unique_id = (
             f"{str(user_input[CONF_LATITUDE])}_{str(user_input[CONF_LONGITUDE])}"
@@ -86,7 +88,10 @@ class AstroWeatherFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
                     # ): vol.In(FORECAST_TYPES),
                     vol.Optional(
                         CONF_FORECAST_INTERVAL, default=DEFAULT_FORECAST_INTERVAL
-                    ): vol.All(vol.Coerce(int), vol.Range(min=5, max=60)),
+                    ): vol.All(
+                        vol.Coerce(int),
+                        vol.Range(min=FORECAST_INTERVAL_MIN, max=FORECAST_INTERVAL_MAX),
+                    ),
                 }
             ),
             errors=errors or {},
@@ -139,7 +144,10 @@ class OptionsFlowHandler(config_entries.OptionsFlow):
                         default=self.config_entry.options.get(
                             CONF_FORECAST_INTERVAL, DEFAULT_FORECAST_INTERVAL
                         ),
-                    ): vol.All(vol.Coerce(int), vol.Range(min=5, max=60)),
+                    ): vol.All(
+                        vol.Coerce(int),
+                        vol.Range(min=FORECAST_INTERVAL_MIN, max=FORECAST_INTERVAL_MAX),
+                    ),
                 }
             ),
         )

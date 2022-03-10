@@ -1,3 +1,13 @@
+# [0.20.7](https://github.com/mawinkler/astroweather/compare/v0.20.6...v0.20.7) (2022-03-10)
+
+### Changes
+
+- Added the moon phase as an attribute for the weather component.
+- Changed the maximum precision for the API query to 7Timer to two digits to protect your privacy.
+- Changed the forecast polling interval to be in a range of 30 mins to 4 hours with a default of 1h.
+
+> Note: The change about the forecast polling interval was required since AstroWeather is becoming more popular and has started to overwhelm the 7Timer service. The integration was already consuming about 20% of its capacity. The forecast quality will not downgrade since the service is updating its data on a six-hourly basis.
+
 # [0.20.6](https://github.com/mawinkler/astroweather/compare/v0.20.5...v0.20.6) (2022-02-22)
 
 ### Fixes

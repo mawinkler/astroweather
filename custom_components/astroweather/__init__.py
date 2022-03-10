@@ -24,6 +24,8 @@ from .const import (
     CONF_FORECAST_TYPE,
     CONF_FORECAST_INTERVAL,
     DEFAULT_FORECAST_INTERVAL,
+    FORECAST_INTERVAL_MIN,
+    FORECAST_INTERVAL_MAX,
     CONF_LATITUDE,
     CONF_LONGITUDE,
     CONF_ELEVATION,
@@ -85,9 +87,31 @@ async def async_setup_entry(hass: HomeAssistantType, entry: ConfigEntry) -> bool
             },
         )
 
+    # Check the update interval
+    if (
+        entry.options.get(CONF_FORECAST_INTERVAL) > FORECAST_INTERVAL_MAX
+        or entry.options.get(CONF_FORECAST_INTERVAL) < FORECAST_INTERVAL_MIN
+    ):
+        _LOGGER.debug(
+            "Overwriting update interval to %s minutes", str(DEFAULT_FORECAST_INTERVAL)
+        )
+        hass.config_entries.async_update_entry(
+            entry,
+            options={
+                CONF_FORECAST_INTERVAL: DEFAULT_FORECAST_INTERVAL,
+                CONF_FORECAST_TYPE: entry.data.get(
+                    CONF_FORECAST_TYPE, FORECAST_TYPE_HOURLY
+                ),
+                CONF_LATITUDE: entry.data[CONF_LATITUDE],
+                CONF_LONGITUDE: entry.data[CONF_LONGITUDE],
+                CONF_ELEVATION: entry.data.get(CONF_ELEVATION, DEFAULT_ELEVATION),
+            },
+        )
+
     _LOGGER.debug("Options latitude %s", str(entry.options.get(CONF_LATITUDE)))
     _LOGGER.debug("Options longitude %s", str(entry.options.get(CONF_LONGITUDE)))
     _LOGGER.debug("Options elevation %s", str(entry.options.get(CONF_ELEVATION)))
+    _LOGGER.debug("Update interval %s", str(entry.options.get(CONF_FORECAST_INTERVAL)))
 
     astroweather = AstroWeather(
         session,

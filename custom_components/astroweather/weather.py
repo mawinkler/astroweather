@@ -52,6 +52,7 @@ from .const import (
     ATTR_WEATHER_SUN_NEXT_SETTING_ASTRO,
     ATTR_WEATHER_MOON_NEXT_RISING,
     ATTR_WEATHER_MOON_NEXT_SETTING,
+    ATTR_WEATHER_MOON_PHASE,
     CONDITION_CLASSES,
     DEFAULT_ATTRIBUTION,
     DEVICE_TYPE_WEATHER,
@@ -296,6 +297,13 @@ class AstroWeatherWeather(AstroWeatherEntity, WeatherEntity):
         return None
 
     @property
+    def moon_phase(self) -> int:
+        """Return moon phase."""
+        if self._current is not None:
+            return self._current.moon_phase
+        return None
+
+    @property
     def attribution(self) -> str:
         """Return the attribution."""
         return DEFAULT_ATTRIBUTION
@@ -326,6 +334,7 @@ class AstroWeatherWeather(AstroWeatherEntity, WeatherEntity):
             ATTR_WEATHER_SUN_NEXT_SETTING_ASTRO: self.sun_next_setting_astro,
             ATTR_WEATHER_MOON_NEXT_RISING: self.moon_next_rising,
             ATTR_WEATHER_MOON_NEXT_SETTING: self.moon_next_setting,
+            ATTR_WEATHER_MOON_PHASE: self.moon_phase,
         }
 
     @property
