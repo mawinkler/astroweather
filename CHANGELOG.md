@@ -1,3 +1,9 @@
+# [0.20.8](https://github.com/mawinkler/astroweather/compare/v0.20.7...v0.20.8) (2022-03-14)
+
+### Changes
+
+- Improved resilience against incomplete data.
+
 # [0.20.7](https://github.com/mawinkler/astroweather/compare/v0.20.6...v0.20.7) (2022-03-10)
 
 ### Changes
