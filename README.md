@@ -15,6 +15,8 @@ Forecast data is provided by 7Timer! on a three *hourly* basis.
 
 There is also a custom weather card available [here](https://github.com/mawinkler/astroweather-card).
 
+Amongst other calculations, the deep sky viewing conditions are calculated out of the combination of cloud coverage, seeing and transparency. For this calculation the cloud coverage is weighted three times and seeing two times in relation to the transparency.
+
 ## Installation
 
 ### HACS installation
