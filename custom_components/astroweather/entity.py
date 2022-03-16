@@ -30,7 +30,10 @@ class AstroWeatherEntity(Entity):
     @property
     def _current(self):
         """Return current data."""
-        return self.coordinator.data[0]
+        if self.coordinator is None:
+            return None
+        else:
+            return self.coordinator.data[0]
 
     @property
     def _forecast(self):
