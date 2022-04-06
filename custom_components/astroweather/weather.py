@@ -42,8 +42,10 @@ from .const import (
     ATTR_WEATHER_CONDITION_PLAIN,
     ATTR_WEATHER_PREC_TYPE,
     ATTR_WEATHER_WIND_SPEED_PLAIN,
+    ATTR_WEATHER_DEEPSKY_TODAY_DAYNAME,
     ATTR_WEATHER_DEEPSKY_TODAY_PLAIN,
     ATTR_WEATHER_DEEPSKY_TODAY_DESC,
+    ATTR_WEATHER_DEEPSKY_TOMORROW_DAYNAME,
     ATTR_WEATHER_DEEPSKY_TOMORROW_PLAIN,
     ATTR_WEATHER_DEEPSKY_TOMORROW_DESC,
     ATTR_WEATHER_SUN_NEXT_RISING,
@@ -194,6 +196,13 @@ class AstroWeatherWeather(AstroWeatherEntity, WeatherEntity):
         return None
 
     @property
+    def deepsky_forecast_today_dayname(self) -> str:
+        """Return tomorrows todays visibility."""
+        if self._current is not None:
+            return self._current.deepsky_forecast_today_dayname
+        return None
+
+    @property
     def deepsky_forecast_today_plain(self) -> str:
         """Return tomorrows todays visibility."""
         if self._current is not None:
@@ -205,6 +214,13 @@ class AstroWeatherWeather(AstroWeatherEntity, WeatherEntity):
         """Return the description of todays deepsky visibility."""
         if self._current is not None:
             return self._current.deepsky_forecast_today_desc
+        return None
+
+    @property
+    def deepsky_forecast_tomorrow_dayname(self) -> str:
+        """Return tomorrows deepsky visibility."""
+        if self._current is not None:
+            return self._current.deepsky_forecast_tomorrow_dayname
         return None
 
     @property
@@ -324,8 +340,10 @@ class AstroWeatherWeather(AstroWeatherEntity, WeatherEntity):
             ATTR_WEATHER_WIND_SPEED: self.wind_speed,
             ATTR_WEATHER_WIND_SPEED_PLAIN: self.wind_speed_plain,
             ATTR_WEATHER_WIND_BEARING: self.wind_bearing,
+            ATTR_WEATHER_DEEPSKY_TODAY_DAYNAME: self.deepsky_forecast_today_dayname,
             ATTR_WEATHER_DEEPSKY_TODAY_PLAIN: self.deepsky_forecast_today_plain,
             ATTR_WEATHER_DEEPSKY_TODAY_DESC: self.deepsky_forecast_today_desc,
+            ATTR_WEATHER_DEEPSKY_TOMORROW_DAYNAME: self.deepsky_forecast_tomorrow_dayname,
             ATTR_WEATHER_DEEPSKY_TOMORROW_PLAIN: self.deepsky_forecast_tomorrow_plain,
             ATTR_WEATHER_DEEPSKY_TOMORROW_DESC: self.deepsky_forecast_tomorrow_desc,
             ATTR_WEATHER_SUN_NEXT_RISING: self.sun_next_rising,
