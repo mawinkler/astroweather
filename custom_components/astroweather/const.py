@@ -17,6 +17,7 @@ FORECAST_INTERVAL_MAX = 240
 DEFAULT_ELEVATION = 0
 
 ATTR_WEATHER_CLOUDCOVER = "cloudcover_percentage"
+ATTR_WEATHER_CLOUDLESS = "cloudless_percentage"
 ATTR_WEATHER_SEEING = "seeing_percentage"
 ATTR_WEATHER_TRANSPARENCY = "transparency_percentage"
 ATTR_WEATHER_LIFTED_INDEX = "lifted_index"
@@ -38,6 +39,7 @@ ATTR_WEATHER_MOON_NEXT_SETTING = "moon_next_setting"
 ATTR_WEATHER_MOON_PHASE = "moon_phase"
 ATTR_WEATHER_WIND_SPEED_PLAIN = "wind_speed_plain"
 ATTR_FORECAST_CLOUDCOVER = "cloudcover_percentage"
+ATTR_FORECAST_CLOUDLESS = "cloudless_percentage"
 ATTR_FORECAST_SEEING = "seeing_percentage"
 ATTR_FORECAST_TRANSPARENCY = "transparency_percentage"
 ATTR_FORECAST_LIFTED_INDEX = "lifted_index"

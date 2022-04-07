@@ -29,12 +29,14 @@ from homeassistant.core import HomeAssistant
 from .const import (
     DOMAIN,
     ATTR_FORECAST_CLOUDCOVER,
+    ATTR_FORECAST_CLOUDLESS,
     ATTR_FORECAST_SEEING,
     ATTR_FORECAST_TRANSPARENCY,
     ATTR_FORECAST_LIFTED_INDEX,
     ATTR_FORECAST_HUMIDITY,
     ATTR_FORECAST_PREC_TYPE,
     ATTR_WEATHER_CLOUDCOVER,
+    ATTR_WEATHER_CLOUDLESS,
     ATTR_WEATHER_SEEING,
     ATTR_WEATHER_TRANSPARENCY,
     ATTR_WEATHER_LIFTED_INDEX,
@@ -132,6 +134,13 @@ class AstroWeatherWeather(AstroWeatherEntity, WeatherEntity):
         """Return current cloud coverage."""
         if self._current is not None:
             return self._current.cloudcover_percentage
+        return None
+
+    @property
+    def cloudless_percentage(self) -> int:
+        """Return current cloud coverage."""
+        if self._current is not None:
+            return self._current.cloudless_percentage
         return None
 
     @property
@@ -331,6 +340,7 @@ class AstroWeatherWeather(AstroWeatherEntity, WeatherEntity):
             **super().extra_state_attributes,
             "timestamp": self.timestamp,
             ATTR_WEATHER_CLOUDCOVER: self.cloudcover_percentage,
+            ATTR_WEATHER_CLOUDLESS: self.cloudless_percentage,
             ATTR_WEATHER_SEEING: self.seeing_percentage,
             ATTR_WEATHER_TRANSPARENCY: self.transparency_percentage,
             ATTR_WEATHER_LIFTED_INDEX: self.lifted_index,
@@ -390,6 +400,7 @@ class AstroWeatherWeather(AstroWeatherEntity, WeatherEntity):
                     ATTR_FORECAST_PRECIPITATION: None,
                     ATTR_FORECAST_PRECIPITATION_PROBABILITY: None,
                     ATTR_FORECAST_CLOUDCOVER: forecast.cloudcover_percentage,
+                    ATTR_FORECAST_CLOUDLESS: forecast.cloudless_percentage,
                     ATTR_FORECAST_SEEING: forecast.seeing_percentage,
                     ATTR_FORECAST_TRANSPARENCY: forecast.transparency_percentage,
                     ATTR_FORECAST_LIFTED_INDEX: forecast.lifted_index,
