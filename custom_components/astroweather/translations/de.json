@@ -2,7 +2,6 @@
     "config": {
         "step": {
             "user": {
-                "title": "AstroWeather",
                 "description": "Konfiguration der geografischen Lokation, des Aktualisierungsintervalls und Kalkulation der Beobachtungsqualität",
                 "data": {
                     "latitude": "Breitengrad (-89° bis 89°)",

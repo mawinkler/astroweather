@@ -2,7 +2,6 @@
     "config": {
         "step": {
             "user": {
-                "title": "AstroWeather",
                 "description": "Konfiguracja lokalizacji geograficznej i częstotliwości aktualizacji prognozy.",
                 "data": {
                     "latitude": "Szerokość geograficzna (-89° do 89°)",
