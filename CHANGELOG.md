@@ -1,8 +1,16 @@
-# [0.20.9](https://github.com/mawinkler/astroweather/compare/v0.20.8...v0.20.9) (2022-03-XX)
+# [0.20.9](https://github.com/mawinkler/astroweather/compare/v0.20.8...v0.20.9) (2022-04-08)
 
 ### Changes
 
-- The conditions are now calculated as `3*cloudcover + 2*seeing and 1*transparency` to give a little more precise estimation for us atro photographers.
+- The weightings for the condition calculation is now configurable and can be adapted to your needs. Default isto weight clouds three times, seeing twice and transparency once.
+- Reintroduced cloud coverage sensor alongside cloudless sensor
+- Added forecast length sensor giving the available time period of forecast data in hours
+- Day names instead of `Today` and `Tomorrow` for the nightly forecast
+- Updated German and Polish translations
+
+### Fixes
+
+- `strings.json`
 
 # [0.20.8](https://github.com/mawinkler/astroweather/compare/v0.20.7...v0.20.8) (2022-03-14)
 

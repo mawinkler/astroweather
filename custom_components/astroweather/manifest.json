@@ -10,7 +10,7 @@
         "@mawinkler"
     ],
     "requirements": [
-        "pyastroweatherio==0.20.9.dev8"
+        "pyastroweatherio==0.20.9"
     ],
     "iot_class": "cloud_polling"
 }

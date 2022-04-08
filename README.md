@@ -2,7 +2,7 @@
 
 This is a *Custom Integration* for [Home Assistant](https://www.home-assistant.io/). It uses the forecast data from 7Timer! to create sensor data for Home Assistant. It uses the public [Machine-readable API](http://www.7timer.info/doc.php?lang=en#machine_readable_api) to pull data from 7Timer!.
 
-![GitHub release](https://img.shields.io/badge/release-v0.20.8-blue)
+![GitHub release](https://img.shields.io/badge/release-v0.20.9-blue)
 [![hacs_badge](https://img.shields.io/badge/HACS-Default-orange.svg)](https://github.com/custom-components/hacs)
 
 There is currently support for the following entity types within Home Assistant:
@@ -53,8 +53,9 @@ During installation you will have the option to:
 - verify the longitude and latitude for the forecast
 - set the elevation
 - set the interval for updating forecast data
+- set the weightings for cloud coverage, seeing, and transparency for the condition calculation
 
-The interval for updating forecast data can also be changed after you add the Integration, by using the *Options* link on the Integration widget.
+The interval for updating forecast data and the weightings can also be changed after you add the Integration, by using the *Options* link on the Integration widget.
 
 ## Lovelace
 
@@ -78,22 +79,23 @@ sensor.astroweather_10m_wind_direction | Wind direction at 10m height.
 sensor.astroweather_10m_wind_speed | Wind speed in m/s
 sensor.astroweather_10m_wind_speed_plain | Wind speed in plain text
 sensor.astroweather_2m_relative_humidity | Relative humidity at 2m
-sensor.astroweather_2m_relative_humidity_plain | Relative humidity at 2m in plain text
 sensor.astroweather_2m_temperature | Temperature at 2m in °C
-sensor.astroweather_clouds | Cloud cover quality as a percentage (the higher, the value, the lesser clouds)
-sensor.astroweather_clouds_plain | Cloud cover quality as a percentage in plain text
+sensor.astroweather_clouds | Cloud cover as a percentage
+sensor.astroweather_cloudless | The inverse of cloud cover
 sensor.astroweather_condition | Viewing conditions as a percentage (the higher, the better)
+sensor.astroweather_condition_plain | Viewing conditions as plain text as a percentage range
 sensor.astroweather_deepsky_forecast_today | Forecast for viewing conditions this evening as a percentage (the higher, the better)
-sensor.astroweather_deepsky_forecast_today_desc | Forecast for viewing conditions this evening in plain text
+sensor.astroweather_deepsky_forecast_today_description | Forecast for viewing conditions this evening in plain text
 sensor.astroweather_deepsky_forecast_today_plain | Forecast for viewing conditions this evening as *Good-Excellent-Good*
 sensor.astroweather_deepsky_forecast_tomorrow | Forecast for viewing conditions tomorrow evening as a percentage (the higher, the better)
 sensor.astroweather_deepsky_forecast_tomorrow_desc | Forecast for viewing conditions tomorrow evening in plain text
 sensor.astroweather_deepsky_forecast_tomorrow_plain | Forecast for viewing conditions tomorrow evening as *Good-Excellent-Good*
 sensor.astroweather_elevation | Elevation configured for this AstroWeather instance
 sensor.astroweather_latitude | Latitude configured for this AstroWeather instance
+sensor.astroweather_longitude | Longitude configured for this AstroWeather instance
+sensor.astroweather_forecast_length | The available time period of forecast data in hours
 sensor.astroweather_lifted_index | Lifted index in degrees
 sensor.astroweather_lifted_index_plain | Lifted index in plain text
-sensor.astroweather_longitude | Longitude configured for this AstroWeather instance
 sensor.astroweather_moon_next_rising | Next rising of the Moon
 sensor.astroweather_moon_next_setting | Nect setting of the Moon
 sensor.astroweather_moon_phase | Current Moon phase as a percentage
