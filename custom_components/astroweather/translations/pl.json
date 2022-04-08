@@ -7,7 +7,10 @@
                     "latitude": "Szerokość geograficzna (-89° do 89°)",
                     "longitude": "Długość geograficzna (-180° do 180°)",
                     "elevation": "Wzniesienie (0m do 4000m n.p.m.)",
-                    "forecast_interval": "Odstęp czasu między aktualizacjami prognoz (min.)"
+                    "forecast_interval": "Odstęp czasu między aktualizacjami prognoz (min.)",
+                    "cloudcover_weight": "Waga pokrycia zachmurzenia do obliczania stanu",
+                    "seeing_weight": "Widząc wagę do obliczenia stanu",
+                    "transparency_weight": "Waga przezroczystości do obliczania stanu"
                 }
             }
         }
@@ -19,7 +22,10 @@
                     "latitude": "Szerokość geograficzna (-89° do 89°)",
                     "longitude": "Długość geograficzna (-180° do 180°)",
                     "elevation": "Wzniesienie (0m do 4000m n.p.m.)",
-                    "forecast_interval": "Odstęp czasu między aktualizacjami prognoz (min.)"
+                    "forecast_interval": "Odstęp czasu między aktualizacjami prognoz (min.)",
+                    "cloudcover_weight": "Waga pokrycia zachmurzenia do obliczania stanu",
+                    "seeing_weight": "Widząc wagę do obliczenia stanu",
+                    "transparency_weight": "Waga przezroczystości do obliczania stanu"
                 }
             }
         }
