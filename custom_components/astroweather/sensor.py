@@ -1,6 +1,6 @@
 """
     Support for the AstroWeather from 7Timer
-    This component will create a few binary sensors.
+    This component will create a few sensors.
 
     For a full description, go here: https://github.com/mawinkler/astroweather
 

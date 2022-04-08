@@ -17,6 +17,12 @@ from pyastroweatherio import FORECAST_TYPE_HOURLY, FORECAST_TYPE_DAILY, FORECAST
 from .const import (
     CONF_FORECAST_INTERVAL,
     CONF_FORECAST_TYPE,
+    CONF_CONDITION_CLOUDCOVER_WEIGHT,
+    CONF_CONDITION_SEEING_WEIGHT,
+    CONF_CONDITION_TRANSPARENCY_WEIGHT,
+    DEFAULT_CONDITION_CLOUDCOVER_WEIGHT,
+    DEFAULT_CONDITION_SEEING_WEIGHT,
+    DEFAULT_CONDITION_TRANSPARENCY_WEIGHT,
     DEFAULT_FORECAST_INTERVAL,
     FORECAST_INTERVAL_MIN,
     FORECAST_INTERVAL_MAX,
@@ -64,6 +70,15 @@ class AstroWeatherFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
                 CONF_ELEVATION: user_input[CONF_ELEVATION],
                 # CONF_FORECAST_TYPE: user_input[CONF_FORECAST_TYPE],
                 CONF_FORECAST_INTERVAL: user_input.get(CONF_FORECAST_INTERVAL),
+                CONF_CONDITION_CLOUDCOVER_WEIGHT: user_input.get(
+                    CONF_CONDITION_CLOUDCOVER_WEIGHT
+                ),
+                CONF_CONDITION_SEEING_WEIGHT: user_input.get(
+                    CONF_CONDITION_SEEING_WEIGHT
+                ),
+                CONF_CONDITION_TRANSPARENCY_WEIGHT: user_input.get(
+                    CONF_CONDITION_TRANSPARENCY_WEIGHT
+                ),
             },
         )
 
@@ -91,6 +106,27 @@ class AstroWeatherFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
                     ): vol.All(
                         vol.Coerce(int),
                         vol.Range(min=FORECAST_INTERVAL_MIN, max=FORECAST_INTERVAL_MAX),
+                    ),
+                    vol.Optional(
+                        CONF_CONDITION_CLOUDCOVER_WEIGHT,
+                        default=DEFAULT_CONDITION_CLOUDCOVER_WEIGHT,
+                    ): vol.All(
+                        vol.Coerce(int),
+                        vol.Range(min=0, max=5),
+                    ),
+                    vol.Optional(
+                        CONF_CONDITION_SEEING_WEIGHT,
+                        default=DEFAULT_CONDITION_SEEING_WEIGHT,
+                    ): vol.All(
+                        vol.Coerce(int),
+                        vol.Range(min=0, max=5),
+                    ),
+                    vol.Optional(
+                        CONF_CONDITION_TRANSPARENCY_WEIGHT,
+                        default=DEFAULT_CONDITION_TRANSPARENCY_WEIGHT,
+                    ): vol.All(
+                        vol.Coerce(int),
+                        vol.Range(min=0, max=5),
                     ),
                 }
             ),
@@ -139,7 +175,7 @@ class OptionsFlowHandler(config_entries.OptionsFlow):
                     #         CONF_FORECAST_TYPE, FORECAST_TYPE_DAILY
                     #     ),
                     # ): vol.In(FORECAST_TYPES),
-                    vol.Optional(
+                    vol.Required(
                         CONF_FORECAST_INTERVAL,
                         default=self.config_entry.options.get(
                             CONF_FORECAST_INTERVAL, DEFAULT_FORECAST_INTERVAL
@@ -147,6 +183,36 @@ class OptionsFlowHandler(config_entries.OptionsFlow):
                     ): vol.All(
                         vol.Coerce(int),
                         vol.Range(min=FORECAST_INTERVAL_MIN, max=FORECAST_INTERVAL_MAX),
+                    ),
+                    vol.Required(
+                        CONF_CONDITION_CLOUDCOVER_WEIGHT,
+                        default=self.config_entry.options.get(
+                            CONF_CONDITION_CLOUDCOVER_WEIGHT,
+                            DEFAULT_CONDITION_CLOUDCOVER_WEIGHT,
+                        ),
+                    ): vol.All(
+                        vol.Coerce(int),
+                        vol.Range(min=0, max=5),
+                    ),
+                    vol.Required(
+                        CONF_CONDITION_SEEING_WEIGHT,
+                        default=self.config_entry.options.get(
+                            CONF_CONDITION_SEEING_WEIGHT,
+                            DEFAULT_CONDITION_SEEING_WEIGHT,
+                        ),
+                    ): vol.All(
+                        vol.Coerce(int),
+                        vol.Range(min=0, max=5),
+                    ),
+                    vol.Required(
+                        CONF_CONDITION_TRANSPARENCY_WEIGHT,
+                        default=self.config_entry.options.get(
+                            CONF_CONDITION_TRANSPARENCY_WEIGHT,
+                            DEFAULT_CONDITION_TRANSPARENCY_WEIGHT,
+                        ),
+                    ): vol.All(
+                        vol.Coerce(int),
+                        vol.Range(min=0, max=5),
                     ),
                 }
             ),

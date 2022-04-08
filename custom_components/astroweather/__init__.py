@@ -24,11 +24,17 @@ from .const import (
     CONF_FORECAST_TYPE,
     CONF_FORECAST_INTERVAL,
     DEFAULT_FORECAST_INTERVAL,
+    DEFAULT_CONDITION_CLOUDCOVER_WEIGHT,
+    DEFAULT_CONDITION_SEEING_WEIGHT,
+    DEFAULT_CONDITION_TRANSPARENCY_WEIGHT,
     FORECAST_INTERVAL_MIN,
     FORECAST_INTERVAL_MAX,
     CONF_LATITUDE,
     CONF_LONGITUDE,
     CONF_ELEVATION,
+    CONF_CONDITION_CLOUDCOVER_WEIGHT,
+    CONF_CONDITION_SEEING_WEIGHT,
+    CONF_CONDITION_TRANSPARENCY_WEIGHT,
     DEFAULT_ELEVATION,
 )
 
@@ -52,6 +58,9 @@ async def async_setup_entry(hass: HomeAssistantType, entry: ConfigEntry) -> bool
         or not entry.options.get(CONF_LATITUDE)
         or not entry.options.get(CONF_LONGITUDE)
         or not entry.options.get(CONF_ELEVATION)
+        or entry.options.get(CONF_CONDITION_CLOUDCOVER_WEIGHT, None) is None
+        or entry.options.get(CONF_CONDITION_SEEING_WEIGHT, None) is None
+        or entry.options.get(CONF_CONDITION_TRANSPARENCY_WEIGHT, None) is None
     ):
         hass.config_entries.async_update_entry(
             entry,
@@ -65,6 +74,17 @@ async def async_setup_entry(hass: HomeAssistantType, entry: ConfigEntry) -> bool
                 CONF_LATITUDE: entry.data[CONF_LATITUDE],
                 CONF_LONGITUDE: entry.data[CONF_LONGITUDE],
                 CONF_ELEVATION: entry.data.get(CONF_ELEVATION, DEFAULT_ELEVATION),
+                CONF_CONDITION_CLOUDCOVER_WEIGHT: entry.data.get(
+                    CONF_CONDITION_CLOUDCOVER_WEIGHT,
+                    DEFAULT_CONDITION_CLOUDCOVER_WEIGHT,
+                ),
+                CONF_CONDITION_SEEING_WEIGHT: entry.data.get(
+                    CONF_CONDITION_SEEING_WEIGHT, DEFAULT_CONDITION_SEEING_WEIGHT
+                ),
+                CONF_CONDITION_TRANSPARENCY_WEIGHT: entry.data.get(
+                    CONF_CONDITION_TRANSPARENCY_WEIGHT,
+                    DEFAULT_CONDITION_TRANSPARENCY_WEIGHT,
+                ),
             },
         )
 
@@ -84,6 +104,17 @@ async def async_setup_entry(hass: HomeAssistantType, entry: ConfigEntry) -> bool
                 CONF_LATITUDE: entry.data[CONF_LATITUDE],
                 CONF_LONGITUDE: 0.000001,
                 CONF_ELEVATION: entry.data.get(CONF_ELEVATION, DEFAULT_ELEVATION),
+                CONF_CONDITION_CLOUDCOVER_WEIGHT: entry.data.get(
+                    CONF_CONDITION_CLOUDCOVER_WEIGHT,
+                    DEFAULT_CONDITION_CLOUDCOVER_WEIGHT,
+                ),
+                CONF_CONDITION_SEEING_WEIGHT: entry.data.get(
+                    CONF_CONDITION_SEEING_WEIGHT, DEFAULT_CONDITION_SEEING_WEIGHT
+                ),
+                CONF_CONDITION_TRANSPARENCY_WEIGHT: entry.data.get(
+                    CONF_CONDITION_TRANSPARENCY_WEIGHT,
+                    DEFAULT_CONDITION_TRANSPARENCY_WEIGHT,
+                ),
             },
         )
 
@@ -105,6 +136,17 @@ async def async_setup_entry(hass: HomeAssistantType, entry: ConfigEntry) -> bool
                 CONF_LATITUDE: entry.data[CONF_LATITUDE],
                 CONF_LONGITUDE: entry.data[CONF_LONGITUDE],
                 CONF_ELEVATION: entry.data.get(CONF_ELEVATION, DEFAULT_ELEVATION),
+                CONF_CONDITION_CLOUDCOVER_WEIGHT: entry.data.get(
+                    CONF_CONDITION_CLOUDCOVER_WEIGHT,
+                    DEFAULT_CONDITION_CLOUDCOVER_WEIGHT,
+                ),
+                CONF_CONDITION_SEEING_WEIGHT: entry.data.get(
+                    CONF_CONDITION_SEEING_WEIGHT, DEFAULT_CONDITION_SEEING_WEIGHT
+                ),
+                CONF_CONDITION_TRANSPARENCY_WEIGHT: entry.data.get(
+                    CONF_CONDITION_TRANSPARENCY_WEIGHT,
+                    DEFAULT_CONDITION_TRANSPARENCY_WEIGHT,
+                ),
             },
         )
 
@@ -112,12 +154,26 @@ async def async_setup_entry(hass: HomeAssistantType, entry: ConfigEntry) -> bool
     _LOGGER.debug("Options longitude %s", str(entry.options.get(CONF_LONGITUDE)))
     _LOGGER.debug("Options elevation %s", str(entry.options.get(CONF_ELEVATION)))
     _LOGGER.debug("Update interval %s", str(entry.options.get(CONF_FORECAST_INTERVAL)))
+    _LOGGER.debug(
+        "Options cloudcover_weight %s",
+        str(entry.options.get(CONF_CONDITION_CLOUDCOVER_WEIGHT)),
+    )
+    _LOGGER.debug(
+        "Options seeing_weight %s", str(entry.options.get(CONF_CONDITION_SEEING_WEIGHT))
+    )
+    _LOGGER.debug(
+        "Options transparency_weight %s",
+        str(entry.options.get(CONF_CONDITION_TRANSPARENCY_WEIGHT)),
+    )
 
     astroweather = AstroWeather(
         session,
         entry.options.get(CONF_LATITUDE),
         entry.options.get(CONF_LONGITUDE),
         entry.options.get(CONF_ELEVATION),
+        entry.options.get(CONF_CONDITION_CLOUDCOVER_WEIGHT),
+        entry.options.get(CONF_CONDITION_SEEING_WEIGHT),
+        entry.options.get(CONF_CONDITION_TRANSPARENCY_WEIGHT),
     )
     _LOGGER.debug("Connected to AstroWeather platform")
 
