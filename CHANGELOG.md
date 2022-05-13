@@ -1,3 +1,9 @@
+# [0.21.0](https://github.com/mawinkler/astroweather/compare/v0.20.9...v0.21.0) (2022-05-13)
+
+### Fixes
+
+- Calculations for sun and moon are now handling polar regions properly.
+
 # [0.20.9](https://github.com/mawinkler/astroweather/compare/v0.20.8...v0.20.9) (2022-04-08)
 
 ### Changes
