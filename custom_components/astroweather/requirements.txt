@@ -1,0 +1,4 @@
+homeassistant==2022.5.5
+homeassistant.egg==info
+pyastroweatherio==0.21.1
+voluptuous==0.12.2
