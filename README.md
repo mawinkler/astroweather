@@ -96,12 +96,16 @@ sensor.astroweather_longitude | Longitude configured for this AstroWeather insta
 sensor.astroweather_forecast_length | The available time period of forecast data in hours
 sensor.astroweather_lifted_index | Lifted index in degrees
 sensor.astroweather_lifted_index_plain | Lifted index in plain text
+sensor.astroweather_moon_altitude | Current Moon altitude in degrees
+sensor.astroweather_moon_azimuth | Current Moon azimuth in degrees
 sensor.astroweather_moon_next_rising | Next rising of the Moon
 sensor.astroweather_moon_next_setting | Nect setting of the Moon
 sensor.astroweather_moon_phase | Current Moon phase as a percentage
 sensor.astroweather_precipitation_type | Expected Precipitation Type in plain text (snow, rain, frzr (freezing rain), icep (ice pellets), none)
 sensor.astroweather_seeing | Seeing conditions as a percentage (the higher, the better)
 sensor.astroweather_seeing_plain | Seeing conditions in plain text in arcsec range
+sensor.astroweather_sun_altitude | Current Sun altitude in degrees
+sensor.astroweather_sun_azimuth | Current Sun azimuth in degrees
 sensor.astroweather_sun_next_rising | Next rising of the Sun, calculated for the civil twilight
 sensor.astroweather_sun_next_rising_astronomical | Next rising of the Sun, calculated for the astronomical twilight (-18°)
 sensor.astroweather_sun_next_setting | Next setting of the Sun, calculated for the civil twilight
