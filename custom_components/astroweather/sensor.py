@@ -200,6 +200,13 @@ SENSOR_TYPES = {
         DEVICE_CLASS_TIMESTAMP,
         None,
     ],
+    "sun_next_setting_nautical": [
+        "Sun Next Setting Nautical",
+        "",
+        "mdi:weather-sunset-down",
+        DEVICE_CLASS_TIMESTAMP,
+        None,
+    ],
     "sun_next_setting_astro": [
         "Sun Next Setting Astronomical",
         "",
@@ -209,6 +216,13 @@ SENSOR_TYPES = {
     ],
     "sun_next_rising": [
         "Sun Next Rising",
+        "",
+        "mdi:weather-sunset-down",
+        DEVICE_CLASS_TIMESTAMP,
+        None,
+    ],
+    "sun_next_rising_nautical": [
+        "Sun Next Rising Nautical",
         "",
         "mdi:weather-sunset-down",
         DEVICE_CLASS_TIMESTAMP,

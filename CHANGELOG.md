@@ -1,8 +1,18 @@
+# [0.21.0](https://github.com/mawinkler/astroweather/compare/v0.21.0...v0.22.0) (2022-05-13)
+
+### Changes
+
+- Calculate the timezone of the AstroWeather instance based on configured geographical location for the instance. This makes it possible to configure multiple instances of AstroWeather for different locations with potentially different time zones. Previously the timezone of the os was used.
+
+### Fixes
+
+- Calculations for civil sunset and sunrise are now calculated for minus 6 degrees (dawn).
+
 # [0.21.0](https://github.com/mawinkler/astroweather/compare/v0.20.9...v0.21.0) (2022-05-13)
 
 ### Fixes
 
-- Calculations for sun and moon are now handling polar regions properly.
+- Calculations for sunset and sunrise in polar regions are now supported. Thank you for @samhaa reporting [this](https://github.com/mawinkler/astroweather/issues/13).
 
 # [0.20.9](https://github.com/mawinkler/astroweather/compare/v0.20.8...v0.20.9) (2022-04-08)
 

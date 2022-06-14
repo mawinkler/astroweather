@@ -106,10 +106,12 @@ sensor.astroweather_seeing | Seeing conditions as a percentage (the higher, the 
 sensor.astroweather_seeing_plain | Seeing conditions in plain text in arcsec range
 sensor.astroweather_sun_altitude | Current Sun altitude in degrees
 sensor.astroweather_sun_azimuth | Current Sun azimuth in degrees
-sensor.astroweather_sun_next_rising | Next rising of the Sun, calculated for the civil twilight
-sensor.astroweather_sun_next_rising_astronomical | Next rising of the Sun, calculated for the astronomical twilight (-18°)
-sensor.astroweather_sun_next_setting | Next setting of the Sun, calculated for the civil twilight
-sensor.astroweather_sun_next_setting_astronomical | Next setting of the Sun, calculated for the astronomical twilight (-18°)
+sensor.astroweather_sun_next_rising (-6°)| Next rising of the Sun, calculated for the civil dawn
+sensor.astroweather_sun_next_rising_nautical | Next rising of the Sun, calculated for the nautical dawn (-12°)
+sensor.astroweather_sun_next_rising_astronomical | Next rising of the Sun, calculated for the astronomical dawn (-18°)
+sensor.astroweather_sun_next_setting (-6°) | Next setting of the Sun, calculated for the civil dawn
+sensor.astroweather_sun_next_setting_nautical | Next setting of the Sun, calculated for the nautical dawn (-12°)
+sensor.astroweather_sun_next_setting_astronomical | Next setting of the Sun, calculated for the astronomical dawn (-18°)
 sensor.astroweather_timestamp | Timestamp of current data
 sensor.astroweather_transparency | Atmospheric transparency as a percentage (the higher, the better)
 sensor.astroweather_transparency_plain | Atmospheric transparency in plain text in magnitudes
