@@ -52,6 +52,8 @@ from .const import (
     ATTR_WEATHER_DEEPSKY_TOMORROW_DESC,
     ATTR_WEATHER_SUN_NEXT_RISING,
     ATTR_WEATHER_SUN_NEXT_SETTING,
+    ATTR_WEATHER_SUN_NEXT_RISING_NAUTICAL,
+    ATTR_WEATHER_SUN_NEXT_SETTING_NAUTICAL,
     ATTR_WEATHER_SUN_NEXT_RISING_ASTRO,
     ATTR_WEATHER_SUN_NEXT_SETTING_ASTRO,
     ATTR_WEATHER_MOON_NEXT_RISING,
@@ -294,6 +296,20 @@ class AstroWeatherWeather(AstroWeatherEntity, WeatherEntity):
         return None
 
     @property
+    def sun_next_setting_nautical(self) -> datetime:
+        """Return sun next nautical setting."""
+        if self._current is not None:
+            return self._current.sun_next_setting_nautical
+        return None
+
+    @property
+    def sun_next_rising_nautical(self) -> datetime:
+        """Return sun next nautical rising."""
+        if self._current is not None:
+            return self._current.sun_next_rising_nautical
+        return None
+
+    @property
     def sun_next_setting_astro(self) -> datetime:
         """Return sun next astronomical setting."""
         if self._current is not None:
@@ -358,6 +374,8 @@ class AstroWeatherWeather(AstroWeatherEntity, WeatherEntity):
             ATTR_WEATHER_DEEPSKY_TOMORROW_DESC: self.deepsky_forecast_tomorrow_desc,
             ATTR_WEATHER_SUN_NEXT_RISING: self.sun_next_rising,
             ATTR_WEATHER_SUN_NEXT_SETTING: self.sun_next_setting,
+            ATTR_WEATHER_SUN_NEXT_RISING_NAUTICAL: self.sun_next_rising_nautical,
+            ATTR_WEATHER_SUN_NEXT_SETTING_NAUTICAL: self.sun_next_setting_nautical,
             ATTR_WEATHER_SUN_NEXT_RISING_ASTRO: self.sun_next_rising_astro,
             ATTR_WEATHER_SUN_NEXT_SETTING_ASTRO: self.sun_next_setting_astro,
             ATTR_WEATHER_MOON_NEXT_RISING: self.moon_next_rising,
