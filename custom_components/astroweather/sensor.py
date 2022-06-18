@@ -165,6 +165,13 @@ SENSOR_TYPES = {
         DEVICE_CLASS_TEMPERATURE,
         STATE_CLASS_MEASUREMENT,
     ],
+    "dewpoint2m": [
+        "2m Dewpoint",
+        "°C",
+        "mdi:thermometer",
+        DEVICE_CLASS_TEMPERATURE,
+        STATE_CLASS_MEASUREMENT,
+    ],
     "prec_type": [
         "Precipitation Type",
         "",
