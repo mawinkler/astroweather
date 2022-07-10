@@ -5,10 +5,13 @@
 - Calculate the timezone of the AstroWeather instance based on configured geographical location for the instance. This makes it possible to configure multiple instances of AstroWeather for different locations with potentially different time zones. Previously the timezone of the os was used.
 - Added nautical dusk calculated for -12 degrees
 - Added dew point calculation based on the Magnus-Tetens formula
+- Added sun altitude and azimuth calculations
+- Added moon altitude and azimuth calculations
 
 ### Fixes
 
-- Calculations for civil sunset and sunrise are now calculated for -6 degrees (dusk).
+- Calculations for civil sunset and sunrise are now calculated for -6 degrees (dusk)
+- Added some missing weather types
 
 # [0.21.0](https://github.com/mawinkler/astroweather/compare/v0.20.9...v0.21.0) (2022-05-13)
 
