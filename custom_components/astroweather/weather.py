@@ -193,7 +193,7 @@ class AstroWeatherWeather(AstroWeatherEntity, WeatherEntity):
         return None
 
     @property
-    def temperature(self) -> int:
+    def native_temperature(self) -> int:
         """Return 2m temperature."""
         if self._current is not None:
             return self._current.temp2m
@@ -249,7 +249,7 @@ class AstroWeatherWeather(AstroWeatherEntity, WeatherEntity):
         return None
 
     @property
-    def temperature_unit(self) -> str:
+    def native_temperature_unit(self) -> str:
         """Return the unit of measurement for temperature."""
         return TEMP_CELSIUS
 
@@ -261,7 +261,7 @@ class AstroWeatherWeather(AstroWeatherEntity, WeatherEntity):
         return None
 
     @property
-    def wind_speed(self) -> float:
+    def native_wind_speed(self) -> float:
         """Return the wind speed."""
         if self._current is not None:
             return self._current.wind10m_speed
@@ -363,7 +363,7 @@ class AstroWeatherWeather(AstroWeatherEntity, WeatherEntity):
             ATTR_WEATHER_CONDITION: self.condition_percentage,
             ATTR_WEATHER_CONDITION_PLAIN: self.condition_plain,
             ATTR_WEATHER_PREC_TYPE: self.prec_type,
-            ATTR_WEATHER_WIND_SPEED: self.wind_speed,
+            ATTR_WEATHER_WIND_SPEED: self.native_wind_speed,
             ATTR_WEATHER_WIND_SPEED_PLAIN: self.wind_speed_plain,
             ATTR_WEATHER_WIND_BEARING: self.wind_bearing,
             ATTR_WEATHER_DEEPSKY_TODAY_DAYNAME: self.deepsky_forecast_today_dayname,

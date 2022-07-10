@@ -1,4 +1,4 @@
-# [0.22.0](https://github.com/mawinkler/astroweather/compare/v0.21.0...v0.22.0) (2022-06-18)
+# [0.22.0](https://github.com/mawinkler/astroweather/compare/v0.21.0...v0.22.0) (2022-07-10)
 
 ### Changes
 
@@ -11,7 +11,8 @@
 ### Fixes
 
 - Calculations for civil sunset and sunrise are now calculated for -6 degrees (dusk)
-- Added some missing weather types
+- [Issue #16](https://github.com/mawinkler/astroweather/issues/16): Added some missing weather types
+- [Issue #15](https://github.com/mawinkler/astroweather/issues/15): Properties `native_temperature`, `native_temperature_unit`, `native_wind_speed`
 
 # [0.21.0](https://github.com/mawinkler/astroweather/compare/v0.20.9...v0.21.0) (2022-05-13)
 
