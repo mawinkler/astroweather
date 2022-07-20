@@ -76,7 +76,9 @@ async def async_setup_entry(hass: HomeAssistantType, entry: ConfigEntry) -> bool
                 CONF_LATITUDE: entry.data[CONF_LATITUDE],
                 CONF_LONGITUDE: entry.data[CONF_LONGITUDE],
                 CONF_ELEVATION: entry.data.get(CONF_ELEVATION, DEFAULT_ELEVATION),
-                CONF_TIMEZONE_INFO: entry.data.get(CONF_TIMEZONE_INFO, DEFAULT_TIMEZONE_INFO),
+                CONF_TIMEZONE_INFO: entry.data.get(
+                    CONF_TIMEZONE_INFO, DEFAULT_TIMEZONE_INFO
+                ),
                 CONF_CONDITION_CLOUDCOVER_WEIGHT: entry.data.get(
                     CONF_CONDITION_CLOUDCOVER_WEIGHT,
                     DEFAULT_CONDITION_CLOUDCOVER_WEIGHT,
@@ -107,7 +109,9 @@ async def async_setup_entry(hass: HomeAssistantType, entry: ConfigEntry) -> bool
                 CONF_LATITUDE: entry.data[CONF_LATITUDE],
                 CONF_LONGITUDE: 0.000001,
                 CONF_ELEVATION: entry.data.get(CONF_ELEVATION, DEFAULT_ELEVATION),
-                CONF_TIMEZONE_INFO: entry.data.get(CONF_TIMEZONE_INFO, DEFAULT_TIMEZONE_INFO),
+                CONF_TIMEZONE_INFO: entry.data.get(
+                    CONF_TIMEZONE_INFO, DEFAULT_TIMEZONE_INFO
+                ),
                 CONF_CONDITION_CLOUDCOVER_WEIGHT: entry.data.get(
                     CONF_CONDITION_CLOUDCOVER_WEIGHT,
                     DEFAULT_CONDITION_CLOUDCOVER_WEIGHT,
@@ -140,7 +144,9 @@ async def async_setup_entry(hass: HomeAssistantType, entry: ConfigEntry) -> bool
                 CONF_LATITUDE: entry.data[CONF_LATITUDE],
                 CONF_LONGITUDE: entry.data[CONF_LONGITUDE],
                 CONF_ELEVATION: entry.data.get(CONF_ELEVATION, DEFAULT_ELEVATION),
-                CONF_TIMEZONE_INFO: entry.data.get(CONF_TIMEZONE_INFO, DEFAULT_TIMEZONE_INFO),
+                CONF_TIMEZONE_INFO: entry.data.get(
+                    CONF_TIMEZONE_INFO, DEFAULT_TIMEZONE_INFO
+                ),
                 CONF_CONDITION_CLOUDCOVER_WEIGHT: entry.data.get(
                     CONF_CONDITION_CLOUDCOVER_WEIGHT,
                     DEFAULT_CONDITION_CLOUDCOVER_WEIGHT,

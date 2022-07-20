@@ -1,3 +1,17 @@
+# [0.22.1](https://github.com/mawinkler/astroweather/compare/v0.22.0...v0.22.1) (2022-07-20)
+
+### Changes
+
+- Calculate the timezone of the AstroWeather instance based on configured timezone. This makes it possible to configure multiple instances of AstroWeather for different locations with potentially different time zones.
+
+### Fixes
+
+- [Issue #16](https://github.com/mawinkler/astroweather/issues/16) and [Issue #17](https://github.com/mawinkler/astroweather/issues/17): The introduction of the module [timezonefinder](https://github.com/jannikmi/timezonefinder) with it's nested dependency to [py-h3](https://github.com/uber/h3-py) failed while compiling the `c`-module h3 on some home assistant deployment variants (e.g. Home Assistant Operating System on RPi). The config flow now allows to select the timezone for the specific AstroWeather instance for which reason the dependency to `timezonefinder` is not required anymore.
+
+### Breaking Changes
+
+- The config flow now requires an additional config entry. To upgrade from any previous version please delete the integration and add it again via the `Devices & Services` section of your Home Assistant
+
 # [0.22.0](https://github.com/mawinkler/astroweather/compare/v0.21.0...v0.22.0) (2022-07-10)
 
 ### Changes

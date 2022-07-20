@@ -1,7 +1,5 @@
 """ Config Flow to configure AstroWeather Integration. """
 import logging
-import random
-import string
 import pytz
 
 import voluptuous as vol
@@ -102,9 +100,9 @@ class AstroWeatherFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
                     vol.Required(CONF_ELEVATION, default=DEFAULT_ELEVATION): vol.All(
                         vol.Coerce(int), vol.Range(min=0, max=4000)
                     ),
-                    vol.Required(CONF_TIMEZONE_INFO, default=self.hass.config.time_zone): vol.All(
-                        vol.Coerce(str), vol.In(pytz.all_timezones)
-                    ),
+                    vol.Required(
+                        CONF_TIMEZONE_INFO, default=self.hass.config.time_zone
+                    ): vol.All(vol.Coerce(str), vol.In(pytz.all_timezones)),
                     # vol.Optional(
                     #     CONF_FORECAST_TYPE, default=FORECAST_TYPE_DAILY
                     # ): vol.In(FORECAST_TYPES),
