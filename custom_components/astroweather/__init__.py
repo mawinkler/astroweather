@@ -32,10 +32,12 @@ from .const import (
     CONF_LATITUDE,
     CONF_LONGITUDE,
     CONF_ELEVATION,
+    CONF_TIMEZONE_INFO,
     CONF_CONDITION_CLOUDCOVER_WEIGHT,
     CONF_CONDITION_SEEING_WEIGHT,
     CONF_CONDITION_TRANSPARENCY_WEIGHT,
     DEFAULT_ELEVATION,
+    DEFAULT_TIMEZONE_INFO,
 )
 
 _LOGGER = logging.getLogger(__name__)
@@ -74,6 +76,7 @@ async def async_setup_entry(hass: HomeAssistantType, entry: ConfigEntry) -> bool
                 CONF_LATITUDE: entry.data[CONF_LATITUDE],
                 CONF_LONGITUDE: entry.data[CONF_LONGITUDE],
                 CONF_ELEVATION: entry.data.get(CONF_ELEVATION, DEFAULT_ELEVATION),
+                CONF_TIMEZONE_INFO: entry.data.get(CONF_TIMEZONE_INFO, DEFAULT_TIMEZONE_INFO),
                 CONF_CONDITION_CLOUDCOVER_WEIGHT: entry.data.get(
                     CONF_CONDITION_CLOUDCOVER_WEIGHT,
                     DEFAULT_CONDITION_CLOUDCOVER_WEIGHT,
@@ -104,6 +107,7 @@ async def async_setup_entry(hass: HomeAssistantType, entry: ConfigEntry) -> bool
                 CONF_LATITUDE: entry.data[CONF_LATITUDE],
                 CONF_LONGITUDE: 0.000001,
                 CONF_ELEVATION: entry.data.get(CONF_ELEVATION, DEFAULT_ELEVATION),
+                CONF_TIMEZONE_INFO: entry.data.get(CONF_TIMEZONE_INFO, DEFAULT_TIMEZONE_INFO),
                 CONF_CONDITION_CLOUDCOVER_WEIGHT: entry.data.get(
                     CONF_CONDITION_CLOUDCOVER_WEIGHT,
                     DEFAULT_CONDITION_CLOUDCOVER_WEIGHT,
@@ -136,6 +140,7 @@ async def async_setup_entry(hass: HomeAssistantType, entry: ConfigEntry) -> bool
                 CONF_LATITUDE: entry.data[CONF_LATITUDE],
                 CONF_LONGITUDE: entry.data[CONF_LONGITUDE],
                 CONF_ELEVATION: entry.data.get(CONF_ELEVATION, DEFAULT_ELEVATION),
+                CONF_TIMEZONE_INFO: entry.data.get(CONF_TIMEZONE_INFO, DEFAULT_TIMEZONE_INFO),
                 CONF_CONDITION_CLOUDCOVER_WEIGHT: entry.data.get(
                     CONF_CONDITION_CLOUDCOVER_WEIGHT,
                     DEFAULT_CONDITION_CLOUDCOVER_WEIGHT,
@@ -153,6 +158,7 @@ async def async_setup_entry(hass: HomeAssistantType, entry: ConfigEntry) -> bool
     _LOGGER.debug("Options latitude %s", str(entry.options.get(CONF_LATITUDE)))
     _LOGGER.debug("Options longitude %s", str(entry.options.get(CONF_LONGITUDE)))
     _LOGGER.debug("Options elevation %s", str(entry.options.get(CONF_ELEVATION)))
+    _LOGGER.debug("Options timezone %s", str(entry.options.get(CONF_TIMEZONE_INFO)))
     _LOGGER.debug("Update interval %s", str(entry.options.get(CONF_FORECAST_INTERVAL)))
     _LOGGER.debug(
         "Options cloudcover_weight %s",
@@ -168,12 +174,13 @@ async def async_setup_entry(hass: HomeAssistantType, entry: ConfigEntry) -> bool
 
     astroweather = AstroWeather(
         session,
-        entry.options.get(CONF_LATITUDE),
-        entry.options.get(CONF_LONGITUDE),
-        entry.options.get(CONF_ELEVATION),
-        entry.options.get(CONF_CONDITION_CLOUDCOVER_WEIGHT),
-        entry.options.get(CONF_CONDITION_SEEING_WEIGHT),
-        entry.options.get(CONF_CONDITION_TRANSPARENCY_WEIGHT),
+        latitude=entry.options.get(CONF_LATITUDE),
+        longitude=entry.options.get(CONF_LONGITUDE),
+        elevation=entry.options.get(CONF_ELEVATION),
+        timezone_info=entry.options.get(CONF_TIMEZONE_INFO),
+        cloudcover_weight=entry.options.get(CONF_CONDITION_CLOUDCOVER_WEIGHT),
+        seeing_weight=entry.options.get(CONF_CONDITION_SEEING_WEIGHT),
+        transparency_weight=entry.options.get(CONF_CONDITION_TRANSPARENCY_WEIGHT),
     )
     _LOGGER.debug("Connected to AstroWeather platform")
 

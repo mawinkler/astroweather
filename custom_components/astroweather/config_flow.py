@@ -2,6 +2,7 @@
 import logging
 import random
 import string
+import pytz
 
 import voluptuous as vol
 from homeassistant import config_entries
@@ -10,11 +11,13 @@ from homeassistant.const import (
     CONF_LATITUDE,
     CONF_LONGITUDE,
     CONF_ELEVATION,
+    CONF_TIME_ZONE,
 )
 from homeassistant.core import callback
 from pyastroweatherio import FORECAST_TYPE_HOURLY, FORECAST_TYPE_DAILY, FORECAST_TYPES
 
 from .const import (
+    CONF_TIMEZONE_INFO,
     CONF_FORECAST_INTERVAL,
     CONF_FORECAST_TYPE,
     CONF_CONDITION_CLOUDCOVER_WEIGHT,
@@ -68,6 +71,7 @@ class AstroWeatherFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
                 CONF_LATITUDE: user_input[CONF_LATITUDE],
                 CONF_LONGITUDE: user_input[CONF_LONGITUDE],
                 CONF_ELEVATION: user_input[CONF_ELEVATION],
+                CONF_TIMEZONE_INFO: user_input[CONF_TIMEZONE_INFO],
                 # CONF_FORECAST_TYPE: user_input[CONF_FORECAST_TYPE],
                 CONF_FORECAST_INTERVAL: user_input.get(CONF_FORECAST_INTERVAL),
                 CONF_CONDITION_CLOUDCOVER_WEIGHT: user_input.get(
@@ -97,6 +101,9 @@ class AstroWeatherFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
                     ): vol.All(vol.Coerce(float), vol.Range(min=-180, max=180)),
                     vol.Required(CONF_ELEVATION, default=DEFAULT_ELEVATION): vol.All(
                         vol.Coerce(int), vol.Range(min=0, max=4000)
+                    ),
+                    vol.Required(CONF_TIMEZONE_INFO, default=self.hass.config.time_zone): vol.All(
+                        vol.Coerce(str), vol.In(pytz.all_timezones)
                     ),
                     # vol.Optional(
                     #     CONF_FORECAST_TYPE, default=FORECAST_TYPE_DAILY
@@ -169,6 +176,12 @@ class OptionsFlowHandler(config_entries.OptionsFlow):
                             CONF_ELEVATION, DEFAULT_ELEVATION
                         ),
                     ): vol.All(vol.Coerce(int), vol.Range(min=0, max=4000)),
+                    vol.Required(
+                        CONF_TIMEZONE_INFO,
+                        default=self.config_entry.options.get(
+                            CONF_TIMEZONE_INFO, self.hass.config.time_zone
+                        ),
+                    ): vol.All(vol.Coerce(str), vol.In(pytz.all_timezones)),
                     # vol.Optional(
                     #     CONF_FORECAST_TYPE,
                     #     default=self.config_entry.options.get(
