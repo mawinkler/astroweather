@@ -1,3 +1,9 @@
+# [0.22.2](https://github.com/mawinkler/astroweather/compare/v0.22.1...v0.22.2) (2022-07-22)
+
+### Fixes
+
+- [Issue #18](https://github.com/mawinkler/astroweather/issues/18): Temperature conversions with `native_value` and `native_unit_of_measurement` are now implemented in the sensor entity [Reference](https://developers.home-assistant.io/blog/2021/08/12/sensor_temperature_conversion/).
+
 # [0.22.1](https://github.com/mawinkler/astroweather/compare/v0.22.0...v0.22.1) (2022-07-20)
 
 ### Changes

@@ -2,7 +2,7 @@
 
 This is a *Custom Integration* for [Home Assistant](https://www.home-assistant.io/). It uses the forecast data from 7Timer! to create sensor data for Home Assistant. It uses the public [Machine-readable API](http://www.7timer.info/doc.php?lang=en#machine_readable_api) to pull data from 7Timer!.
 
-![GitHub release](https://img.shields.io/badge/release-v0.21.1-blue)
+![GitHub release](https://img.shields.io/badge/release-v0.22.2-blue)
 [![hacs_badge](https://img.shields.io/badge/HACS-Default-orange.svg)](https://github.com/custom-components/hacs)
 
 There is currently support for the following entity types within Home Assistant:
@@ -16,6 +16,8 @@ Forecast data is provided by 7Timer! on a three *hourly* basis.
 There is also a custom weather card available [here](https://github.com/mawinkler/astroweather-card).
 
 Amongst other calculations, the deep sky viewing conditions are calculated out of the combination of cloud coverage, seeing and transparency. For this calculation the cloud coverage is weighted three times and seeing two times in relation to the transparency.
+
+> ***UPCOMING***: [AstroLive](https://github.com/mawinkler/astrolive) - Monitor your observatory from within Home Assistant.
 
 ## Installation
 
