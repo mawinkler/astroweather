@@ -10,10 +10,17 @@ import logging
 from homeassistant.components.sensor import SensorEntity
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.helpers.typing import HomeAssistantType
+from homeassistant.util import dt as dt_util
 from homeassistant.const import (
     DEVICE_CLASS_HUMIDITY,
     DEVICE_CLASS_TEMPERATURE,
     DEVICE_CLASS_TIMESTAMP,
+    DEGREE,
+    LENGTH_METERS,
+    PERCENTAGE,
+    SPEED_METERS_PER_SECOND,
+    TEMP_CELSIUS,
+    TIME_HOURS,
 )
 from .const import (
     DOMAIN,
@@ -34,28 +41,28 @@ _LOGGER = logging.getLogger(__name__)
 SENSOR_TYPES = {
     "forecast_length": [
         "Forecast Length",
-        "h",
+        TIME_HOURS,
         "mdi:map-marker-distance",
         None,
         None,
     ],
     "latitude": [
         "Latitude",
-        "°",
+        DEGREE,
         "mdi:latitude",
         None,
         None,
     ],
     "longitude": [
         "Longitude",
-        "°",
+        DEGREE,
         "mdi:longitude",
         None,
         None,
     ],
     "elevation": [
         "Elevation",
-        "m",
+        LENGTH_METERS,
         "mdi:image-filter-hdr",
         None,
         None,
@@ -69,14 +76,14 @@ SENSOR_TYPES = {
     ],
     "cloudcover_percentage": [
         "Cloud Cover",
-        "%",
+        PERCENTAGE,
         "mdi:weather-night-partly-cloudy",
         None,
         STATE_CLASS_MEASUREMENT,
     ],
     "cloudless_percentage": [
         "Cloudless",
-        "%",
+        PERCENTAGE,
         "mdi:weather-night-partly-cloudy",
         None,
         STATE_CLASS_MEASUREMENT,
@@ -90,7 +97,7 @@ SENSOR_TYPES = {
     ],
     "seeing_percentage": [
         "Seeing",
-        "%",
+        PERCENTAGE,
         "mdi:waves",
         None,
         STATE_CLASS_MEASUREMENT,
@@ -104,7 +111,7 @@ SENSOR_TYPES = {
     ],
     "transparency_percentage": [
         "Transparency",
-        "%",
+        PERCENTAGE,
         "mdi:safety-goggles",
         None,
         STATE_CLASS_MEASUREMENT,
@@ -118,7 +125,7 @@ SENSOR_TYPES = {
     ],
     "lifted_index": [
         "Lifted Index",
-        "°C",
+        TEMP_CELSIUS,
         "mdi:arrow-expand-up",
         DEVICE_CLASS_TEMPERATURE,
         STATE_CLASS_MEASUREMENT,
@@ -132,7 +139,7 @@ SENSOR_TYPES = {
     ],
     "rh2m": [
         "2m Relative Humidity",
-        "%",
+        PERCENTAGE,
         "mdi:water-percent",
         DEVICE_CLASS_HUMIDITY,
         STATE_CLASS_MEASUREMENT,
@@ -146,7 +153,7 @@ SENSOR_TYPES = {
     ],
     "wind10m_speed": [
         "10m Wind Speed",
-        "m/s",
+        SPEED_METERS_PER_SECOND,
         "mdi:windsock",
         None,
         STATE_CLASS_MEASUREMENT,
@@ -160,14 +167,14 @@ SENSOR_TYPES = {
     ],
     "temp2m": [
         "2m Temperature",
-        "°C",
+        TEMP_CELSIUS,
         "mdi:thermometer",
         DEVICE_CLASS_TEMPERATURE,
         STATE_CLASS_MEASUREMENT,
     ],
     "dewpoint2m": [
         "2m Dewpoint",
-        "°C",
+        TEMP_CELSIUS,
         "mdi:thermometer",
         DEVICE_CLASS_TEMPERATURE,
         STATE_CLASS_MEASUREMENT,
@@ -181,21 +188,21 @@ SENSOR_TYPES = {
     ],
     "condition_percentage": [
         "Condition",
-        "%",
+        PERCENTAGE,
         "mdi:weather-snowy-rainy",
         None,
         STATE_CLASS_MEASUREMENT,
     ],
     "sun_altitude": [
         "Sun Altitude",
-        "°",
+        DEGREE,
         "mdi:weather-sunny",
         None,
         None,
     ],
     "sun_azimuth": [
         "Sun Azimuth",
-        "°",
+        DEGREE,
         "mdi:weather-sunny",
         None,
         None,
@@ -258,28 +265,28 @@ SENSOR_TYPES = {
     ],
     "moon_phase": [
         "Moon Phase",
-        "%",
+        PERCENTAGE,
         "mdi:moon-waning-gibbous",
         None,
         None,
     ],
     "moon_altitude": [
         "Moon Altitude",
-        "°",
+        DEGREE,
         "mdi:moon-new",
         None,
         None,
     ],
     "moon_azimuth": [
         "Moon Azimuth",
-        "°",
+        DEGREE,
         "mdi:moon-new",
         None,
         None,
     ],
     "deepsky_forecast_today": [
         "Deepsky Forecast Today",
-        "%",
+        PERCENTAGE,
         "mdi:calendar-star",
         None,
         None,
@@ -300,7 +307,7 @@ SENSOR_TYPES = {
     ],
     "deepsky_forecast_tomorrow": [
         "Deepsky Forecast Tomorrow",
-        "%",
+        PERCENTAGE,
         "mdi:calendar-star",
         None,
         None,
@@ -366,14 +373,22 @@ class AstroWeatherSensor(AstroWeatherEntity, SensorEntity):
         return self._name
 
     @property
-    def state(self):
+    def native_value(self):
         """Return the state of the sensor."""
-        return getattr(self.coordinator.data[SENSOR_NAME], self._sensor, None)
+        if SENSOR_TYPES[self._sensor][SENSOR_DEVICE_CLASS] == DEVICE_CLASS_TIMESTAMP:
+            return dt_util.parse_datetime(
+                str(getattr(self.coordinator.data[SENSOR_NAME], self._sensor, None))
+            )
+        else:
+            return getattr(self.coordinator.data[SENSOR_NAME], self._sensor, None)
 
     @property
-    def unit_of_measurement(self):
+    def native_unit_of_measurement(self):
         """Return the unit of measurement."""
-        return SENSOR_TYPES[self._sensor][SENSOR_UNIT]
+        if SENSOR_TYPES[self._sensor][SENSOR_DEVICE_CLASS] == DEVICE_CLASS_TIMESTAMP:
+            return None
+        else:
+            return SENSOR_TYPES[self._sensor][SENSOR_UNIT]
 
     @property
     def icon(self):
