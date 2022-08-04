@@ -19,7 +19,7 @@ There is also a custom weather card available [here](https://github.com/mawinkle
 
 Amongst other calculations, the deep sky viewing conditions are calculated out of the combination of cloud coverage, seeing and transparency. For this calculation the cloud coverage is weighted three times and seeing two times in relation to the transparency.
 
-> ***UPCOMING***: [AstroLive](https://github.com/mawinkler/astrolive) - Monitor your observatory from within Home Assistant.
+> ***NEW RELEASE***: [AstroLive](https://github.com/mawinkler/astrolive) - Monitor your observatory from within Home Assistant.
 
 ## Table of Content<!-- omit in toc -->
 

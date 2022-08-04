@@ -178,3 +178,10 @@ cython_debug/
 # Support for Project snippet scope
 
 # End of https://www.toptal.com/developers/gitignore/api/python,visualstudiocode
+.DS_Store
+.dccache
+images/7timer_logo.afphoto
+.gitignore
+images/lovelace_trans_small.png
+images/lovelace_trans.afphoto
+images/7timer.afphoto
