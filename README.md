@@ -2,7 +2,6 @@
 
 ![GitHub release](https://img.shields.io/badge/release-v0.22.2-blue)
 [![hacs_badge](https://img.shields.io/badge/HACS-Default-orange.svg)](https://github.com/custom-components/hacs)
-[![Github All Releases](https://img.shields.io/github/downloads/mawinkler/astroweather/total.svg)]()
 
 This is a *Custom Integration* for [Home Assistant](https://www.home-assistant.io/). It uses the forecast data from 7Timer! to create sensor data for Home Assistant. It uses the public [Machine-readable API](http://www.7timer.info/doc.php?lang=en#machine_readable_api) to pull data from 7Timer!.
 
@@ -37,7 +36,7 @@ Amongst other calculations, the deep sky viewing conditions are calculated out o
 - The AstroWeather integration has a dependency to [pyastroweatherio](https://github.com/mawinkler/pyastroweatherio) which is in charge to retrieve the forecast data and do the required calculations.
 - During setup of the integration you're asked for some location info via a config flow.
 - AstroWeather will then create a couple of sensors, a binary sensor and a weather component to integrate with Home Assistant.
-- For Lovelace you can either build your own configuration or use the [AstroWeather Card](https://github.com/mawinkler/astroweather-card)
+- For Lovelace you can either build your own configuration or use the [AstroWeather Card](https://github.com/mawinkler/astroweather-card).
 - All data is updated within a configurable interval in between 30 minuts to 4 hours.
 - The data has a resolution of 10 km (6.21 miles) and is updated by the 7timer service every 4 hours.
 - It is possible to use multiple instances of AstroWeather at the same time, even within different timezones.
