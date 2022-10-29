@@ -1,3 +1,9 @@
+# [0.22.3](https://github.com/mawinkler/astroweather/compare/v0.22.2...v0.22.3) (2022-10-29)
+
+### Fixes
+
+- [Issue #19](https://github.com/mawinkler/astroweather/issues/19): As of Home Assistant Core 2022.11, the IMPERIAL_SYSTEM is deprecated, replaced by US_CUSTOMARY_SYSTEM. The is_metric and name properties of a unit system are likewise deprecated and should not be used. Adjusted to use instance check instead.
+
 # [0.22.2](https://github.com/mawinkler/astroweather/compare/v0.22.1...v0.22.2) (2022-07-22)
 
 ### Fixes

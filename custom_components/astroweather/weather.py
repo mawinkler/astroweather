@@ -16,6 +16,7 @@ from homeassistant.components.weather import (
     WeatherEntity,
 )
 from homeassistant.config_entries import ConfigEntry
+from homeassistant.util.unit_system import METRIC_SYSTEM
 from homeassistant.const import (
     CONF_ID,
     TEMP_CELSIUS,
@@ -74,7 +75,7 @@ async def async_setup_entry(
     """Set up the AstroWeather weather platform."""
     _LOGGER.info("Set up AstroWeather weather platform")
 
-    unit_system = "metric" if hass.config.units.is_metric else "imperial"
+    unit_system = "metric" if hass.config.units is METRIC_SYSTEM else "imperial"
 
     fcst_coordinator = hass.data[DOMAIN][entry.entry_id]["fcst_coordinator"]
     if not fcst_coordinator.data:
