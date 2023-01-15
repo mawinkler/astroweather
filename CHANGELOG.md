@@ -1,3 +1,9 @@
+# [0.22.4](https://github.com/mawinkler/astroweather/compare/v0.22.3...v0.22.4) (2023-01-15)
+
+### Fixes
+
+- [Issue #21](https://github.com/mawinkler/astroweather/issues/21): Changed `DEVICE_CLASS_*` to SensorDeviceClass enums. The `DEVICE_CLASS_*` constants have been deprecated and replaced in Home Assistant Core 2021.12.
+
 # [0.22.3](https://github.com/mawinkler/astroweather/compare/v0.22.2...v0.22.3) (2022-10-29)
 
 ### Fixes
