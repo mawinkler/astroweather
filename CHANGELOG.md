@@ -1,3 +1,9 @@
+# [0.22.5](https://github.com/mawinkler/astroweather/compare/v0.22.4...v0.22.5) (2023-02-09)
+
+### Fixes
+
+- [Issue #25](https://github.com/mawinkler/astroweather/issues/25): Fixed transparency_plain sensor.
+
 # [0.22.4](https://github.com/mawinkler/astroweather/compare/v0.22.3...v0.22.4) (2023-01-15)
 
 ### Fixes
