@@ -156,7 +156,7 @@ SENSOR_TYPES = {
         "10m Wind Speed",
         SPEED_METERS_PER_SECOND,
         "mdi:windsock",
-        None,
+        SensorDeviceClass.WIND_SPEED,
         STATE_CLASS_MEASUREMENT,
     ],
     "wind10m_speed_plain": [
