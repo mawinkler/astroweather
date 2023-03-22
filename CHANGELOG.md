@@ -2,7 +2,7 @@
 
 ### Fixes
 
-- [Issue #25](https://github.com/mawinkler/astroweather/issues/27): Bumped pyastroweatherio to v0.22.5.3 for better handling or erroneous data.
+- [Issue #27](https://github.com/mawinkler/astroweather/issues/27): Bumped pyastroweatherio to v0.22.5.3 for better handling or erroneous data.
 
 # [0.22.5](https://github.com/mawinkler/astroweather/compare/v0.22.4...v0.22.5) (2023-02-09)
 
