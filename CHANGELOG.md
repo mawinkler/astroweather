@@ -2,7 +2,12 @@
 
 ### Changes
 
-- AstroWeather does now integrate with Met.no in addition to 7Timer. Met.no seems to deliver a more accurate cloud forecast. If enabled the Met.no cloud forecast overrides the 7Timer cloud forecast.
+- AstroWeather does now integrate with Met.no in addition to 7Timer. Met.no seems to deliver a more accurate cloud forecast. If enabled in the configuration the Met.no cloud forecast overrides the 7Timer cloud forecast.
+- New sensors for total, high, medium and low clouds added:
+  - `astroweather_clouds_area` Percentage for total cloud coverage
+  - `astroweather_clouds_area_high` Percentage for high altitude cloud coverage
+  - `astroweather_clouds_area_medium` Percentage for medium altitude cloud coverage
+  - `astroweather_clouds_area_low` Percentage for low altitude cloud coverage
 
 # [0.22.5.1](https://github.com/mawinkler/astroweather/compare/v0.22.5...v0.22.5.1) (2023-03-22)
 
