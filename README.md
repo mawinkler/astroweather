@@ -1,9 +1,9 @@
 # AstroWeather<!-- omit in toc -->
 
-![GitHub release](https://img.shields.io/badge/release-v0.23.0-blue)
+![GitHub release](https://img.shields.io/badge/release-v0.23.1-blue)
 [![hacs_badge](https://img.shields.io/badge/HACS-Default-orange.svg)](https://github.com/custom-components/hacs)
 
-This is a *Custom Integration* for [Home Assistant](https://www.home-assistant.io/). It uses the forecast data from 7Timer! to create sensor data for Home Assistant. It uses the public [Machine-readable API](http://www.7timer.info/doc.php?lang=en#machine_readable_api) to pull data from 7Timer!.
+This is a *Custom Integration* for [Home Assistant](https://www.home-assistant.io/). It uses the forecast data from 7Timer! and Met.no to create sensor data for Home Assistant. It uses the [7Timer!-API](http://www.7timer.info/doc.php?lang=en#machine_readable_api) to pull data from 7Timer! and the [Locationforecast-API](https://api.met.no/weatherapi/locationforecast/2.0/documentation) to pull from MET Norway Weather.
 
 ![alt text](images/lovelace.png "Live")
 
@@ -13,9 +13,9 @@ There is currently support for the following entity types within Home Assistant:
 * Binary Sensor
 * Weather
 
-Forecast data is provided by 7Timer! on a three *hourly* basis.
+Forecast data is provided by 7Timer! on a three *hourly* basis which can optionally be merged with cloud area fraction data from Met.no.
 
-There is also a custom weather card available [here](https://github.com/mawinkler/astroweather-card).
+There is also a custom weather card available [here](https://github.com/mawinkler/astroweather-card) as seen in the screenshot above.
 
 Amongst other calculations, the deep sky viewing conditions are calculated out of the combination of cloud coverage, seeing and transparency. For this calculation the cloud coverage is weighted three times and seeing two times in relation to the transparency.
 
@@ -140,6 +140,10 @@ sensor.astroweather_sun_next_setting_astronomical | Next setting of the Sun, cal
 sensor.astroweather_timestamp | Timestamp of current data
 sensor.astroweather_transparency | Atmospheric transparency as a percentage (the higher, the better)
 sensor.astroweather_transparency_plain | Atmospheric transparency in plain text in magnitudes
+sensor.astroweather_clouds_area | Cloud area fraction as a percentage from Met.no
+sensor.astroweather_clouds_area_high | High clouds area fraction as a percentage from Met.no
+sensor.astroweather_clouds_area_medium | Medium clouds area fraction as a percentage from Met.no
+sensor.astroweather_clouds_area_low | Low clouds area fraction as a percentage from Met.no
 
 ***Weather:***
 

@@ -1,3 +1,9 @@
+# [0.23.1](https://github.com/mawinkler/astroweather/compare/v0.23.0...v0.23.1) (2023-04-26)
+
+### Changes
+
+- [Issue 30](https://github.com/mawinkler/astroweather/issues/30): Updated attribution to include Met.no.
+
 # [0.23.0](https://github.com/mawinkler/astroweather/compare/v0.22.5.1...v0.23.0) (2023-04-24)
 
 ### Changes
