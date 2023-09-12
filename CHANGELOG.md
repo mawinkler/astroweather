@@ -1,3 +1,9 @@
+# [0.23.2](https://github.com/mawinkler/astroweather/compare/v0.23.1...v0.23.2) (2023-09-12)
+
+### Changes
+
+- [Issue 32](https://github.com/mawinkler/astroweather/issues/32): Implemented the new Weather forecast service for 2023.9.
+
 # [0.23.1](https://github.com/mawinkler/astroweather/compare/v0.23.0...v0.23.1) (2023-04-26)
 
 ### Changes
