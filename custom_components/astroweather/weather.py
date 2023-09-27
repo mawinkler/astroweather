@@ -33,6 +33,11 @@ from .const import (
     DOMAIN,
     ATTR_FORECAST_CLOUDCOVER,
     ATTR_FORECAST_CLOUDLESS,
+    ATTR_FORECAST_CLOUD_AREA_FRACTION,
+    ATTR_FORECAST_CLOUD_AREA_FRACTION_HIGH,
+    ATTR_FORECAST_CLOUD_AREA_FRACTION_MEDIUM,
+    ATTR_FORECAST_CLOUD_AREA_FRACTION_LOW,
+    ATTR_FORECAST_FOG_AREA_FRACTION,
     ATTR_FORECAST_SEEING,
     ATTR_FORECAST_TRANSPARENCY,
     ATTR_FORECAST_LIFTED_INDEX,
@@ -147,6 +152,41 @@ class AstroWeatherWeather(AstroWeatherEntity, WeatherEntity):
         """Return current cloud coverage."""
         if self._current is not None:
             return self._current.cloudless_percentage
+        return None
+
+    @property
+    def cloud_area_fraction(self) -> int:
+        """Return current cloud area fraction. Met.no only"""
+        if self._current is not None:
+            return self._current.cloud_area_fraction_percentage
+        return None
+
+    @property
+    def cloud_area_fraction_high(self) -> int:
+        """Return current cloud area fraction high. Met.no only"""
+        if self._current is not None:
+            return self._current.cloud_area_fraction_high_percentage
+        return None
+
+    @property
+    def cloud_area_fraction_medium(self) -> int:
+        """Return current cloud area fraction medium. Met.no only"""
+        if self._current is not None:
+            return self._current.cloud_area_fraction_medium_percentage
+        return None
+
+    @property
+    def cloud_area_fraction_low(self) -> int:
+        """Return current cloud area fraction low. Met.no only"""
+        if self._current is not None:
+            return self._current.cloud_area_fraction_low_percentage
+        return None
+
+    @property
+    def fog_area_fraction(self) -> int:
+        """Return current fog area fraction. Met.no only"""
+        if self._current is not None:
+            return self._current.fog_area_fraction_percentage
         return None
 
     @property
@@ -361,6 +401,11 @@ class AstroWeatherWeather(AstroWeatherEntity, WeatherEntity):
             "timestamp": self.timestamp,
             ATTR_WEATHER_CLOUDCOVER: self.cloudcover_percentage,
             ATTR_WEATHER_CLOUDLESS: self.cloudless_percentage,
+            ATTR_FORECAST_CLOUD_AREA_FRACTION: self.cloud_area_fraction,
+            ATTR_FORECAST_CLOUD_AREA_FRACTION_HIGH: self.cloud_area_fraction_high,
+            ATTR_FORECAST_CLOUD_AREA_FRACTION_MEDIUM: self.cloud_area_fraction_medium,
+            ATTR_FORECAST_CLOUD_AREA_FRACTION_LOW: self.cloud_area_fraction_low,
+            ATTR_FORECAST_FOG_AREA_FRACTION: self.fog_area_fraction,
             ATTR_WEATHER_SEEING: self.seeing_percentage,
             ATTR_WEATHER_TRANSPARENCY: self.transparency_percentage,
             ATTR_WEATHER_LIFTED_INDEX: self.lifted_index,
@@ -411,6 +456,11 @@ class AstroWeatherWeather(AstroWeatherEntity, WeatherEntity):
                     ATTR_FORECAST_PRECIPITATION_PROBABILITY: None,
                     ATTR_FORECAST_CLOUDCOVER: forecast.cloudcover_percentage,
                     ATTR_FORECAST_CLOUDLESS: forecast.cloudless_percentage,
+                    ATTR_FORECAST_CLOUD_AREA_FRACTION: forecast.cloud_area_fraction_percentage,
+                    ATTR_FORECAST_CLOUD_AREA_FRACTION_HIGH: forecast.cloud_area_fraction_high_percentage,
+                    ATTR_FORECAST_CLOUD_AREA_FRACTION_MEDIUM: forecast.cloud_area_fraction_medium_percentage,
+                    ATTR_FORECAST_CLOUD_AREA_FRACTION_LOW: forecast.cloud_area_fraction_low_percentage,
+                    ATTR_FORECAST_FOG_AREA_FRACTION: forecast.fog_area_fraction_percentage,
                     ATTR_FORECAST_SEEING: forecast.seeing_percentage,
                     ATTR_FORECAST_TRANSPARENCY: forecast.transparency_percentage,
                     ATTR_FORECAST_LIFTED_INDEX: forecast.lifted_index,

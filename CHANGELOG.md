@@ -1,3 +1,13 @@
+# [0.24.0](https://github.com/mawinkler/astroweather/compare/v0.23.2...v0.24.0) (2023-09-12)
+
+### Changes
+
+- Implemented hourly forecast when using Met.no. 7Timer forecast remains 3-hourly.
+- Changed nightly condition plain text to arrows ↑↗→↘↓ indicating excellent to bad
+- Beautified AstroWeather-Card Lovelace card. Card is now more customizable and able to show cloud coverage for low, medium and high clouds.
+- Card now indicates astronomical darkness graphically.
+- Italien translation.
+
 # [0.23.2](https://github.com/mawinkler/astroweather/compare/v0.23.1...v0.23.2) (2023-09-12)
 
 ### Changes
