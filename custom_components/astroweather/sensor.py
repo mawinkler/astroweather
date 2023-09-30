@@ -306,6 +306,13 @@ SENSOR_TYPES = {
         None,
         None,
     ],
+    "moon_next_new_moon": [
+        "Moon Next New Moon",
+        None,
+        "mdi:moon-new",
+        SensorDeviceClass.TIMESTAMP,
+        None,
+    ],
     "moon_altitude": [
         "Moon Altitude",
         DEGREE,
