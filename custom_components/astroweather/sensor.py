@@ -194,13 +194,13 @@ SENSOR_TYPES = {
         SensorDeviceClass.WIND_SPEED,
         STATE_CLASS_MEASUREMENT,
     ],
-    "wind10m_speed_plain": [
-        "10m Wind Speed Plain",
-        None,
-        "mdi:windsock",
-        None,
-        None,
-    ],
+    # "wind10m_speed_plain": [
+    #     "10m Wind Speed Plain",
+    #     None,
+    #     "mdi:windsock",
+    #     None,
+    #     None,
+    # ],
     "temp2m": [
         "2m Temperature",
         TEMP_CELSIUS,
@@ -215,13 +215,13 @@ SENSOR_TYPES = {
         SensorDeviceClass.TEMPERATURE,
         STATE_CLASS_MEASUREMENT,
     ],
-    "prec_type": [
-        "Precipitation Type",
-        None,
-        "mdi:weather-snowy-rainy",
-        None,
-        None,
-    ],
+    # "prec_type": [
+    #     "Precipitation Type",
+    #     None,
+    #     "mdi:weather-snowy-rainy",
+    #     None,
+    #     None,
+    # ],
     "condition_percentage": [
         "Condition",
         PERCENTAGE,

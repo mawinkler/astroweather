@@ -42,7 +42,7 @@ from .const import (
     ATTR_FORECAST_TRANSPARENCY,
     ATTR_FORECAST_LIFTED_INDEX,
     ATTR_FORECAST_HUMIDITY,
-    ATTR_FORECAST_PREC_TYPE,
+    # ATTR_FORECAST_PREC_TYPE,
     ATTR_WEATHER_CLOUDCOVER,
     ATTR_WEATHER_CLOUDLESS,
     ATTR_WEATHER_SEEING,
@@ -50,8 +50,8 @@ from .const import (
     ATTR_WEATHER_LIFTED_INDEX,
     ATTR_WEATHER_CONDITION,
     ATTR_WEATHER_CONDITION_PLAIN,
-    ATTR_WEATHER_PREC_TYPE,
-    ATTR_WEATHER_WIND_SPEED_PLAIN,
+    # ATTR_WEATHER_PREC_TYPE,
+    # ATTR_WEATHER_WIND_SPEED_PLAIN,
     ATTR_WEATHER_DEEPSKY_TODAY_DAYNAME,
     ATTR_WEATHER_DEEPSKY_TODAY_PLAIN,
     ATTR_WEATHER_DEEPSKY_TODAY_DESC,
@@ -244,12 +244,12 @@ class AstroWeatherWeather(AstroWeatherEntity, WeatherEntity):
             return self._current.temp2m
         return None
 
-    @property
-    def prec_type(self) -> str:
-        """Return precipitation type."""
-        if self._current is not None:
-            return self._current.prec_type.capitalize()
-        return None
+    # @property
+    # def prec_type(self) -> str:
+    #     """Return precipitation type."""
+    #     if self._current is not None:
+    #         return self._current.prec_type.capitalize()
+    #     return None
 
     @property
     def deepsky_forecast_today_dayname(self) -> str:
@@ -312,12 +312,12 @@ class AstroWeatherWeather(AstroWeatherEntity, WeatherEntity):
             return self._current.wind10m_speed
         return None
 
-    @property
-    def wind_speed_plain(self) -> str:
-        """Return the wind speed plain."""
-        if self._current is not None:
-            return self._current.wind10m_speed_plain
-        return None
+    # @property
+    # def wind_speed_plain(self) -> str:
+    #     """Return the wind speed plain."""
+    #     if self._current is not None:
+    #         return self._current.wind10m_speed_plain
+    #     return None
 
     @property
     def wind_bearing(self) -> int:
@@ -419,9 +419,9 @@ class AstroWeatherWeather(AstroWeatherEntity, WeatherEntity):
             ATTR_WEATHER_LIFTED_INDEX: self.lifted_index,
             ATTR_WEATHER_CONDITION: self.condition_percentage,
             ATTR_WEATHER_CONDITION_PLAIN: self.condition_plain,
-            ATTR_WEATHER_PREC_TYPE: self.prec_type,
+            # ATTR_WEATHER_PREC_TYPE: self.prec_type,
             ATTR_WEATHER_WIND_SPEED: self.native_wind_speed,
-            ATTR_WEATHER_WIND_SPEED_PLAIN: self.wind_speed_plain,
+            # ATTR_WEATHER_WIND_SPEED_PLAIN: self.wind_speed_plain,
             ATTR_WEATHER_WIND_BEARING: self.wind_bearing,
             ATTR_WEATHER_DEEPSKY_TODAY_DAYNAME: self.deepsky_forecast_today_dayname,
             ATTR_WEATHER_DEEPSKY_TODAY_PLAIN: self.deepsky_forecast_today_plain,
@@ -478,7 +478,7 @@ class AstroWeatherWeather(AstroWeatherEntity, WeatherEntity):
                     ATTR_FORECAST_WIND_SPEED: forecast.wind10m_speed,
                     ATTR_FORECAST_WIND_BEARING: forecast.wind10m_direction,
                     ATTR_FORECAST_TEMP: forecast.temp2m,
-                    ATTR_FORECAST_PREC_TYPE: forecast.prec_type,
+                    # ATTR_FORECAST_PREC_TYPE: forecast.prec_type,
                 }
             )
 
