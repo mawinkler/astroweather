@@ -43,6 +43,7 @@ from .const import (
     ATTR_FORECAST_LIFTED_INDEX,
     ATTR_FORECAST_HUMIDITY,
     # ATTR_FORECAST_PREC_TYPE,
+    ATTR_FORECAST_PRECIPITATION_AMOUNT,
     ATTR_WEATHER_CLOUDCOVER,
     ATTR_WEATHER_CLOUDLESS,
     ATTR_WEATHER_SEEING,
@@ -51,6 +52,7 @@ from .const import (
     ATTR_WEATHER_CONDITION,
     ATTR_WEATHER_CONDITION_PLAIN,
     # ATTR_WEATHER_PREC_TYPE,
+    ATTR_WEATHER_PRECIPITATION_AMOUNT,
     # ATTR_WEATHER_WIND_SPEED_PLAIN,
     ATTR_WEATHER_DEEPSKY_TODAY_DAYNAME,
     ATTR_WEATHER_DEEPSKY_TODAY_PLAIN,
@@ -77,7 +79,9 @@ from .entity import AstroWeatherEntity
 _LOGGER = logging.getLogger(__name__)
 
 
-async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry, async_add_entities) -> None:
+async def async_setup_entry(
+    hass: HomeAssistant, entry: ConfigEntry, async_add_entities
+) -> None:
     """Set up the AstroWeather weather platform."""
     _LOGGER.info("Set up AstroWeather weather platform")
 
@@ -244,12 +248,12 @@ class AstroWeatherWeather(AstroWeatherEntity, WeatherEntity):
             return self._current.temp2m
         return None
 
-    # @property
-    # def prec_type(self) -> str:
-    #     """Return precipitation type."""
-    #     if self._current is not None:
-    #         return self._current.prec_type.capitalize()
-    #     return None
+    @property
+    def precipitation_amount(self) -> float:
+        """Return precipitation type."""
+        if self._current is not None:
+            return self._current.precipitation_amount
+        return None
 
     @property
     def deepsky_forecast_today_dayname(self) -> str:
@@ -395,7 +399,7 @@ class AstroWeatherWeather(AstroWeatherEntity, WeatherEntity):
         if self._current is not None:
             return self._current.moon_next_new_moon
         return None
-    
+
     @property
     def attribution(self) -> str:
         """Return the attribution."""
@@ -420,6 +424,7 @@ class AstroWeatherWeather(AstroWeatherEntity, WeatherEntity):
             ATTR_WEATHER_CONDITION: self.condition_percentage,
             ATTR_WEATHER_CONDITION_PLAIN: self.condition_plain,
             # ATTR_WEATHER_PREC_TYPE: self.prec_type,
+            ATTR_WEATHER_PRECIPITATION_AMOUNT: self.precipitation_amount,
             ATTR_WEATHER_WIND_SPEED: self.native_wind_speed,
             # ATTR_WEATHER_WIND_SPEED_PLAIN: self.wind_speed_plain,
             ATTR_WEATHER_WIND_BEARING: self.wind_bearing,
@@ -475,10 +480,10 @@ class AstroWeatherWeather(AstroWeatherEntity, WeatherEntity):
                     ATTR_FORECAST_LIFTED_INDEX: forecast.lifted_index,
                     ATTR_FORECAST_CONDITION: forecast.condition_percentage,
                     ATTR_FORECAST_HUMIDITY: forecast.rh2m,
+                    ATTR_FORECAST_PRECIPITATION_AMOUNT: forecast.precipitation_amount,
                     ATTR_FORECAST_WIND_SPEED: forecast.wind10m_speed,
                     ATTR_FORECAST_WIND_BEARING: forecast.wind10m_direction,
                     ATTR_FORECAST_TEMP: forecast.temp2m,
-                    # ATTR_FORECAST_PREC_TYPE: forecast.prec_type,
                 }
             )
 
