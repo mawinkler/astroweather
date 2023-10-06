@@ -42,7 +42,6 @@ from .const import (
     ATTR_FORECAST_TRANSPARENCY,
     ATTR_FORECAST_LIFTED_INDEX,
     ATTR_FORECAST_HUMIDITY,
-    # ATTR_FORECAST_PREC_TYPE,
     ATTR_FORECAST_PRECIPITATION_AMOUNT,
     ATTR_WEATHER_CLOUDCOVER,
     ATTR_WEATHER_CLOUDLESS,
@@ -51,9 +50,7 @@ from .const import (
     ATTR_WEATHER_LIFTED_INDEX,
     ATTR_WEATHER_CONDITION,
     ATTR_WEATHER_CONDITION_PLAIN,
-    # ATTR_WEATHER_PREC_TYPE,
     ATTR_WEATHER_PRECIPITATION_AMOUNT,
-    # ATTR_WEATHER_WIND_SPEED_PLAIN,
     ATTR_WEATHER_DEEPSKY_TODAY_DAYNAME,
     ATTR_WEATHER_DEEPSKY_TODAY_PLAIN,
     ATTR_WEATHER_DEEPSKY_TODAY_DESC,
@@ -316,13 +313,6 @@ class AstroWeatherWeather(AstroWeatherEntity, WeatherEntity):
             return self._current.wind10m_speed
         return None
 
-    # @property
-    # def wind_speed_plain(self) -> str:
-    #     """Return the wind speed plain."""
-    #     if self._current is not None:
-    #         return self._current.wind10m_speed_plain
-    #     return None
-
     @property
     def wind_bearing(self) -> int:
         """Return the wind bearing."""
@@ -423,10 +413,8 @@ class AstroWeatherWeather(AstroWeatherEntity, WeatherEntity):
             ATTR_WEATHER_LIFTED_INDEX: self.lifted_index,
             ATTR_WEATHER_CONDITION: self.condition_percentage,
             ATTR_WEATHER_CONDITION_PLAIN: self.condition_plain,
-            # ATTR_WEATHER_PREC_TYPE: self.prec_type,
             ATTR_WEATHER_PRECIPITATION_AMOUNT: self.precipitation_amount,
             ATTR_WEATHER_WIND_SPEED: self.native_wind_speed,
-            # ATTR_WEATHER_WIND_SPEED_PLAIN: self.wind_speed_plain,
             ATTR_WEATHER_WIND_BEARING: self.wind_bearing,
             ATTR_WEATHER_DEEPSKY_TODAY_DAYNAME: self.deepsky_forecast_today_dayname,
             ATTR_WEATHER_DEEPSKY_TODAY_PLAIN: self.deepsky_forecast_today_plain,
@@ -502,7 +490,5 @@ class AstroWeatherWeather(AstroWeatherEntity, WeatherEntity):
 
     async def async_update(self) -> None:
         """Get the latest weather data."""
-        # await self.fcst_coordinator.update()
-        # thermostat = self.data.ecobee.get_thermostat(self._index)
         self.weather = self.fcst_coordinator.data
         await self.async_update_listeners(("hourly",))

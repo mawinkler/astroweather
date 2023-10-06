@@ -1,6 +1,6 @@
 # AstroWeather<!-- omit in toc -->
 
-![GitHub release](https://img.shields.io/badge/release-v0.23.1-blue)
+![GitHub release](https://img.shields.io/badge/release-v0.30.0-blue)
 [![hacs_badge](https://img.shields.io/badge/HACS-Default-orange.svg)](https://github.com/custom-components/hacs)
 
 This is a *Custom Integration* for [Home Assistant](https://www.home-assistant.io/). It uses the forecast data from 7Timer! and Met.no to create sensor data for Home Assistant. It uses the [7Timer!-API](http://www.7timer.info/doc.php?lang=en#machine_readable_api) to pull data from 7Timer! and the [Locationforecast-API](https://api.met.no/weatherapi/locationforecast/2.0/documentation) to pull from MET Norway Weather.
@@ -29,7 +29,6 @@ Amongst other calculations, the deep sky viewing conditions are calculated out o
   - [Manual Installation](#manual-installation)
   - [Configuration](#configuration)
 - [Lovelace](#lovelace)
-- [Entities](#entities)
 
 ## How It Works
 
@@ -37,8 +36,8 @@ Amongst other calculations, the deep sky viewing conditions are calculated out o
 - During setup of the integration you're asked for some location info via a config flow.
 - AstroWeather will then create a couple of sensors, a binary sensor and a weather component to integrate with Home Assistant.
 - For Lovelace you can either build your own configuration or use the [AstroWeather Card](https://github.com/mawinkler/astroweather-card).
-- All data is updated within a configurable interval in between 30 minuts to 4 hours.
-- The data has a resolution of 10 km (6.21 miles) and is updated by the 7timer service every 4 hours.
+- All data is updated within a configurable interval in between 1 minute to 4 hours.
+- The data has a resolution of 10 km (6.21 miles) and is updated every 4 hours.
 - It is possible to use multiple instances of AstroWeather at the same time, even within different timezones.
 
 ## Usage
@@ -85,70 +84,5 @@ The interval for updating forecast data and the weightings can also be changed a
 ## Lovelace
 
 There is a custom weather card available [here](https://github.com/mawinkler/astroweather-card).
-
-## Entities
-
-The following entities are being added to Home Assistant. All have a unique ID, so you can rename them to whatever you like afterwards.
-
-***Binary Sensors:***
-
-Name | Explanation
----- | -----------
-binary_sensor.astroweather_deep_sky_view | True, if current conditions should allow deep sky observation.
-
-***Sensors:***
-
-Name | Explanation
----- | -----------
-sensor.astroweather_10m_wind_direction | Wind direction at 10m height.
-sensor.astroweather_10m_wind_speed | Wind speed in m/s
-sensor.astroweather_10m_wind_speed_plain | Wind speed in plain text
-sensor.astroweather_2m_relative_humidity | Relative humidity at 2m
-sensor.astroweather_2m_temperature | Temperature at 2m in °C
-sensor.astroweather_clouds | Cloud cover as a percentage
-sensor.astroweather_cloudless | The inverse of cloud cover
-sensor.astroweather_condition | Viewing conditions as a percentage (the higher, the better)
-sensor.astroweather_condition_plain | Viewing conditions as plain text as a percentage range
-sensor.astroweather_deepsky_forecast_today | Forecast for viewing conditions this evening as a percentage (the higher, the better)
-sensor.astroweather_deepsky_forecast_today_description | Forecast for viewing conditions this evening in plain text
-sensor.astroweather_deepsky_forecast_today_plain | Forecast for viewing conditions this evening as *Good-Excellent-Good*
-sensor.astroweather_deepsky_forecast_tomorrow | Forecast for viewing conditions tomorrow evening as a percentage (the higher, the better)
-sensor.astroweather_deepsky_forecast_tomorrow_desc | Forecast for viewing conditions tomorrow evening in plain text
-sensor.astroweather_deepsky_forecast_tomorrow_plain | Forecast for viewing conditions tomorrow evening as *Good-Excellent-Good*
-sensor.astroweather_elevation | Elevation configured for this AstroWeather instance
-sensor.astroweather_latitude | Latitude configured for this AstroWeather instance
-sensor.astroweather_longitude | Longitude configured for this AstroWeather instance
-sensor.astroweather_forecast_length | The available time period of forecast data in hours
-sensor.astroweather_lifted_index | Lifted index in degrees
-sensor.astroweather_lifted_index_plain | Lifted index in plain text
-sensor.astroweather_moon_altitude | Current Moon altitude in degrees
-sensor.astroweather_moon_azimuth | Current Moon azimuth in degrees
-sensor.astroweather_moon_next_rising | Next rising of the Moon
-sensor.astroweather_moon_next_setting | Nect setting of the Moon
-sensor.astroweather_moon_phase | Current Moon phase as a percentage
-sensor.astroweather_precipitation_type | Expected Precipitation Type in plain text (snow, rain, frzr (freezing rain), icep (ice pellets), none)
-sensor.astroweather_seeing | Seeing conditions as a percentage (the higher, the better)
-sensor.astroweather_seeing_plain | Seeing conditions in plain text in arcsec range
-sensor.astroweather_sun_altitude | Current Sun altitude in degrees
-sensor.astroweather_sun_azimuth | Current Sun azimuth in degrees
-sensor.astroweather_sun_next_rising (-6°)| Next rising of the Sun, calculated for the civil dawn
-sensor.astroweather_sun_next_rising_nautical | Next rising of the Sun, calculated for the nautical dawn (-12°)
-sensor.astroweather_sun_next_rising_astronomical | Next rising of the Sun, calculated for the astronomical dawn (-18°)
-sensor.astroweather_sun_next_setting (-6°) | Next setting of the Sun, calculated for the civil dawn
-sensor.astroweather_sun_next_setting_nautical | Next setting of the Sun, calculated for the nautical dawn (-12°)
-sensor.astroweather_sun_next_setting_astronomical | Next setting of the Sun, calculated for the astronomical dawn (-18°)
-sensor.astroweather_timestamp | Timestamp of current data
-sensor.astroweather_transparency | Atmospheric transparency as a percentage (the higher, the better)
-sensor.astroweather_transparency_plain | Atmospheric transparency in plain text in magnitudes
-sensor.astroweather_clouds_area | Cloud area fraction as a percentage from Met.no
-sensor.astroweather_clouds_area_high | High clouds area fraction as a percentage from Met.no
-sensor.astroweather_clouds_area_medium | Medium clouds area fraction as a percentage from Met.no
-sensor.astroweather_clouds_area_low | Low clouds area fraction as a percentage from Met.no
-
-***Weather:***
-
-Name | Explanation
----- | -----------
-weather.astroweather_LONGITUDE_LATITUDE | An instance of a weather object for Home Assistant
 
 It contains some of the sensor values as additional state attributes for use in the custome Lovelace card.
