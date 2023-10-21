@@ -25,6 +25,7 @@ from homeassistant.const import (
 )
 from .const import (
     DOMAIN,
+    UPTONIGHT,
 )
 from .entity import AstroWeatherEntity
 
@@ -376,6 +377,13 @@ SENSOR_TYPES = {
         None,
         None,
     ],
+    UPTONIGHT: [
+        "Uptonight",
+        None,
+        "mdi:creation-outline",
+        None,
+        None,
+    ],
 }
 
 
@@ -448,3 +456,19 @@ class AstroWeatherSensor(AstroWeatherEntity, SensorEntity):
     def state_class(self) -> str:
         """State class of sensor."""
         return SENSOR_TYPES[self._sensor][SENSOR_STATE_CLASS]
+
+    @property
+    def extra_state_attributes(self) -> {}:
+        if self._sensor == UPTONIGHT and self.coordinator.data[SENSOR_NAME].uptonight is not None:
+            dso_list = []
+            for dso in self.coordinator.data[SENSOR_NAME].uptonight_list:
+                obj = {
+                    "name": dso.target_name,
+                    "type": dso.type,
+                    "constellation": dso.constellation,
+                    "foto": dso.foto,
+                }
+                # dso_list.append(obj)
+                dso_list.insert(0, obj)
+            return {"objects": dso_list}
+        return None
