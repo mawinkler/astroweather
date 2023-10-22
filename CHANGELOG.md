@@ -1,11 +1,18 @@
+# [0.40.0](https://github.com/mawinkler/astroweather/compare/v0.31.0...v0.40.0) ()
+
+### Changes
+
+- Moon set and rise time now calculated according to Naval Observatory Risings and Settings.
+- Optional integration with [UpTonight](https://github.com/mawinkler/uptonight).
+
 # [0.31.0](https://github.com/mawinkler/astroweather/compare/v0.30.0...v0.31.0) (2023-10-12)
 
 ### Changes
 
-- Calculation of deep sky darkness
-- Calculation of astronomical night duration
-- Binary sensors for moon rising/setting or up during astronomical night
-- Updated lovelace card
+- Calculation of deep sky darkness.
+- Calculation of astronomical night duration.
+- Binary sensors for moon rising/setting or up during astronomical night.
+- Updated lovelace card.
 
 # [0.30.0](https://github.com/mawinkler/astroweather/compare/v0.23.2...v0.30.0) (2023-10-06)
 

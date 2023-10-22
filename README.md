@@ -1,8 +1,8 @@
 # AstroWeather<!-- omit in toc -->
 
-![GitHub release](https://img.shields.io/badge/release-v0.40.0-blue)
+![GitHub release](https://img.shields.io/badge/Release-v0.40.0-blue)
 [![hacs_badge](https://img.shields.io/badge/HACS-Default-orange.svg)](https://github.com/custom-components/hacs)
-![hacs installs](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Flauwbier.nl%2Fhacs%2Fastroweather)
+![hacs installs](https://img.shields.io/badge/dynamic/json?color=41BDF5&logo=home-assistant&label=Installs&cacheSeconds=15600&url=https://analytics.home-assistant.io/custom_integrations.json&query=$.astroweather.total)
 
 This is a *Custom Integration* for [Home Assistant](https://www.home-assistant.io/). It uses the forecast data from 7Timer! and Met.no to create sensor data for Home Assistant. It uses the [7Timer!-API](http://www.7timer.info/doc.php?lang=en#machine_readable_api) to pull data from 7Timer! and the [Locationforecast-API](https://api.met.no/weatherapi/locationforecast/2.0/documentation) to pull from MET Norway Weather.
 
@@ -175,11 +175,29 @@ content: |-
   </tr></table>
 ```
 
-For the plot, a picture card, here combined with the [browser_mod](https://github.com/thomasloven/hass-browser_mod)  from @thomasloven, does the trick for me:
+For the plot, a picture-entity card showing a template image does the trick for me. I'm using [browser_mod](https://github.com/thomasloven/hass-browser_mod) from @thomasloven for the tap_action to get a zoomed view.
+
+Template Image:
 
 ```yaml
-type: picture
-image: /local/uptonight-plot.png
+template:
+  - trigger:
+    - platform: time_pattern
+      # This will update every night
+      minutes: /1
+  - image:
+    - name: UpTonight
+      url: http://192.168.1.115:8123/local/uptonight-plot.png
+```
+
+Picture entity:
+
+```yaml
+type: picture-entity
+entity: image.uptonight
+camera_view: live
+show_state: false
+show_name: false
 tap_action:
   action: fire-dom-event
   browser_mod:
@@ -188,9 +206,8 @@ tap_action:
       title: UpTonight
       size: wide
       content:
-        type: picture
-        image: /local/uptonight.png
-        name: Live
+        type: picture-entity
+        entity: image.uptonight
 ```
 
 Result:
