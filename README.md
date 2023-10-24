@@ -104,8 +104,7 @@ UpTonight uses AstroPy which cannot be used asynchronously, so it needs to be se
 
 Please refer to the documentation of [UpTonight](https://github.com/mawinkler/uptonight) on how to get it running. Below is the setup I'm using:
 
-I run Home Assistant as a Container. It's `config`-directory is mapped to `/home/markus/smarthome/homeassistant`.
-Ideally run UpTonight via docker-compose.yaml
+I run Home Assistant as a Container. It's `config`-directory is mapped to `/home/markus/smarthome/homeassistant`. Ideally run UpTonight via docker-compose.yaml. Example:
 
 ```yaml
 version: "3.2"
@@ -120,9 +119,6 @@ services:
       - /home/markus/smarthome/homeassistant:/config
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
-      - /mnt/usb1:/data/usb1,ro
-      - /mnt/usb2:/data/usb2,ro
-      - /run/dbus:/run/dbus:ro
     ports:
       - 8123:8123
     restart: always
@@ -175,6 +171,8 @@ content: |-
   </tr></table>
 ```
 
+The resulting list is sorted top down according to the fraction of time obeservable during astronomical darkness.
+
 For the plot, a picture-entity card showing a template image does the trick for me. I'm using [browser_mod](https://github.com/thomasloven/hass-browser_mod) from @thomasloven for the tap_action to get a zoomed view.
 
 Template Image:
@@ -183,8 +181,8 @@ Template Image:
 template:
   - trigger:
     - platform: time_pattern
-      # This will update every night
-      minutes: /1
+      # This will update every ten minutes
+      minutes: /10
   - image:
     - name: UpTonight
       url: http://192.168.1.115:8123/local/uptonight-plot.png
