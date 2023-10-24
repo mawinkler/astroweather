@@ -4,6 +4,7 @@
 
 - Moon set and rise time now calculated according to Naval Observatory Risings and Settings.
 - Optional integration with [UpTonight](https://github.com/mawinkler/uptonight).
+- Added Slovak translation. Thanks to @misa1515.
 
 # [0.31.0](https://github.com/mawinkler/astroweather/compare/v0.30.0...v0.31.0) (2023-10-12)
 
