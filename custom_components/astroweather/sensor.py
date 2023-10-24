@@ -307,6 +307,13 @@ SENSOR_TYPES = {
         SensorDeviceClass.TIMESTAMP,
         None,
     ],
+    "moon_next_full_moon": [
+        "Moon Next Full Moon",
+        None,
+        "mdi:moon-full",
+        SensorDeviceClass.TIMESTAMP,
+        None,
+    ],
     "moon_altitude": [
         "Moon Altitude",
         DEGREE,

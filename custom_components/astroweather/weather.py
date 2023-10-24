@@ -67,6 +67,7 @@ from .const import (
     ATTR_WEATHER_MOON_NEXT_SETTING,
     ATTR_WEATHER_MOON_PHASE,
     ATTR_WEATHER_MOON_NEXT_NEW_MOON,
+    ATTR_WEATHER_MOON_NEXT_FULL_MOON,
     ATTR_WEATHER_DEEP_SKY_DARKNESS,
     CONDITION_CLASSES,
     DEFAULT_ATTRIBUTION,
@@ -390,6 +391,13 @@ class AstroWeatherWeather(AstroWeatherEntity, WeatherEntity):
         return None
 
     @property
+    def moon_next_full_moon(self) -> datetime:
+        """Return moon next full moon."""
+        if self._current is not None:
+            return self._current.moon_next_full_moon
+        return None
+
+    @property
     def deep_sky_darkness(self) -> float:
         """Return length of deep sky darkness."""
         if self._current is not None:
@@ -438,6 +446,7 @@ class AstroWeatherWeather(AstroWeatherEntity, WeatherEntity):
             ATTR_WEATHER_MOON_NEXT_SETTING: self.moon_next_setting,
             ATTR_WEATHER_MOON_PHASE: self.moon_phase,
             ATTR_WEATHER_MOON_NEXT_NEW_MOON: self.moon_next_new_moon,
+            ATTR_WEATHER_MOON_NEXT_FULL_MOON: self.moon_next_full_moon,
             ATTR_WEATHER_DEEP_SKY_DARKNESS: self.deep_sky_darkness,
         }
 
