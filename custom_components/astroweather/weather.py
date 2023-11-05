@@ -136,10 +136,10 @@ class AstroWeatherWeather(AstroWeatherEntity, WeatherEntity):
         return self._name
 
     @property
-    def timestamp(self) -> datetime:
-        """Return the current data timestamp."""
+    def forecast_time(self) -> datetime:
+        """Return the current data forecast_time."""
         if self._current is not None:
-            return self._current.timestamp
+            return self._current.forecast_time
         return None
 
     @property
@@ -414,7 +414,7 @@ class AstroWeatherWeather(AstroWeatherEntity, WeatherEntity):
         """Return the sensor state attributes."""
         return {
             **super().extra_state_attributes,
-            "timestamp": self.timestamp,
+            "forecast_time": self.forecast_time,
             ATTR_WEATHER_CLOUDCOVER: self.cloudcover_percentage,
             ATTR_WEATHER_CLOUDLESS: self.cloudless_percentage,
             ATTR_FORECAST_CLOUD_AREA_FRACTION: self.cloud_area_fraction,
@@ -469,7 +469,7 @@ class AstroWeatherWeather(AstroWeatherEntity, WeatherEntity):
         for forecast in self.fcst_coordinator.data:
             forecasts.append(
                 {
-                    ATTR_FORECAST_TIME: forecast.timestamp,
+                    ATTR_FORECAST_TIME: forecast.forecast_time,
                     ATTR_FORECAST_PRECIPITATION: None,
                     ATTR_FORECAST_PRECIPITATION_PROBABILITY: None,
                     ATTR_FORECAST_CLOUDCOVER: forecast.cloudcover_percentage,

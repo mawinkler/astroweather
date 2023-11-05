@@ -69,7 +69,7 @@ SENSOR_TYPES = {
         None,
         None,
     ],
-    "timestamp": [
+    "forecast_time": [
         "Timestamp",
         None,
         "mdi:calendar",

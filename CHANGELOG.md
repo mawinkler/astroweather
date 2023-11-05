@@ -1,11 +1,20 @@
-# [0.40.0](https://github.com/mawinkler/astroweather/compare/v0.31.0...v0.40.0) ()
+# [0.42.0](https://github.com/mawinkler/astroweather/compare/v0.31.0...v0.42.0) ()
+
+### Fixes
+
+- Fixed weired behaviour of rise and set calclations depending on the earth location.
+- Fixed the Deep Sky Darkness calculation which was a tough one.
+- Fixed errors at astronomical night and forecast visualization in the Lovelace card.
+
+I spent hours on testing all the calculations for multiple geographic locations (Anchorage, Sydney, London and my location (nearby Munich)). All show a deviation of less than a couple of seconds compared to United States Naval Observatory. Please report any issues.
 
 ### Changes
 
 - Moon set and rise time now calculated according to Naval Observatory Risings and Settings.
 - Optional integration with [UpTonight](https://github.com/mawinkler/uptonight).
 - Added Slovak translation. Thanks to @misa1515.
-- New sensor on request: Next full Moon
+- New sensor on request: Next full Moon.
+- New binary sensor for moon down during astronomical night.
 
 # [0.31.0](https://github.com/mawinkler/astroweather/compare/v0.30.0...v0.31.0) (2023-10-12)
 
