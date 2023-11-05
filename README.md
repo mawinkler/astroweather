@@ -1,6 +1,6 @@
 # AstroWeather<!-- omit in toc -->
 
-![GitHub release](https://img.shields.io/badge/Release-v0.40.0-blue)
+![GitHub release](https://img.shields.io/badge/Release-v0.42.0-blue)
 [![hacs_badge](https://img.shields.io/badge/HACS-Default-orange.svg)](https://github.com/custom-components/hacs)
 ![hacs installs](https://img.shields.io/badge/dynamic/json?color=41BDF5&logo=home-assistant&label=Installs&cacheSeconds=15600&url=https://analytics.home-assistant.io/custom_integrations.json&query=$.astroweather.total)
 
