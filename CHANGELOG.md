@@ -15,6 +15,7 @@ I spent hours on testing all the calculations for multiple geographic locations 
 - Added Slovak translation. Thanks to @misa1515.
 - New sensor on request: Next full Moon.
 - New binary sensor for moon down during astronomical night.
+- Card now displays local time for remote locations.
 
 # [0.31.0](https://github.com/mawinkler/astroweather/compare/v0.30.0...v0.31.0) (2023-10-12)
 

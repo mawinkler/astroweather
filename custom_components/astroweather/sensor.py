@@ -69,6 +69,13 @@ SENSOR_TYPES = {
         None,
         None,
     ],
+    "time_shift": [
+        "Time Shift",
+        None,
+        "mdi:map-clock-outline",
+        None,
+        None,
+    ],
     "forecast_time": [
         "Timestamp",
         None,

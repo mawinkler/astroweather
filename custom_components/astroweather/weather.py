@@ -43,6 +43,7 @@ from .const import (
     ATTR_FORECAST_LIFTED_INDEX,
     ATTR_FORECAST_HUMIDITY,
     ATTR_FORECAST_PRECIPITATION_AMOUNT,
+    ATTR_WEATHER_TIME_SHIFT,
     ATTR_WEATHER_CLOUDCOVER,
     ATTR_WEATHER_CLOUDLESS,
     ATTR_WEATHER_SEEING,
@@ -142,6 +143,13 @@ class AstroWeatherWeather(AstroWeatherEntity, WeatherEntity):
             return self._current.forecast_time
         return None
 
+    @property
+    def time_shift(self) -> int:
+        """Return the humidity."""
+        if self._current is not None:
+            return self._current.time_shift
+        return None
+    
     @property
     def cloudcover_percentage(self) -> int:
         """Return current cloud coverage."""
@@ -415,6 +423,7 @@ class AstroWeatherWeather(AstroWeatherEntity, WeatherEntity):
         return {
             **super().extra_state_attributes,
             "forecast_time": self.forecast_time,
+            ATTR_WEATHER_TIME_SHIFT: self.time_shift,
             ATTR_WEATHER_CLOUDCOVER: self.cloudcover_percentage,
             ATTR_WEATHER_CLOUDLESS: self.cloudless_percentage,
             ATTR_FORECAST_CLOUD_AREA_FRACTION: self.cloud_area_fraction,
