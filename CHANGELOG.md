@@ -1,3 +1,9 @@
+# [0.42.1](https://github.com/mawinkler/astroweather/compare/v0.42.0...v0.42.1) (2023-11-12)
+
+### Fixes
+
+- Fixed daily Deep Sky Forceast.
+ 
 # [0.42.0](https://github.com/mawinkler/astroweather/compare/v0.31.0...v0.42.0) (2023-11-10)
 
 ### Fixes
