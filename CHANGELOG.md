@@ -1,3 +1,9 @@
+# [0.42.2](https://github.com/mawinkler/astroweather/compare/v0.42.1...v0.42.2) (2024-01-10)
+
+### Fixes
+
+- Fixed deprication warning "TEMP_CELSIUS". Thanks @ChristophCaina
+
 # [0.42.1](https://github.com/mawinkler/astroweather/compare/v0.42.0...v0.42.1) (2023-11-12)
 
 ### Fixes
