@@ -1,3 +1,13 @@
+# [0.42.3](https://github.com/mawinkler/astroweather/compare/v0.42.2...v0.42.3) (2024-02-09)
+
+### Fixes
+
+- [Issue 51](https://github.com/mawinkler/astroweather/issues/51): Added missing User-Agent header in [pyastroweatherio](https://github.com/mawinkler/pyastroweatherio).
+
+### Changes
+
+- Bumped versions of `aiohttp`, and `pytz` in [pyastroweatherio](https://github.com/mawinkler/pyastroweatherio).
+
 # [0.42.2](https://github.com/mawinkler/astroweather/compare/v0.42.1...v0.42.2) (2024-01-10)
 
 ### Fixes
