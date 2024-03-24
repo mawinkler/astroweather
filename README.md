@@ -173,6 +173,30 @@ content: |-
 
 The resulting list is sorted top down according to the fraction of time obeservable during astronomical darkness.
 
+A more advanced variant showing only top 10 targets and including [AstroBin](https://www.astrobin.com/) search links:
+
+```yaml
+type: markdown
+content: |-
+  <h2>
+    <ha-icon icon='mdi:creation-outline'></ha-icon>
+    UpTonight
+  </h2>
+  <hr>
+
+  {%- for item in state_attr("sensor.astroweather_uptonight", "objects") %}
+  <table><tr>
+    {%- if loop.index <= 10  %}
+      {%- set astrobin = item.name | 
+          regex_replace('^.*\((.*)\,.*$', '\\1') |
+          regex_replace('\s', '+')  %}
+      - <a href="https://astrobin.com/search/?q={{ astrobin }}">{{ item.name }}</a>,
+        {{ item.type }} in {{ item.constellation }}
+    {% endif %}
+  {% endfor %}
+  </tr></table>
+```
+
 For the plot, a picture-entity card showing a template image does the trick for me. I'm using [browser_mod](https://github.com/thomasloven/hass-browser_mod) from @thomasloven for the tap_action to get a zoomed view.
 
 Template Image:
