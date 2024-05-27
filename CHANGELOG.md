@@ -4,7 +4,7 @@ This is a massive release, at least under the hood. The pyastroweatherio library
 
 ### Fixes
 
-- AstroWeather-Card now uses new Forecast service instead of weather entity attributes. Fixes [Issue 50](https://github.com/mawinkler/astroweather/issues/50).
+- AstroWeather-Card now uses new Forecast service instead of weather entity attributes. Fixes [Issue 34](https://github.com/mawinkler/astroweather/issues/34) and [Issue 50](https://github.com/mawinkler/astroweather/issues/50).
 - Removed the dependency to `pytz` in `AstroWeather` and `pyastroweatherio` which introduced a blocking call.
 
 ### Breaking Changes
