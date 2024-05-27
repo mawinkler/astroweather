@@ -1,3 +1,35 @@
+# [0.50.0](https://github.com/mawinkler/astroweather/compare/v0.42.3...v0.50.0) (2024-05-27)
+
+This is a massive release, at least under the hood. The pyastroweatherio library is more or less completely redeigned and much more resilient. It now offers an experimental mode which estimates atmospheric conditions like the lifted index. 
+
+### Fixes
+
+- AstroWeather-Card now uses new Forecast service instead of weather entity attributes. Fixes [Issue 50](https://github.com/mawinkler/astroweather/issues/50).
+- Removed the dependency to `pytz` in `AstroWeather` and `pyastroweatherio` which introduced a blocking call.
+
+### Breaking Changes
+
+- Removed the sensor `seeing_plain`. This is now replaced by the sensor `seeing` giving you the calculated seeing in arcsecs.
+- Removed the sensor `cloudcover_plain`. Use the sensor `cloud_cover` instead.
+- Setting a name for the AstroWeather instance (see below) required to rearchitecture the entity IDs and the unique IDs. All entities of of an already existing instance will be migrated, but not the location name you defined within the AstroWeather-Card. The location name can now only be set during instance creation. If you want proper entity names, you need to delete existing instances and readd them after updating to the version 0.50 and above.
+
+### Changes
+
+- AstroWeather now got an experimental mode which you can activate in the integration configuration. When using this, AstroWeather is now approximately calculating the seeing, transparency, and the lifted index based on Met.no delivered data. These calculations are a challenge and still at an early stage. They need to be validated, especially for different locations. Please report back how well it works for you.
+- The integration should now be much more resilient. Fixes [Issue 55](https://github.com/mawinkler/astroweather/issues/55) and [Issue 56](https://github.com/mawinkler/astroweather/issues/56).
+- News on AstroWeathers condition calculation:
+  - Calmness as an additional factor is now included. So the less wind the better gets the condition. Weighting can be adjusted same as seeing, transparency and the clouds.
+  - You can now weaken the influence of high, medium, and low clouds. By default, all levels are equally weighted, but high clouds can be less impairing for deep sky astronomy than medium or low clouds. Depending on your typical weather, it can make sense to weaken high clouds for the calculation. Experiemt with that.
+- About the AstroWeather Card:
+  - Some labels on the [AstroWeather Card](https://github.com/mawinkler/astroweather-card) are shortened to avoid line breaks.
+  - The card can now graph calmness and lifted index.
+- Weather services used by AstroWeather:
+  - Met.no now became the leading forecast service instead of 7Timer. This happened because 7Timer has repeatedly provided unreliable data or was inaccessible in the recent past.
+  - In case 7Timer is not available, AstroWeather automatically falls to experimental mode.
+- Replace deprecated HomeAssistantType with HomeAssistant fixes [Issue 57](https://github.com/mawinkler/astroweather/issues/57).
+- You can now name the AstroWeather instances when adding them to Home Assistant. Solves [Issue 53](https://github.com/mawinkler/astroweather/issues/53).
+- Completely redesigned configuration and options workflow.
+
 # [0.42.3](https://github.com/mawinkler/astroweather/compare/v0.42.2...v0.42.3) (2024-02-09)
 
 ### Fixes

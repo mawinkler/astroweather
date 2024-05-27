@@ -1,6 +1,6 @@
 # AstroWeather<!-- omit in toc -->
 
-![GitHub release](https://img.shields.io/badge/Release-v0.42.3-blue)
+![GitHub release](https://img.shields.io/badge/Release-v0.50.0-blue)
 [![hacs_badge](https://img.shields.io/badge/HACS-Default-orange.svg)](https://github.com/custom-components/hacs)
 ![hacs installs](https://img.shields.io/badge/dynamic/json?color=41BDF5&logo=home-assistant&label=Installs&cacheSeconds=15600&url=https://analytics.home-assistant.io/custom_integrations.json&query=$.astroweather.total)
 
@@ -83,8 +83,9 @@ During installation you will have the option to:
 - set the elevation
 - set the timezone
 - set the interval for updating forecast data
-- set the weightings for cloud coverage, seeing, and transparency for the condition calculation
+- set the weightings for cloud coverage, seeing, transparency, and calmness for the condition calculation
 - (optional) set the path pointing to your `/conf/www`-directory. Required only for UpTonight (see below)
+- (optional) enable or disable experimental features. When enabled, AstroWeather will calculate the astronomical seeing, transparency and lifted index on the available data of Met.no and does not use 7Timer.
 
 The interval for updating forecast data and the weightings can also be changed after you add the Integration, by using the *Options* link on the Integration widget.
 
@@ -188,7 +189,7 @@ content: |-
   <table><tr>
     {%- if loop.index <= 10  %}
       {%- set astrobin = item.name | 
-          regex_replace('^.*\((.*)\,.*$', '\\1') |
+          regex_replace('^.*\((.*)\,.*\,.*$', '\\1') |
           regex_replace('\s', '+')  %}
       - <a href="https://astrobin.com/search/?q={{ astrobin }}">{{ item.name }}</a>,
         {{ item.type }} in {{ item.constellation }}
