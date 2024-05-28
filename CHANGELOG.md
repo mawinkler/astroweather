@@ -1,3 +1,11 @@
+# [0.50.1](https://github.com/mawinkler/astroweather/compare/v0.50.0...v0.50.1) (2024-05-28)
+
+See full changelog for version 0.50.0 below.
+
+### Fixes
+
+- Minor fix in `pyastroweatherio` at seeing calculation.
+
 # [0.50.0](https://github.com/mawinkler/astroweather/compare/v0.42.3...v0.50.0) (2024-05-27)
 
 This is a massive release, at least under the hood. The pyastroweatherio library is more or less completely redeigned and much more resilient. It now offers an experimental mode which estimates atmospheric conditions like the lifted index. 
