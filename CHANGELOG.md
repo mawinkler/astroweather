@@ -1,3 +1,19 @@
+# [0.50.2](https://github.com/mawinkler/astroweather/compare/v0.50.1...v0.50.2) (2024-06-84)
+
+A lot of changes, fixes and improvements in the AstroWeather-Card are done.
+
+### Changes
+
+- The card can now display the precipitation forecast graphically. When activated you will get a scale on the right with up to 10mm of rainfall per hour.
+- The lifted index got a dedicated scale on the right as well.
+- The duration of astronomical darkness and deep sky darkness of the following night are now shown.
+- The tabular forecast is now filtered by the enabled subcharts.
+
+### Fixes
+
+- The icons for precipitation are now changing depending on rainfall per hour.
+- Lots of fixes in the CSS section of the card.
+
 # [0.50.1](https://github.com/mawinkler/astroweather/compare/v0.50.0...v0.50.1) (2024-05-28)
 
 See full changelog for version 0.50.0 below.
