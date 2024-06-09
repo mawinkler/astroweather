@@ -1,3 +1,10 @@
+# [0.50.4](https://github.com/mawinkler/astroweather/compare/v0.50.2...v0.50.4) (2024-06-89)
+
+### Changes
+
+- About the AstroWeather Card [v0.52.4](https://github.com/mawinkler/astroweather-card):
+  - Precipitation amount for the next 6 hours are now shown in the condition description, if there is precipitation.
+
 # [0.50.2](https://github.com/mawinkler/astroweather/compare/v0.50.1...v0.50.2) (2024-06-85)
 
 A lot of changes, fixes and improvements in the AstroWeather-Card are done.
