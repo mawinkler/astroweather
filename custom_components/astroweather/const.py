@@ -1,11 +1,16 @@
 """Constants in AstroWeather component."""
+from homeassistant.const import Platform
 
 # #####################################################
 # Domain and platforms
 # #####################################################
 DOMAIN = "astroweather"
 
-ASTROWEATHER_PLATFORMS = ["binary_sensor", "sensor", "weather"]
+ASTROWEATHER_PLATFORMS = (
+    Platform.BINARY_SENSOR,
+    Platform.SENSOR,
+    Platform.WEATHER,
+)
 DEVICE_TYPE_WEATHER = "weather"
 UPTONIGHT = "uptonight"
 
