@@ -1,6 +1,6 @@
 # AstroWeather<!-- omit in toc -->
 
-![GitHub release](https://img.shields.io/badge/Release-v0.50.4-blue)
+![GitHub release](https://img.shields.io/badge/Release-v0.60.0-blue)
 [![hacs_badge](https://img.shields.io/badge/HACS-Default-orange.svg)](https://github.com/custom-components/hacs)
 ![hacs installs](https://img.shields.io/badge/dynamic/json?color=41BDF5&logo=home-assistant&label=Installs&cacheSeconds=15600&url=https://analytics.home-assistant.io/custom_integrations.json&query=$.astroweather.total)
 
@@ -24,7 +24,7 @@ Amongst other calculations, the deep sky viewing conditions are calculated out o
 > 
 > [AstroLive](https://github.com/mawinkler/astrolive) - Monitor your observatory from within Home Assistant.
 >
-> [UpTonight](https://github.com/mawinkler/uptonight) - Calculate the best astro photography targets for the night at a given location.
+> [UpTonight](https://github.com/mawinkler/uptonight) - Calculate the best astro photography targets (deep sky objects and planets) for the night at a given location.
 
 ## Table of Content<!-- omit in toc -->
 
@@ -150,7 +150,8 @@ To update the targets on a daily basis I run UpTonight every lunch time via cron
 
 For Home Assistant two files are relevant:
 
-- `uptonight-report.json` - The calculated targets.
+- `uptonight-report.json` - The calculated deep sky objects.
+- `uptonight-bodies-report.json` - The calculated solar system bodies (planets).
 - `uptonight-plot.png` - A plot of the astronomical night.
 
 To embed the list of targets into my Lovelace I use the markdown card:
@@ -160,30 +161,51 @@ type: markdown
 content: |-
   <h2>
     <ha-icon icon='mdi:creation-outline'></ha-icon>
-    UpTonight
+    UpTonight DSO 1-20
   </h2>
   <hr>
 
-  {% if states('sensor.astroweather_backyard_uptonight')|is_number %}
+  {%- if states('sensor.astroweather_backyard_uptonight')|is_number %}
     {%- for item in state_attr("sensor.astroweather_backyard_uptonight", "objects") %}
-    <table><tr>
-        {%- if loop.index <= 20 %}
-        {%- set astrobin = item.name | 
-            regex_replace('^.*\((.*)\,.*\,.*$', '\\1') |
-            regex_replace('\s', '+')  %}
-        {{ loop.index }}. <a href="https://astrobin.com/search/?q={{ astrobin }}">{{ item.name }}</a>,
-          {{ item.type }} in {{ item.constellation }}
-      {% endif %}
-    {% endfor %}
-  {% else %}
+      {%- if loop.index <= 20 %}
+        <table><tr>
+        {%- set astrobin = item.name | regex_replace('^.*\((.*)\,.*\,.*$', '\\1') | regex_replace('\s', '+')  %}
+        {{ loop.index }}. <a href="https://astrobin.com/search/?q={{ astrobin }}">{{ item.name }}</a>, {{ item.type }} in {{ item.constellation }}
+      {%- endif %}
+    {%- endfor %}
+  {%- else %}
     Waiting for AstroWeather
-  {% endif %}
+  {%- endif %}
   </tr></table>
 ```
 
 The resulting list is sorted top down according to the fraction of time obeservable during astronomical darkness. It shows only the top 20 targets including [AstroBin](https://www.astrobin.com/) search links.
 
 ![alt text](images/lovelace-uptonight-02.png "Uptonight")
+
+If you're interested in our solar system bodies you can list them similarily:
+
+```yaml
+type: markdown
+content: |-
+  <h2>
+    <ha-icon icon='mdi:creation-outline'></ha-icon>
+    UpTonight Bodies
+  </h2>
+  <hr>
+
+  {%- if states('sensor.astroweather_backyard_uptonight')|is_number %}
+    {%- for item in state_attr("sensor.astroweather_backyard_uptonight", "bodies") %}
+      {%- if loop.index <= 20 %}
+        <table><tr>
+        {{ loop.index }}. {{ item.name }}, Altitude: {{ item.max_altitude | round}}°, Azimuth {{ item.azimuth | round }}° at {{ item.max_altitude_time | as_local | as_timestamp | timestamp_custom('%H:%M') }}
+      {%- endif %}
+    {%- endfor %}
+  {%- else %}
+    Waiting for AstroWeather
+  {%- endif %}
+  </tr></table>
+```
 
 For the plot, a picture-entity card showing a template image does the trick for me. I'm using [browser_mod](https://github.com/thomasloven/hass-browser_mod) from @thomasloven for the tap_action to get a zoomed view.
 

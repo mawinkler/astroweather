@@ -1,3 +1,13 @@
+# [0.60.0](https://github.com/mawinkler/astroweather/compare/v0.50.4...v0.60.0) (2024-09-13)
+
+### Changes
+
+- AstroWeather can now analyse the UpTonight report on solar system bodies (planets). This makes it possible to know which planets will be in the sky tonight, when they will be at their maximum elevation and in which direction they can be observed.
+
+### Fixes
+
+- Return ISO format datetime from get_forecasts service. Fixes [Issue 60](https://github.com/mawinkler/astroweather/issues/60).
+
 # [0.50.4](https://github.com/mawinkler/astroweather/compare/v0.50.2...v0.50.4) (2024-07-07)
 
 ### Changes
