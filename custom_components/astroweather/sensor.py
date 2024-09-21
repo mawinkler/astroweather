@@ -497,9 +497,7 @@ class AstroWeatherSensor(AstroWeatherEntity, SensorEntity):
     def extra_state_attributes(self) -> {}:
         """Extra state attributes for UpTonight."""
 
-        if (
-            self._sensor == UPTONIGHT
-        ):
+        if self._sensor == UPTONIGHT:
             dso_list = []
             if self.coordinator.data[SENSOR_NAME].uptonight is not None:
                 for dso in self.coordinator.data[SENSOR_NAME].uptonight_list:
@@ -523,7 +521,21 @@ class AstroWeatherSensor(AstroWeatherEntity, SensorEntity):
                     }
                     bodies_list.append(obj)
 
-            return {"objects": dso_list,
-                    "bodies": bodies_list}
+            comets_list = []
+            if self.coordinator.data[SENSOR_NAME].uptonight_comets is not None:
+                for comet in self.coordinator.data[SENSOR_NAME].uptonight_comets_list:
+                    obj = {
+                        "designation": comet.designation,
+                        "distance_au_earth": comet.distance_au_earth,
+                        "distance_au_sun": comet.distance_au_sun,
+                        "visual_magnitude": comet.visual_magnitude,
+                        "altitude": comet.altitude,
+                        "azimuth": comet.azimuth,
+                        "rise_time": comet.rise_time,
+                        "set_time": comet.set_time,
+                    }
+                    comets_list.append(obj)
+
+            return {"objects": dso_list, "bodies": bodies_list, "comets": comets_list}
 
         return None

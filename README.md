@@ -24,7 +24,7 @@ Amongst other calculations, the deep sky viewing conditions are calculated out o
 > 
 > [AstroLive](https://github.com/mawinkler/astrolive) - Monitor your observatory from within Home Assistant.
 >
-> [UpTonight](https://github.com/mawinkler/uptonight) - Calculate the best astro photography targets (deep sky objects and planets) for the night at a given location.
+> [UpTonight](https://github.com/mawinkler/uptonight) - Calculate the best astro photography targets (deep sky objects, planets, and comets) for the night at a given location.
 
 ## Table of Content<!-- omit in toc -->
 
@@ -205,6 +205,28 @@ content: |-
     Waiting for AstroWeather
   {%- endif %}
   </tr></table>
+```
+
+Are you looking for comets?:
+
+```yaml
+<h2>
+  <ha-icon icon='mdi:creation-outline'></ha-icon>
+  UpTonight Comets
+</h2>
+<hr>
+
+{%- if states('sensor.astroweather_backyard_uptonight')|is_number %}
+  {%- for item in state_attr("sensor.astroweather_backyard_uptonight", "comets") %}
+    {%- if loop.index <= 20 %}
+      <table><tr>
+      {{ loop.index }}. {{ item.designation }}, Mag: {{ item.visual_magnitude | round(1) }}, Rise time: {{ item.rise_time | as_local | as_timestamp | timestamp_custom('%H:%M') }}, Distance: {{ item.distance_au_earth | round(2) }}au
+    {%- endif %}
+  {%- endfor %}
+{%- else %}
+  Waiting for AstroWeather
+{%- endif %}
+</tr></table>
 ```
 
 For the plot, a picture-entity card showing a template image does the trick for me. I'm using [browser_mod](https://github.com/thomasloven/hass-browser_mod) from @thomasloven for the tap_action to get a zoomed view.
