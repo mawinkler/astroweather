@@ -505,6 +505,9 @@ class AstroWeatherSensor(AstroWeatherEntity, SensorEntity):
                         "name": dso.target_name,
                         "type": dso.type,
                         "constellation": dso.constellation,
+                        "visual_magnitude": dso.visual_magnitude,
+                        "meridian_transit": dso.meridian_transit,
+                        "meridian_antitransit": dso.meridian_antitransit,
                         "foto": dso.foto,
                     }
                     dso_list.append(obj)
@@ -517,6 +520,8 @@ class AstroWeatherSensor(AstroWeatherEntity, SensorEntity):
                         "max_altitude": body.max_altitude,
                         "azimuth": body.azimuth,
                         "max_altitude_time": body.max_altitude_time,
+                        "visual_magnitude": body.visual_magnitude,
+                        "meridian_transit": body.meridian_transit,
                         "foto": body.foto,
                     }
                     bodies_list.append(obj)
