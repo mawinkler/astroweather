@@ -98,8 +98,9 @@ It contains some of the sensor values as additional state attributes for use in 
 ## UpTonight (optional)
 
 [![astropy](https://img.shields.io/badge/powered%20by-AstroPy-orange.svg?style=flat)](http://www.astropy.org/)
+[![skyfield](https://img.shields.io/badge/powered%20by-Skyfield-orange.svg?style=flat)](https://rhodesmill.org/skyfield/)
 
-Ever wanted to know tonights best possible targets? Astroweather in combination with [UpTonight](https://github.com/mawinkler/uptonight) is here to help. UpTonight calculates the best astro photography targets for the night at a given location. The default built in target list is a merge of Gary Imm's [My Top 100 Astrophotography Targets](https://www.astrobin.com/uc8p37/) and the top 200 taken from his incredible [Deep Sky Compendium](http://www.garyimm.com/compendium). Additional built-in target lists are the Messier objects and Herschel400.
+Ever wanted to know tonights best possible targets? Astroweather in combination with [UpTonight](https://github.com/mawinkler/uptonight) is here to help. UpTonight calculates the best astro photography targets for the night at a given location. The default built in deep sky object list is a merge of Gary Imm's [My Top 100 Astrophotography Targets](https://www.astrobin.com/uc8p37/) and the top 200 taken from his incredible [Deep Sky Compendium](http://www.garyimm.com/compendium). In addition, UpTonight calculates the observability of the solar system bodies. Finally, it can calculate the brightest visible comets based on the [Minor Planet Center](https://www.minorplanetcenter.net/data) database.
 
 UpTonight uses AstroPy which cannot be used asynchronously, so it needs to be separated from Home Assisntant.
 
@@ -152,6 +153,7 @@ For Home Assistant two files are relevant:
 
 - `uptonight-report.json` - The calculated deep sky objects.
 - `uptonight-bodies-report.json` - The calculated solar system bodies (planets).
+- `uptonight-comets-report.json` - The calculated comets.
 - `uptonight-plot.png` - A plot of the astronomical night.
 
 To embed the list of targets into my Lovelace I use the markdown card:
