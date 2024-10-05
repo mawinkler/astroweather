@@ -156,7 +156,7 @@ For Home Assistant two files are relevant:
 - `uptonight-comets-report.json` - The calculated comets.
 - `uptonight-plot.png` - A plot of the astronomical night.
 
-To embed the list of targets into my Lovelace I use the markdown card:
+To embed the list of targets into my Lovelace I use the markdown card. In the below example Astrobin search links and links to the altitude vs. time diagrams are embedded.
 
 ```yaml
 type: markdown
@@ -169,16 +169,26 @@ content: |-
 
   {%- if states('sensor.astroweather_backyard_uptonight')|is_number %}
     {%- for item in state_attr("sensor.astroweather_backyard_uptonight", "objects") %}
-      {%- if loop.index <= 20 %}
-        <table><tr>
-        {%- set astrobin = item.name | regex_replace('^.*\((.*)\,.*\,.*$', '\\1') | regex_replace('\s', '+')  %}
-        {{ loop.index }}. <a href="https://astrobin.com/search/?q={{ astrobin }}">{{ item.name }}</a>, {{ item.type }} in {{ item.constellation }}
+      {%- if loop.index <= 40 %}
+        {%- if item.foto == 1 %}
+          <table><tr>
+          {%- set astrobin = item.id | regex_replace('\s', '+')  %}
+          {%- set alttime = item.id | regex_replace('\s', '-') | lower %}
+          <a href="https://astrobin.com/search/?q={{ astrobin }}">{{ item.name }}</a><br>{{ item.type }} in {{ item.constellation }},
+          <a href="http://homeassistant.local:8123/local/uptonight-alttime-{{ alttime }}.png" target="_blank" rel="noopener noreferrer">Graph</a>
+        {%- endif %}
       {%- endif %}
     {%- endfor %}
   {%- else %}
     Waiting for AstroWeather
   {%- endif %}
   </tr></table>
+
+<h2>
+  <ha-icon icon='mdi:creation-outline'></ha-icon>
+  UpTonight DSO
+</h2>
+<hr>
 ```
 
 The resulting list is sorted top down according to the fraction of time obeservable during astronomical darkness. It shows only the top 20 targets including [AstroBin](https://www.astrobin.com/) search links.
@@ -200,7 +210,8 @@ content: |-
     {%- for item in state_attr("sensor.astroweather_backyard_uptonight", "bodies") %}
       {%- if loop.index <= 20 %}
         <table><tr>
-        {{ loop.index }}. {{ item.name }}, Altitude: {{ item.max_altitude | round}}°, Azimuth {{ item.azimuth | round }}° at {{ item.max_altitude_time | as_local | as_timestamp | timestamp_custom('%H:%M') }}
+        {{ loop.index }}. {{ item.name }}, Alt: {{ item.max_altitude | round}}°, Az: {{ item.azimuth | round }}° at {{ item.max_altitude_time | as_local | as_timestamp | timestamp_custom('%H:%M') }}, Mag: {{ item.visual_magnitude | round(1) }},
+        <a href="http://homeassistant.local/local/uptonight-alttime-{{ item.name | lower }}.png" target="_blank" rel="noopener noreferrer">Graph</a>
       {%- endif %}
     {%- endfor %}
   {%- else %}
@@ -212,23 +223,26 @@ content: |-
 Are you looking for comets?:
 
 ```yaml
-<h2>
-  <ha-icon icon='mdi:creation-outline'></ha-icon>
-  UpTonight Comets
-</h2>
-<hr>
+type: markdown
+content: |-
+  <h2>
+    <ha-icon icon='mdi:creation-outline'></ha-icon>
+    UpTonight Comets
+  </h2>
+  <hr>
 
-{%- if states('sensor.astroweather_backyard_uptonight')|is_number %}
-  {%- for item in state_attr("sensor.astroweather_backyard_uptonight", "comets") %}
-    {%- if loop.index <= 20 %}
-      <table><tr>
-      {{ loop.index }}. {{ item.designation }}, Mag: {{ item.visual_magnitude | round(1) }}, Rise time: {{ item.rise_time | as_local | as_timestamp | timestamp_custom('%H:%M') }}, Distance: {{ item.distance_au_earth | round(2) }}au
-    {%- endif %}
-  {%- endfor %}
-{%- else %}
-  Waiting for AstroWeather
-{%- endif %}
-</tr></table>
+  {%- if states('sensor.astroweather_backyard_uptonight')|is_number %}
+    {%- for item in state_attr("sensor.astroweather_backyard_uptonight", "comets") %}
+      {%- if loop.index <= 20 %}
+        <table><tr>
+        {{ loop.index }}. {{ item.designation }}, Mag: {{ item.visual_magnitude | round(1) }}, Rise time: {{ item.rise_time | as_local | as_timestamp | timestamp_custom('%H:%M') }}, Distance: {{ item.distance_au_earth | round(2) }}au,
+        <a href="http://homeassistant.local/local/uptonight-alttime-{{ item.designation | lower | replace('/', '-') }}.png" target="_blank" rel="noopener noreferrer">Graph</a>
+      {%- endif %}
+    {%- endfor %}
+  {%- else %}
+    Waiting for AstroWeather
+  {%- endif %}
+  </tr></table>
 ```
 
 For the plot, a picture-entity card showing a template image does the trick for me. I'm using [browser_mod](https://github.com/thomasloven/hass-browser_mod) from @thomasloven for the tap_action to get a zoomed view.

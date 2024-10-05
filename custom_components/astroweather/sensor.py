@@ -502,6 +502,7 @@ class AstroWeatherSensor(AstroWeatherEntity, SensorEntity):
             if self.coordinator.data[SENSOR_NAME].uptonight is not None:
                 for dso in self.coordinator.data[SENSOR_NAME].uptonight_list:
                     obj = {
+                        "id": dso.id,
                         "name": dso.target_name,
                         "type": dso.type,
                         "constellation": dso.constellation,
