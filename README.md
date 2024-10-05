@@ -163,13 +163,13 @@ type: markdown
 content: |-
   <h2>
     <ha-icon icon='mdi:creation-outline'></ha-icon>
-    UpTonight DSO 1-20
+    UpTonight DSO
   </h2>
   <hr>
 
   {%- if states('sensor.astroweather_backyard_uptonight')|is_number %}
     {%- for item in state_attr("sensor.astroweather_backyard_uptonight", "objects") %}
-      {%- if loop.index <= 40 %}
+      {%- if loop.index <= 20 %}
         {%- if item.foto == 1 %}
           <table><tr>
           {%- set astrobin = item.id | regex_replace('\s', '+')  %}
@@ -193,8 +193,6 @@ content: |-
 
 The resulting list is sorted top down according to the fraction of time obeservable during astronomical darkness. It shows only the top 20 targets including [AstroBin](https://www.astrobin.com/) search links.
 
-![alt text](images/lovelace-uptonight-02.png "Uptonight")
-
 If you're interested in our solar system bodies you can list them similarily:
 
 ```yaml
@@ -208,11 +206,9 @@ content: |-
 
   {%- if states('sensor.astroweather_backyard_uptonight')|is_number %}
     {%- for item in state_attr("sensor.astroweather_backyard_uptonight", "bodies") %}
-      {%- if loop.index <= 20 %}
-        <table><tr>
-        {{ loop.index }}. {{ item.name }}, Alt: {{ item.max_altitude | round}}°, Az: {{ item.azimuth | round }}° at {{ item.max_altitude_time | as_local | as_timestamp | timestamp_custom('%H:%M') }}, Mag: {{ item.visual_magnitude | round(1) }},
-        <a href="http://homeassistant.local/local/uptonight-alttime-{{ item.name | lower }}.png" target="_blank" rel="noopener noreferrer">Graph</a>
-      {%- endif %}
+      <table><tr>
+      {{ loop.index }}. {{ item.name }}, Alt: {{ item.max_altitude | round}}°, Az: {{ item.azimuth | round }}° at {{ item.max_altitude_time | as_local | as_timestamp | timestamp_custom('%H:%M') }}, Mag: {{ item.visual_magnitude | round(1) }},
+      <a href="http://homeassistant.local/local/uptonight-alttime-{{ item.name | lower }}.png" target="_blank" rel="noopener noreferrer">Graph</a>
     {%- endfor %}
   {%- else %}
     Waiting for AstroWeather
@@ -233,11 +229,9 @@ content: |-
 
   {%- if states('sensor.astroweather_backyard_uptonight')|is_number %}
     {%- for item in state_attr("sensor.astroweather_backyard_uptonight", "comets") %}
-      {%- if loop.index <= 20 %}
-        <table><tr>
-        {{ loop.index }}. {{ item.designation }}, Mag: {{ item.visual_magnitude | round(1) }}, Rise time: {{ item.rise_time | as_local | as_timestamp | timestamp_custom('%H:%M') }}, Distance: {{ item.distance_au_earth | round(2) }}au,
-        <a href="http://homeassistant.local/local/uptonight-alttime-{{ item.designation | lower | replace('/', '-') }}.png" target="_blank" rel="noopener noreferrer">Graph</a>
-      {%- endif %}
+      <table><tr>
+      {{ loop.index }}. {{ item.designation }}, Mag: {{ item.visual_magnitude | round(1) }}, Rise time: {{ item.rise_time | as_local | as_timestamp | timestamp_custom('%H:%M') }}, Distance: {{ item.distance_au_earth | round(2) }}au,
+      <a href="http://homeassistant.local/local/uptonight-alttime-{{ item.designation | lower | replace('/', '-') }}.png" target="_blank" rel="noopener noreferrer">Graph</a>
     {%- endfor %}
   {%- else %}
     Waiting for AstroWeather
