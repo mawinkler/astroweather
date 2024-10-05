@@ -5,10 +5,6 @@
 - AstroWeather can now analyse the UpTonight report on comets. This makes it possible to know which comets will be in the sky tonight, their distance to the Sun and Earth and their current visual magnitude.
 - One more thing with UpTonight: Check the altitude vs. time diagrams for all observable objects, bodies, and comets from the Home Assistant. See the README for examples.
 
-### Fixes
-
-- Return ISO format datetime from get_forecasts service. Fixes [Issue 60](https://github.com/mawinkler/astroweather/issues/60).
-
 # [0.60.0](https://github.com/mawinkler/astroweather/compare/v0.50.4...v0.60.0) (2024-09-13)
 
 ### Changes
