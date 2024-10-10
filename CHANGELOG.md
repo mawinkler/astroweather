@@ -1,3 +1,14 @@
+# [0.61.1](https://github.com/mawinkler/astroweather/compare/v0.61.0...v0.61.1) (2024-10-10)
+
+### Fixes
+
+- Hopefully fixes some install problems which occured on arm64 platforms (Yellow, RPi4) and addresses the issues [#62](https://github.com/mawinkler/astroweather/issues/62) and [#63](https://github.com/mawinkler/astroweather/issues/63). Tested platforms:
+  - HassOS (arm64) 2024.10.1 - seems resolved
+  - HassOS (amd64) 2024.10.1 - didn't have issues
+  - Dev container (amd64) 2024.11.0.dev0 - didn't have issues
+  - Non-supervised in container (amd64) 2024.10.1 - didn't have issues
+- Fixes NoneType comparison [#63](https://github.com/mawinkler/astroweather/issues/63) 
+
 # [0.61.0](https://github.com/mawinkler/astroweather/compare/v0.60.0...v0.61.0) (2024-10-05)
 
 ### Changes
