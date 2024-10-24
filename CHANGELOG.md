@@ -1,3 +1,12 @@
+# [0.62.0](https://github.com/mawinkler/astroweather/compare/v0.61.1...v0.62.0) (2024-10-10)
+
+Refactored `pyastroweatherio` and is now using typeguard.
+
+### Changes
+
+- Condition calculation now includes fog density. Fog density forecast is included in the card as well.
+- The constellation of the Sun and Moon are now calculated.
+
 # [0.61.1](https://github.com/mawinkler/astroweather/compare/v0.61.0...v0.61.1) (2024-10-10)
 
 ### Fixes

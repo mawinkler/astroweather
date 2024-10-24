@@ -283,6 +283,13 @@ SENSOR_TYPES = {
         SensorDeviceClass.TIMESTAMP,
         None,
     ],
+    "sun_constellation": [
+        "Sun Constellation",
+        None,
+        "mdi:weather-sunny",
+        None,
+        None,
+    ],
     "moon_next_rising": [
         "Moon Next Rising",
         None,
@@ -360,6 +367,13 @@ SENSOR_TYPES = {
         None,
         None,
     ],
+    "moon_constellation": [
+        "Moon Constellation",
+        None,
+        "mdi:moon-full",
+        None,
+        None,
+    ],
     "night_duration_astronomical": [
         "Astronomical Night Duration",
         UnitOfTime.SECONDS,
@@ -426,9 +440,7 @@ SENSOR_TYPES = {
 }
 
 
-async def async_setup_entry(
-    hass: HomeAssistant, entry: ConfigEntry, async_add_entities
-) -> None:
+async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry, async_add_entities) -> None:
     """Set up the AstroWeather sensor platform."""
 
     _LOGGER.info("Set up AstroWeather sensor platform")
@@ -447,9 +459,7 @@ async def async_setup_entry(
 
     sensors = []
     for sensor in SENSOR_TYPES:
-        sensors.append(
-            AstroWeatherSensor(coordinator, entry.data, sensor, fcst_coordinator, entry)
-        )
+        sensors.append(AstroWeatherSensor(coordinator, entry.data, sensor, fcst_coordinator, entry))
 
     async_add_entities(sensors, True)
 
@@ -483,23 +493,15 @@ class AstroWeatherSensor(AstroWeatherEntity, SensorEntity):
     def native_value(self):
         """Return the state of the sensor."""
 
-        if (
-            SENSOR_TYPES[self._sensor][SENSOR_DEVICE_CLASS]
-            == SensorDeviceClass.TIMESTAMP
-        ):
-            return dt_util.parse_datetime(
-                str(getattr(self.coordinator.data[SENSOR_NAME], self._sensor, None))
-            )
+        if SENSOR_TYPES[self._sensor][SENSOR_DEVICE_CLASS] == SensorDeviceClass.TIMESTAMP:
+            return dt_util.parse_datetime(str(getattr(self.coordinator.data[SENSOR_NAME], self._sensor, None)))
         return getattr(self.coordinator.data[SENSOR_NAME], self._sensor, None)
 
     @property
     def native_unit_of_measurement(self):
         """Return the unit of measurement."""
 
-        if (
-            SENSOR_TYPES[self._sensor][SENSOR_DEVICE_CLASS]
-            == SensorDeviceClass.TIMESTAMP
-        ):
+        if SENSOR_TYPES[self._sensor][SENSOR_DEVICE_CLASS] == SensorDeviceClass.TIMESTAMP:
             return None
         else:
             return SENSOR_TYPES[self._sensor][SENSOR_UNIT]

@@ -89,9 +89,7 @@ from .entity import AstroWeatherEntity
 _LOGGER = logging.getLogger(__name__)
 
 
-async def async_setup_entry(
-    hass: HomeAssistant, entry: ConfigEntry, async_add_entities
-) -> None:
+async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry, async_add_entities) -> None:
     """Set up the AstroWeather weather platform."""
     _LOGGER.info("Set up AstroWeather weather platform")
 
@@ -139,9 +137,7 @@ class AstroWeatherWeather(AstroWeatherEntity, WeatherEntity):
         entry,
     ) -> None:
         """Initialize the AstroWeather weather entity."""
-        super().__init__(
-            coordinator, entries, device_type, fcst_coordinator, entry.entry_id
-        )
+        super().__init__(coordinator, entries, device_type, fcst_coordinator, entry.entry_id)
         self._weather = None
         self._unit_system = unit_system
         self._forecast_type = fcst_type
