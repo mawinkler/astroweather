@@ -129,6 +129,13 @@ SENSOR_TYPES = {
         None,
         STATE_CLASS_MEASUREMENT,
     ],
+    "fog2m_area_fraction_percentage": [
+        "Fog 2m Area",
+        PERCENTAGE,
+        "mdi:weather-fog",
+        None,
+        STATE_CLASS_MEASUREMENT,
+    ],
     "seeing_percentage": [
         "Seeing Percentage",
         PERCENTAGE,

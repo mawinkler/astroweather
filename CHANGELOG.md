@@ -4,8 +4,11 @@ Refactored `pyastroweatherio` and is now using typeguard.
 
 ### Changes
 
-- Condition calculation now includes fog density. Fog density forecast is included in the card as well.
+- Condition calculation now includes fog density. The fog density forecast is also included on the chart. Since fog is a very important factor in the condition calculation, AstroWeather can additionally estimate the density using temperature, relative humidity, dew point, and wind speed at 2 meters above ground if you have enabled the experimental mode. The condition calculation then takes into account fog and the self-calculated fog density by using the worst value.
 - The constellation of the Sun and Moon are now calculated.
+- Additional calculations for Sun and Moon:
+  - Current constallation of Sun and Moon.
+  - Moons angular size, discance, relative distance and relative size.
 
 # [0.61.1](https://github.com/mawinkler/astroweather/compare/v0.61.0...v0.61.1) (2024-10-10)
 
