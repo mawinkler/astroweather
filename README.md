@@ -1,10 +1,10 @@
 # AstroWeather<!-- omit in toc -->
 
-![GitHub release](https://img.shields.io/badge/Release-v0.62.0-blue)
+![GitHub release](https://img.shields.io/badge/Release-v0.70.0-blue)
 [![hacs_badge](https://img.shields.io/badge/HACS-Default-orange.svg)](https://github.com/custom-components/hacs)
 ![hacs installs](https://img.shields.io/badge/dynamic/json?color=41BDF5&logo=home-assistant&label=Installs&cacheSeconds=15600&url=https://analytics.home-assistant.io/custom_integrations.json&query=$.astroweather.total)
 
-This is a *Custom Integration* for [Home Assistant](https://www.home-assistant.io/) 2023.9+. It uses the forecast data from 7Timer! and Met.no to create sensor data for Home Assistant. It uses the [7Timer!-API](http://www.7timer.info/doc.php?lang=en#machine_readable_api) to pull data from 7Timer! and the [Locationforecast-API](https://api.met.no/weatherapi/locationforecast/2.0/documentation) to pull from MET Norway Weather.
+This is a *Custom Integration* for [Home Assistant](https://www.home-assistant.io/) 2023.9+. It uses the forecast data from [Met.no](https://api.met.no/weatherapi/locationforecast/2.0/documentation) and optionally [Open-Meteo](https://open-meteo.com/en/docs) and [7Timer!](http://www.7timer.info/doc.php?lang=en#machine_readable_api) to generate sensor data for an astronomical condiditions forecast in Home Assistant.
 
 ![alt text](images/lovelace.png "Live")
 
@@ -14,11 +14,7 @@ There is currently support for the following entity types within Home Assistant:
 * Binary Sensor
 * Weather
 
-Forecast data is provided by a combination of 7Timer! and Met.no.
-
 There is also a custom weather card available [here](https://github.com/mawinkler/astroweather-card) as seen in the screenshot above.
-
-Amongst other calculations, the deep sky viewing conditions are calculated out of the combination of cloud coverage, seeing and transparency. For this calculation the cloud coverage is weighted three times and seeing two times in relation to the transparency.
 
 > ***Other Peojects by me***:
 > 
@@ -43,7 +39,6 @@ Amongst other calculations, the deep sky viewing conditions are calculated out o
 - AstroWeather will then create a couple of sensors, binary sensors and a weather component to integrate with Home Assistant.
 - For Lovelace you can either build your own configuration or use the [AstroWeather Card](https://github.com/mawinkler/astroweather-card). The card does provide a config editor for customization.
 - All data is updated within a configurable interval in between 1 minute to 4 hours.
-- The data has a resolution of 10 km (6.21 miles) and is updated every 4 hours.
 - It is possible to use multiple instances of AstroWeather at the same time, even within different timezones.
 
 ## Usage
@@ -83,9 +78,10 @@ During installation you will have the option to:
 - set the elevation
 - set the timezone
 - set the interval for updating forecast data
-- set the weightings for cloud coverage, seeing, transparency, and calmness for the condition calculation
+- set the weightings for for the condition calculation
 - (optional) set the path pointing to your `/conf/www`-directory. Required only for UpTonight (see below)
 - (optional) enable or disable experimental features. When enabled, AstroWeather will calculate the astronomical seeing, transparency and lifted index on the available data of Met.no and does not use 7Timer.
+- (optional) enable one of the supported Open-Meteo services.
 
 The interval for updating forecast data and the weightings can also be changed after you add the Integration, by using the *Options* link on the Integration widget.
 

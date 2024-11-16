@@ -31,6 +31,7 @@ from .const import (
     CONF_LATITUDE,
     CONF_LOCATION_NAME,
     CONF_LONGITUDE,
+    CONF_OPEN_METEO_SERVICE,
     CONF_TIMEZONE_INFO,
     CONF_UPTONIGHT_PATH,
     DEFAULT_CONDITION_CALM_WEIGHT,
@@ -45,10 +46,12 @@ from .const import (
     DEFAULT_EXPERIMENTAL_FEATURES,
     DEFAULT_FORECAST_INTERVAL,
     DEFAULT_LOCATION_NAME,
+    DEFAULT_OPEN_METEO_SERVICE,
     DEFAULT_TIMEZONE_INFO,
     DEFAULT_UPTONIGHT_PATH,
-    FORECAST_TYPE_HOURLY,
+    DISABLED,
     DOMAIN,
+    FORECAST_TYPE_HOURLY,
 )
 
 _LOGGER = logging.getLogger(__name__)
@@ -77,6 +80,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         or entry.options.get(CONF_CONDITION_TRANSPARENCY_WEIGHT, None) is None
         or entry.options.get(CONF_UPTONIGHT_PATH, None) is None
         or entry.options.get(CONF_EXPERIMENTAL_FEATURES, None) is None
+        or entry.options.get(CONF_OPEN_METEO_SERVICE, None) is None
     ):
         # Apparently 7Timer has problems with a longitude of 0 degrees so we're catching this
         hass.config_entries.async_update_entry(
@@ -128,6 +132,10 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
                     CONF_EXPERIMENTAL_FEATURES,
                     DEFAULT_EXPERIMENTAL_FEATURES,
                 ),
+                CONF_OPEN_METEO_SERVICE: entry.data.get(
+                    CONF_OPEN_METEO_SERVICE,
+                    DEFAULT_OPEN_METEO_SERVICE,
+                ),
             },
         )
 
@@ -169,6 +177,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     )
     _LOGGER.debug("Uptonight path %s", str(entry.options.get(CONF_UPTONIGHT_PATH)))
     _LOGGER.debug("Experimental features %s", str(entry.options.get(CONF_EXPERIMENTAL_FEATURES)))
+    _LOGGER.debug("Open-Meteo service %s", str(entry.options.get(CONF_OPEN_METEO_SERVICE)))
 
     astroweather = AstroWeather(
         session,
@@ -180,12 +189,18 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         cloudcover_high_weakening=entry.options.get(CONF_CONDITION_CLOUDCOVER_HIGH_WEAKENING) / 100,
         cloudcover_medium_weakening=entry.options.get(CONF_CONDITION_CLOUDCOVER_MEDIUM_WEAKENING) / 100,
         cloudcover_low_weakening=entry.options.get(CONF_CONDITION_CLOUDCOVER_LOW_WEAKENING) / 100,
-        fog_weight=entry.options.get(CONF_CONDITION_FOG_WEIGHT),
+        # fog_weight=entry.options.get(CONF_CONDITION_FOG_WEIGHT),
         seeing_weight=entry.options.get(CONF_CONDITION_SEEING_WEIGHT),
         transparency_weight=entry.options.get(CONF_CONDITION_TRANSPARENCY_WEIGHT),
         calm_weight=entry.options.get(CONF_CONDITION_CALM_WEIGHT),
         uptonight_path=entry.options.get(CONF_UPTONIGHT_PATH),
         experimental_features=entry.options.get(CONF_EXPERIMENTAL_FEATURES),
+        forecast_model=(
+            entry.options.get(CONF_OPEN_METEO_SERVICE)
+            if entry.options.get(CONF_OPEN_METEO_SERVICE) != DISABLED
+            else None
+        ),
+        # forecast_model="icon_seamless",
     )
     _LOGGER.debug("Connected to AstroWeather platform")
 

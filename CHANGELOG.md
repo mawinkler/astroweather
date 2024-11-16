@@ -1,14 +1,24 @@
-# [0.62.0](https://github.com/mawinkler/astroweather/compare/v0.61.1...v0.62.0) (2024-10-10)
+# [0.70.0](https://github.com/mawinkler/astroweather/compare/v0.61.1...v0.70.0) (2024-11-16)
 
-Refactored `pyastroweatherio` and is now using typeguard.
+### Major changes
+
+- Weather services provide forecast data of varying quality for different regions of the world. This makes further calculations such as ground fog, seeing etc. difficult. AstroWeather can therefore now also use data from the following services for internal calculations:
+  - DWD Germany
+  - Met Norway
+  - NOAA U.S.
+  - ECMWF
+  - enventually more to come.
+- This data is optionally retrieved via Open-Meteo and supplements or replaces the previous basic data. It makes sense to try out the different services and compare them with actual measured values, for example from your own weather station. This should allow you to find the best service for your area. ***I'd love to hear your feedback on this new feature and which Open-Meteo service you have chosen for your region.***
+- Refactored `pyastroweatherio` from the ground up and is now using typeguard and dataframes. It was a lot of work, but it made the code much easier to read and extend, and it was fun.
+- AsterWeather now requires the AstroWeather-Card in version 0.70.0+. If you get a `Entity is not a AstroWeather entity`-error clean your browser cache and reload.
 
 ### Changes
 
-- Condition calculation now includes fog density. The fog density forecast is also included on the chart. Since fog is a very important factor in the condition calculation, AstroWeather can additionally estimate the density using temperature, relative humidity, dew point, and wind speed at 2 meters above ground if you have enabled the experimental mode. The condition calculation then takes into account fog and the self-calculated fog density by using the worst value.
+- Condition calculation now includes fog density. The fog density forecast is also included on the chart. Since fog is a very important factor in the condition calculation, AstroWeather can additionally estimate the density using temperature, relative humidity, dew point, and wind speed at ground level if you have activated the experimental mode. The condition calculation will then take into account fog forecast and the self-calculated fog density by using the worst value.
 - The constellation of the Sun and Moon are now calculated.
 - Additional calculations for Sun and Moon:
   - Current constallation of Sun and Moon.
-  - Moons angular size, discance, relative distance and relative size.
+  - Moon angular size, distance, relative distance and relative size, and more.
 
 # [0.61.1](https://github.com/mawinkler/astroweather/compare/v0.61.0...v0.61.1) (2024-10-10)
 

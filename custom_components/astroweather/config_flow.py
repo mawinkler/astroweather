@@ -11,6 +11,7 @@ from homeassistant.const import CONF_ELEVATION, CONF_LATITUDE, CONF_LONGITUDE
 from homeassistant.core import HomeAssistant, callback
 from homeassistant.data_entry_flow import AbortFlow
 from homeassistant.helpers.typing import ConfigType
+from homeassistant.helpers.selector import selector
 
 from .const import (
     CONF_CONDITION_CALM_WEIGHT,
@@ -43,6 +44,9 @@ from .const import (
     FORECAST_INTERVAL_MAX,
     FORECAST_INTERVAL_MIN,
     TIMEZONES,
+    OPEN_METEO_SERVICES,
+    DEFAULT_OPEN_METEO_SERVICE,
+    CONF_OPEN_METEO_SERVICE,
 )
 
 _LOGGER = logging.getLogger(__name__)
@@ -83,6 +87,8 @@ def _get_current_values(hass: HomeAssistant, data: ConfigType):
         data[CONF_UPTONIGHT_PATH] = DEFAULT_UPTONIGHT_PATH
     if CONF_EXPERIMENTAL_FEATURES not in data:
         data[CONF_EXPERIMENTAL_FEATURES] = DEFAULT_EXPERIMENTAL_FEATURES
+    if CONF_OPEN_METEO_SERVICE not in data:
+        data[CONF_OPEN_METEO_SERVICE] = DEFAULT_OPEN_METEO_SERVICE
 
     return data
 
@@ -141,6 +147,7 @@ def _get_config_data(hass: HomeAssistant, data: ConfigType, user_input: ConfigTy
         CONF_FORECAST_INTERVAL: data.get(CONF_FORECAST_INTERVAL, data[CONF_FORECAST_INTERVAL]),
         CONF_UPTONIGHT_PATH: user_input.get(CONF_UPTONIGHT_PATH, data[CONF_UPTONIGHT_PATH]),
         CONF_EXPERIMENTAL_FEATURES: user_input.get(CONF_EXPERIMENTAL_FEATURES, data[CONF_EXPERIMENTAL_FEATURES]),
+        CONF_OPEN_METEO_SERVICE: user_input.get(CONF_OPEN_METEO_SERVICE, data[CONF_OPEN_METEO_SERVICE]),
     }
 
 
@@ -170,6 +177,12 @@ def get_calculation_schema(hass: HomeAssistant, data: ConfigType) -> Schema:
     """Return the calculation schema."""
 
     data = _get_current_values(hass, data)
+
+    open_meteo_dropdown = {
+        "options": OPEN_METEO_SERVICES,
+        "mode": "dropdown",
+    }
+
     return vol.Schema(
         {
             vol.Required(
@@ -217,6 +230,10 @@ def get_calculation_schema(hass: HomeAssistant, data: ConfigType) -> Schema:
             ): vol.All(
                 vol.Coerce(str),
             ),
+            vol.Required(
+                CONF_OPEN_METEO_SERVICE,
+                default=data[CONF_OPEN_METEO_SERVICE],
+            ): selector({"select": open_meteo_dropdown}),
             vol.Required(
                 CONF_EXPERIMENTAL_FEATURES,
                 default=data[CONF_EXPERIMENTAL_FEATURES],

@@ -18,6 +18,8 @@ UPTONIGHT = "uptonight"
 # #####################################################
 # Configuration settings
 # #####################################################
+DISABLED = "disabled"
+
 CONF_FORECAST_TYPE = "forecast_type"
 CONF_FORECAST_INTERVAL = "forecast_interval"
 CONF_LOCATION_NAME = "location_name"
@@ -35,11 +37,14 @@ CONF_CONDITION_TRANSPARENCY_WEIGHT = "transparency_weight"
 CONF_CONDITION_CALM_WEIGHT = "calm_weight"
 CONF_UPTONIGHT_PATH = "uptonight_path"
 CONF_EXPERIMENTAL_FEATURES = "experimental_features"
+CONF_OPEN_METEO_SERVICE = DISABLED
 
 # #####################################################
 # Default values
 # #####################################################
-DEFAULT_ATTRIBUTION = "Powered by 7Timer and Met.no"
+DEFAULT_ATTRIBUTION = "Powered by Met.no"
+ATTRIBUTION_OPEN_METEO = ", Open-Meteo"
+ATTRIBUTION_SEVENTIMER = ", 7Timer"
 EXPERIMENTAL_ATTRIBUTION = "Powered by Met.no"
 DEFAULT_FORECAST_INTERVAL = 5
 FORECAST_INTERVAL_MIN = 1
@@ -57,6 +62,7 @@ DEFAULT_CONDITION_TRANSPARENCY_WEIGHT = 1
 DEFAULT_CONDITION_CALM_WEIGHT = 2
 DEFAULT_UPTONIGHT_PATH = "/config/www"
 DEFAULT_EXPERIMENTAL_FEATURES = False
+DEFAULT_OPEN_METEO_SERVICE = "icon_seamless"
 FORECAST_TYPE_HOURLY = "hourly"
 
 # #####################################################
@@ -124,6 +130,29 @@ ATTR_FORECAST_PRECIPITATION_AMOUNT = "precipitation_amount"
 # Lists
 # #####################################################
 CONDITION_CLASSES = ["excellent", "good", "fair", "poor", "bad"]
+
+OPEN_METEO_SERVICES = [
+    {
+        "label": "DWD Germany",
+        "value": "icon_seamless",
+    },
+    {
+        "label": "MET Norway",
+        "value": "metno_seamless",
+    },
+    {
+        "label": "NOAA U.S.",
+        "value": "gfs_seamless",
+    },
+    {
+        "label": "ECMWF",
+        "value": "ecmwf_ifs025",
+    },
+    {
+        "label": "Disabled",
+        "value": DISABLED,
+    },
+]
 
 TIMEZONES = [
     "Africa/Abidjan",
