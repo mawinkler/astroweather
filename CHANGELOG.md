@@ -1,3 +1,9 @@
+# [0.70.1](https://github.com/mawinkler/astroweather/compare/v0.70.0...v0.70.1) (2024-11-17)
+
+### Fixes
+
+- Bump `pyastroweatherio` version to `0.70.0`
+
 # [0.70.0](https://github.com/mawinkler/astroweather/compare/v0.61.1...v0.70.0) (2024-11-16)
 
 ### Major changes
