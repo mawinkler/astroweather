@@ -1,3 +1,9 @@
+# [0.70.2](https://github.com/mawinkler/astroweather/compare/v0.70.1...v0.70.2) (2024-11-19)
+
+### Fixes
+
+- Moon rising and setting and UpTonight import, fixes issue [#64](https://github.com/mawinkler/astroweather/issues/64). Bump `pyastroweatherio` version to `0.70.3`
+
 # [0.70.1](https://github.com/mawinkler/astroweather/compare/v0.70.0...v0.70.1) (2024-11-17)
 
 ### Fixes
