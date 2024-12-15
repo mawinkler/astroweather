@@ -70,7 +70,7 @@ translation (Directory with all files)
 
 ### Configuration
 
-To add AstroWeather to your installation, go to the Integration page inside the configuration panel and AstroWeather.
+To add AstroWeather to your installation, go to the Integration page inside the configuration panel and click the "Add Integration" button to add AstroWeather.
 
 During installation you will have the option to:
 
