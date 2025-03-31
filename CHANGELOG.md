@@ -1,3 +1,18 @@
+# [0.71.0](https://github.com/mawinkler/astroweather/compare/v0.70.2...v0.71.0) (2025-03-31)
+
+### Changes
+
+- Calculation of the proper icon for the current moon phase. Also requested by [#67](https://github.com/mawinkler/astroweather/issues/67).
+- Calculation of the next dark night where either the moon phase is less than 5% and/or the maximum altitude during the night is less than 5° above the horizon. The limits are currently hard coded.
+- About the AstroWeather Card [v0.71.0](https://github.com/mawinkler/astroweather-card):
+  - The card is now converted to TypeScript and includes all dependencies in one generated JavaScript file. This hopefully avoids outages when CDNs are not available. See [#21](https://github.com/mawinkler/astroweather-card/issues/21).
+  - The graph now displays the propper units in the tooltip
+  - Bumped several versions of dependent libraries, including Chart.js.
+
+### Fixes
+
+- Improved handling of missing data provided by weather services.
+
 # [0.70.2](https://github.com/mawinkler/astroweather/compare/v0.70.1...v0.70.2) (2024-11-19)
 
 ### Fixes

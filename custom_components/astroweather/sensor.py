@@ -318,6 +318,13 @@ SENSOR_TYPES = {
         None,
         None,
     ],
+    "moon_icon": [
+        "Moon Icon",
+        None,
+        "mdi:moon-waning-gibbous",
+        None,
+        None,
+    ],
     "moon_next_new_moon": [
         "Moon Next New Moon",
         None,
@@ -379,6 +386,13 @@ SENSOR_TYPES = {
         None,
         "mdi:moon-full",
         None,
+        None,
+    ],
+    "moon_next_dark_night": [
+        "Moon Next Dark Night",
+        None,
+        "mdi:rocket-launch-outline",
+        SensorDeviceClass.TIMESTAMP,
         None,
     ],
     "night_duration_astronomical": [

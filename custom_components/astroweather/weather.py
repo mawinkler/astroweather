@@ -68,6 +68,8 @@ from .const import (
     ATTR_WEATHER_MOON_NEXT_RISING,
     ATTR_WEATHER_MOON_NEXT_SETTING,
     ATTR_WEATHER_MOON_PHASE,
+    ATTR_WEATHER_MOON_ICON,
+    ATTR_WEATHER_NEXT_DARK_NIGHT,
     ATTR_WEATHER_PRECIPITATION_AMOUNT,
     ATTR_WEATHER_SEEING,
     ATTR_WEATHER_SEEING_PERCENTAGE,
@@ -465,6 +467,13 @@ class AstroWeatherWeather(AstroWeatherEntity, WeatherEntity):
         return None
 
     @property
+    def moon_icon(self) -> str:
+        """Return moon phase."""
+        if self._current is not None:
+            return self._current.moon_icon
+        return None
+
+    @property
     def moon_next_new_moon(self) -> datetime:
         """Return moon next new moon."""
         if self._current is not None:
@@ -476,6 +485,13 @@ class AstroWeatherWeather(AstroWeatherEntity, WeatherEntity):
         """Return moon next full moon."""
         if self._current is not None:
             return self._current.moon_next_full_moon
+        return None
+
+    @property
+    def moon_next_dark_night(self) -> datetime:
+        """Return next dark night."""
+        if self._current is not None:
+            return self._current.moon_next_dark_night
         return None
 
     @property
@@ -532,6 +548,8 @@ class AstroWeatherWeather(AstroWeatherEntity, WeatherEntity):
             ATTR_WEATHER_MOON_NEXT_RISING: self.moon_next_rising,
             ATTR_WEATHER_MOON_NEXT_SETTING: self.moon_next_setting,
             ATTR_WEATHER_MOON_PHASE: self.moon_phase,
+            ATTR_WEATHER_MOON_ICON: self.moon_icon,
+            ATTR_WEATHER_NEXT_DARK_NIGHT: self.moon_next_dark_night,
             ATTR_WEATHER_PRECIPITATION_AMOUNT: self.precipitation_amount,
             ATTR_WEATHER_SEEING_PERCENTAGE: self.seeing_percentage,
             ATTR_WEATHER_SEEING: self.seeing,
