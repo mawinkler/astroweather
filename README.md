@@ -1,6 +1,6 @@
 # AstroWeather<!-- omit in toc -->
 
-![GitHub release](https://img.shields.io/badge/Release-v0.71.0-blue)
+![GitHub release](https://img.shields.io/badge/Release-v0.72.0-blue)
 [![hacs_badge](https://img.shields.io/badge/HACS-Default-orange.svg)](https://github.com/custom-components/hacs)
 ![hacs installs](https://img.shields.io/badge/dynamic/json?color=41BDF5&logo=home-assistant&label=Installs&cacheSeconds=15600&url=https://analytics.home-assistant.io/custom_integrations.json&query=$.astroweather.total)
 
@@ -162,16 +162,16 @@ content: |-
     UpTonight DSO
   </h2>
   <hr>
-
   {%- if states('sensor.astroweather_backyard_uptonight')|is_number %}
     {%- for item in state_attr("sensor.astroweather_backyard_uptonight", "objects") %}
       {%- if loop.index <= 20 %}
-        {%- if item.foto == 1 %}
-          <table><tr>
-          {%- set astrobin = item.id | regex_replace('\s', '+')  %}
-          {%- set alttime = item.id | regex_replace('\s', '-') | lower %}
-          <a href="https://astrobin.com/search/?q={{ astrobin }}">{{ item.name }}</a><br>{{ item.type }} in {{ item.constellation }},
-          <a href="http://homeassistant.local:8123/local/uptonight-alttime-{{ alttime }}.png" target="_blank" rel="noopener noreferrer">Graph</a>
+        {%- if item.foto >= 0.95 %}
+  <table><tr>
+    {%- set astrobin = '%22' + item.id | regex_replace('\s', '%20') + '%22' %}
+    {%- set alttime = item.id | regex_replace('\s', '-') | lower %}
+    <a href="https://astrobin.com/search/?q={{ astrobin }}">{{ item.name }}</a><br>{{ item.type }} in {{ item.constellation }},
+    <a href="https://astrobin.com/search/?q={{ astrobin }}&d=i&subject=&telescope=&camera=&integration_time_min=0&integration_time_max=16&telescope_focal_length_min=600&telescope_focal_length_max=850&color_or_mono=C&telescope_diameter_min=100&telescope_diameter_max=130&sort=-likes">Esprit</a>,
+    <a href="http://192.168.1.129:8123/local/uptonight-alttime-{{ alttime }}.png" target="_blank" rel="noopener noreferrer">Graph</a>
         {%- endif %}
       {%- endif %}
     {%- endfor %}
@@ -179,15 +179,9 @@ content: |-
     Waiting for AstroWeather
   {%- endif %}
   </tr></table>
-
-<h2>
-  <ha-icon icon='mdi:creation-outline'></ha-icon>
-  UpTonight DSO
-</h2>
-<hr>
 ```
 
-The resulting list is sorted top down according to the fraction of time obeservable during astronomical darkness. It shows only the top 20 targets including [AstroBin](https://www.astrobin.com/) search links.
+The resulting list is sorted top down according to the fraction of time obeservable during astronomical darkness down to 95%. It shows only the top 20 targets including [AstroBin](https://www.astrobin.com/) search links.
 
 If you're interested in our solar system bodies you can list them similarily:
 
@@ -199,7 +193,6 @@ content: |-
     UpTonight Bodies
   </h2>
   <hr>
-
   {%- if states('sensor.astroweather_backyard_uptonight')|is_number %}
     {%- for item in state_attr("sensor.astroweather_backyard_uptonight", "bodies") %}
       <table><tr>
@@ -222,7 +215,6 @@ content: |-
     UpTonight Comets
   </h2>
   <hr>
-
   {%- if states('sensor.astroweather_backyard_uptonight')|is_number %}
     {%- for item in state_attr("sensor.astroweather_backyard_uptonight", "comets") %}
       <table><tr>

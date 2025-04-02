@@ -1,10 +1,24 @@
+# [0.72.0](https://github.com/mawinkler/astroweather/compare/v0.71.0...v0.72.0) (2025-04-01)
+
+### Changes
+
+- The entities of an AstroWeather instance are now grouped into a Home Assistant device.
+
+### Fixes
+
+- Dependencies in pyastroweatherio and bump versions.
+
+### ***Deprecation Warning***
+
+I'm planning to remove the dependency on 7Timer, as the *experimental mode* seems to match my observations quite well. The advantage would be that I could remove a lot of complexity in the code. If you have any concerns, please let me know.
+
 # [0.71.0](https://github.com/mawinkler/astroweather/compare/v0.70.2...v0.71.0) (2025-03-31)
 
 ### Changes
 
 - Calculation of the proper icon for the current moon phase. Also requested by [#67](https://github.com/mawinkler/astroweather/issues/67).
 - Calculation of the next dark night where either the moon phase is less than 5% and/or the maximum altitude during the night is less than 5° above the horizon. The limits are currently hard coded.
-- About the AstroWeather Card [v0.71.0](https://github.com/mawinkler/astroweather-card):
+- About the AstroWeather Card [v0.71.0](https://github.com/mawinkler/astroweather-card/releases/tag/v0.71.0):
   - The card is now converted to TypeScript and includes all dependencies in one generated JavaScript file. This hopefully avoids outages when CDNs are not available. See [#21](https://github.com/mawinkler/astroweather-card/issues/21).
   - The graph now displays the propper units in the tooltip
   - Bumped several versions of dependent libraries, including Chart.js.

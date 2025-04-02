@@ -6,6 +6,8 @@ from homeassistant.const import Platform
 # Domain and platforms
 # #####################################################
 DOMAIN = "astroweather"
+VERSION = "0.72.0"
+MANUFACTURER = "AstroWeather"
 
 ASTROWEATHER_PLATFORMS = (
     Platform.BINARY_SENSOR,

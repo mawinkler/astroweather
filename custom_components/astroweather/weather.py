@@ -1,7 +1,7 @@
 """Support for the AstroWeather weather service."""
 
-from datetime import datetime
 import logging
+from datetime import datetime
 
 from homeassistant.components.weather import (
     ATTR_FORECAST_CONDITION,
@@ -21,6 +21,7 @@ from homeassistant.components.weather import (
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import UnitOfTemperature
 from homeassistant.core import HomeAssistant
+from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.util.unit_system import METRIC_SYSTEM
 
 from .const import (
@@ -31,8 +32,8 @@ from .const import (
     ATTR_FORECAST_CLOUD_AREA_FRACTION_MEDIUM,
     ATTR_FORECAST_CLOUDCOVER,
     ATTR_FORECAST_CLOUDLESS,
-    ATTR_FORECAST_FOG_AREA_FRACTION,
     ATTR_FORECAST_FOG2M_AREA_FRACTION,
+    ATTR_FORECAST_FOG_AREA_FRACTION,
     ATTR_FORECAST_HUMIDITY,
     ATTR_FORECAST_LIFTED_INDEX,
     ATTR_FORECAST_PRECIPITATION_AMOUNT,
@@ -50,25 +51,25 @@ from .const import (
     ATTR_WEATHER_CLOUDLESS,
     ATTR_WEATHER_CONDITION,
     ATTR_WEATHER_CONDITION_PLAIN,
-    ATTR_WEATHER_DEWPOINT,
     ATTR_WEATHER_DEEP_SKY_DARKNESS,
     ATTR_WEATHER_DEEPSKY_TODAY_DAYNAME,
     ATTR_WEATHER_DEEPSKY_TODAY_DESC,
-    ATTR_WEATHER_DEEPSKY_TODAY_PRECIP6,
     ATTR_WEATHER_DEEPSKY_TODAY_PLAIN,
+    ATTR_WEATHER_DEEPSKY_TODAY_PRECIP6,
     ATTR_WEATHER_DEEPSKY_TOMORROW_DAYNAME,
     ATTR_WEATHER_DEEPSKY_TOMORROW_DESC,
-    ATTR_WEATHER_DEEPSKY_TOMORROW_PRECIP6,
     ATTR_WEATHER_DEEPSKY_TOMORROW_PLAIN,
-    ATTR_WEATHER_FOG_AREA_FRACTION,
+    ATTR_WEATHER_DEEPSKY_TOMORROW_PRECIP6,
+    ATTR_WEATHER_DEWPOINT,
     ATTR_WEATHER_FOG2M_AREA_FRACTION,
+    ATTR_WEATHER_FOG_AREA_FRACTION,
     ATTR_WEATHER_LIFTED_INDEX,
+    ATTR_WEATHER_MOON_ICON,
     ATTR_WEATHER_MOON_NEXT_FULL_MOON,
     ATTR_WEATHER_MOON_NEXT_NEW_MOON,
     ATTR_WEATHER_MOON_NEXT_RISING,
     ATTR_WEATHER_MOON_NEXT_SETTING,
     ATTR_WEATHER_MOON_PHASE,
-    ATTR_WEATHER_MOON_ICON,
     ATTR_WEATHER_NEXT_DARK_NIGHT,
     ATTR_WEATHER_PRECIPITATION_AMOUNT,
     ATTR_WEATHER_SEEING,
@@ -88,6 +89,8 @@ from .const import (
     DEFAULT_LOCATION_NAME,
     DEVICE_TYPE_WEATHER,
     DOMAIN,
+    MANUFACTURER,
+    VERSION,
 )
 from .entity import AstroWeatherEntity
 
@@ -615,6 +618,16 @@ class AstroWeatherWeather(AstroWeatherEntity, WeatherEntity):
         if forecasts:
             return forecasts
         return None
+
+    @property
+    def device_info(self) -> DeviceInfo:
+        """Return the device info."""
+        return DeviceInfo(
+            identifiers={(DOMAIN, self._attr_unique_id)},
+            name=f"{MANUFACTURER} {self._location_name}",
+            manufacturer=MANUFACTURER,
+            sw_version=VERSION,
+        )
 
     async def async_forecast_hourly(self) -> list[Forecast] | None:
         """Return the hourly forecast in native units."""
