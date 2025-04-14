@@ -1,3 +1,13 @@
+# [0.72.1](https://github.com/mawinkler/astroweather/compare/v0.72.0...v0.72.1) (2025-04-14)
+
+### Fixes
+
+- Compatibility fix for older Home Assistant versions. Does not introduce any new functionality.
+
+### ***Deprecation Warning***
+
+I'm planning to remove the dependency on 7Timer, as the *experimental mode* seems to match my observations quite well. The advantage would be that I could remove a lot of complexity in the code. If you have any concerns, please let me know.
+
 # [0.72.0](https://github.com/mawinkler/astroweather/compare/v0.71.0...v0.72.0) (2025-04-02)
 
 ### Changes
