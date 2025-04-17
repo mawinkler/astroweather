@@ -6,7 +6,7 @@ from homeassistant.const import Platform
 # Domain and platforms
 # #####################################################
 DOMAIN = "astroweather"
-VERSION = "0.72.1"
+VERSION = "0.73.0"
 MANUFACTURER = "AstroWeather"
 
 ASTROWEATHER_PLATFORMS = (
@@ -44,10 +44,8 @@ CONF_OPEN_METEO_SERVICE = DISABLED
 # #####################################################
 # Default values
 # #####################################################
-DEFAULT_ATTRIBUTION = "Powered by Met.no"
-ATTRIBUTION_OPEN_METEO = ", Open-Meteo"
-ATTRIBUTION_SEVENTIMER = ", 7Timer"
-EXPERIMENTAL_ATTRIBUTION = "Powered by Met.no"
+DEFAULT_ATTRIBUTION = "Powered by Met.no and Open-Meteo"
+EXPERIMENTAL_ATTRIBUTION = "Experimental"
 DEFAULT_FORECAST_INTERVAL = 5
 FORECAST_INTERVAL_MIN = 1
 FORECAST_INTERVAL_MAX = 240

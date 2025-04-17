@@ -1,10 +1,10 @@
 # AstroWeather<!-- omit in toc -->
 
-![GitHub release](https://img.shields.io/badge/Release-v0.72.1-blue)
+![GitHub release](https://img.shields.io/badge/Release-v0.73.0-blue)
 [![hacs_badge](https://img.shields.io/badge/HACS-Default-orange.svg)](https://github.com/custom-components/hacs)
 ![hacs installs](https://img.shields.io/badge/dynamic/json?color=41BDF5&logo=home-assistant&label=Installs&cacheSeconds=15600&url=https://analytics.home-assistant.io/custom_integrations.json&query=$.astroweather.total)
 
-This is a *Custom Integration* for [Home Assistant](https://www.home-assistant.io/) 2023.9+. It uses the forecast data from [Met.no](https://api.met.no/weatherapi/locationforecast/2.0/documentation) and optionally [Open-Meteo](https://open-meteo.com/en/docs) and [7Timer!](http://www.7timer.info/doc.php?lang=en#machine_readable_api) to generate sensor data for an astronomical condiditions forecast in Home Assistant.
+This is a *Custom Integration* for [Home Assistant](https://www.home-assistant.io/) 2023.9+. It uses the forecast data from [Met.no](https://api.met.no/weatherapi/locationforecast/2.0/documentation) and [Open-Meteo](https://open-meteo.com/en/docs) to generate sensor data for an astronomical condiditions forecast in Home Assistant.
 
 ![alt text](images/lovelace.png "Live")
 
@@ -80,7 +80,6 @@ During installation you will have the option to:
 - set the interval for updating forecast data
 - set the weightings for for the condition calculation
 - (optional) set the path pointing to your `/conf/www`-directory. Required only for UpTonight (see below)
-- (optional) enable or disable experimental features. When enabled, AstroWeather will calculate the astronomical seeing, transparency and lifted index on the available data of Met.no and does not use 7Timer.
 - (optional) enable one of the supported Open-Meteo services.
 
 The interval for updating forecast data and the weightings can also be changed after you add the Integration, by using the *Options* link on the Integration widget.
