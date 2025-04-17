@@ -234,12 +234,12 @@ def get_calculation_schema(hass: HomeAssistant, data: ConfigType) -> Schema:
                 CONF_OPEN_METEO_SERVICE,
                 default=data[CONF_OPEN_METEO_SERVICE],
             ): selector({"select": open_meteo_dropdown}),
-            vol.Required(
-                CONF_EXPERIMENTAL_FEATURES,
-                default=data[CONF_EXPERIMENTAL_FEATURES],
-            ): vol.All(
-                vol.Coerce(bool),
-            ),
+            # vol.Required(
+            #     CONF_EXPERIMENTAL_FEATURES,
+            #     default=data[CONF_EXPERIMENTAL_FEATURES],
+            # ): vol.All(
+            #     vol.Coerce(bool),
+            # ),
         }
     )
 

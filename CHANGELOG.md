@@ -1,3 +1,9 @@
+# [0.73.0](https://github.com/mawinkler/astroweather/compare/v0.72.1...v0.73.0) (2025-04-17)
+
+### Changes
+
+- Removed dependency to 7Timer, simplified the code.
+
 # [0.72.1](https://github.com/mawinkler/astroweather/compare/v0.72.0...v0.72.1) (2025-04-14)
 
 ### Fixes
