@@ -1,4 +1,4 @@
-# [0.73.0](https://github.com/mawinkler/astroweather/compare/v0.72.1...v0.73.0) (2025-04-17)
+# [0.73.0](https://github.com/mawinkler/astroweather/compare/v0.72.1...v0.73.0) (2025-04-24)
 
 ### Changes
 
