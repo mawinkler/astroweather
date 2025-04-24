@@ -3,6 +3,7 @@
 ### Changes
 
 - Removed dependency to 7Timer, simplified the code.
+- Added French translation. Thanks to @TallFurryMan.
 
 # [0.72.1](https://github.com/mawinkler/astroweather/compare/v0.72.0...v0.72.1) (2025-04-14)
 
