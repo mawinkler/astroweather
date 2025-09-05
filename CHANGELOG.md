@@ -1,3 +1,14 @@
+# [0.74.0](https://github.com/mawinkler/astroweather/compare/v0.73.0...v0.74.0) (2025-09-05)
+
+### Fixes
+
+- Fix pass config entry explicitly [#73](https://github.com/mawinkler/astroweather/issues/73).
+- Fix unexpected error fetching astroweather data [#72](https://github.com/mawinkler/astroweather/issues/72).
+- About the AstroWeather Card [v0.74.0](https://github.com/mawinkler/astroweather-card/releases/tag/v0.74.0):
+  - Fixed TypeError: Cannot read properties of undefined (reading 'action').
+  - Fixed TypeError: Cannot read properties of null (reading '_resolveAnimations').
+  - Fixed graph update when resizing card.
+
 # [0.73.0](https://github.com/mawinkler/astroweather/compare/v0.72.1...v0.73.0) (2025-04-24)
 
 ### Changes
