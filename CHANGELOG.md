@@ -1,3 +1,39 @@
+# [0.75.0](https://github.com/mawinkler/astroweather/compare/v0.74.0...v0.75.0) (2026-01-03)
+
+### Fixes
+
+- Handling of connection errors at start up.
+
+### Changes
+
+- You can now adjust the weights for condition calculation in between 1.100 which allows more granular adjustments. I'm using
+  - Clouds: 80
+  - Fog: 50
+  - Seeing: 20
+  - Transparency: 20
+  - Calmness: 50
+
+### New
+
+- New methods have been implemented to estimate seeing, magnitude degradation, lifted index, and fog density. To use these methods, activate "Experimental Features" in the configuration flow.
+
+# [0.74.0](https://github.com/mawinkler/astroweather/compare/v0.73.0...v0.74.0) (2025-11-13)
+
+### Fixes
+
+- About the AstroWeather Card [v0.74.2](https://github.com/mawinkler/astroweather-card/releases/tag/v0.74.1):
+  - Highlight astronomical darkness again. This version includes shading of the background.
+  - Fixed renderRoot.host.
+
+# [0.74.0](https://github.com/mawinkler/astroweather/compare/v0.73.0...v0.74.0) (2025-11-09)
+
+### Fixes
+
+- About the AstroWeather Card [v0.74.1](https://github.com/mawinkler/astroweather-card/releases/tag/v0.74.1):
+  - The iOS flicker problem, which was caused by continuous chart redraws initiated by ResizeObserver, has been fixed.
+  - Improved and dampened the chart redraw and update logic.
+  - Fixed the forecast table.
+
 # [0.74.0](https://github.com/mawinkler/astroweather/compare/v0.73.0...v0.74.0) (2025-09-05)
 
 ### Fixes

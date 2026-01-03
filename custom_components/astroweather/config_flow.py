@@ -190,35 +190,35 @@ def get_calculation_schema(hass: HomeAssistant, data: ConfigType) -> Schema:
                 default=data[CONF_CONDITION_CLOUDCOVER_WEIGHT],
             ): vol.All(
                 vol.Coerce(int),
-                vol.Range(min=0, max=5),
+                vol.Range(min=0, max=100),
             ),
             vol.Required(
                 CONF_CONDITION_FOG_WEIGHT,
                 default=data[CONF_CONDITION_FOG_WEIGHT],
             ): vol.All(
                 vol.Coerce(int),
-                vol.Range(min=0, max=5),
+                vol.Range(min=0, max=100),
             ),
             vol.Required(
                 CONF_CONDITION_SEEING_WEIGHT,
                 default=data[CONF_CONDITION_SEEING_WEIGHT],
             ): vol.All(
                 vol.Coerce(int),
-                vol.Range(min=0, max=5),
+                vol.Range(min=0, max=100),
             ),
             vol.Required(
                 CONF_CONDITION_TRANSPARENCY_WEIGHT,
                 default=data[CONF_CONDITION_TRANSPARENCY_WEIGHT],
             ): vol.All(
                 vol.Coerce(int),
-                vol.Range(min=0, max=5),
+                vol.Range(min=0, max=100),
             ),
             vol.Required(
                 CONF_CONDITION_CALM_WEIGHT,
                 default=data[CONF_CONDITION_CALM_WEIGHT],
             ): vol.All(
                 vol.Coerce(int),
-                vol.Range(min=0, max=5),
+                vol.Range(min=0, max=100),
             ),
             vol.Required(CONF_FORECAST_INTERVAL, default=data[CONF_FORECAST_INTERVAL]): vol.All(
                 vol.Coerce(int),
@@ -234,12 +234,12 @@ def get_calculation_schema(hass: HomeAssistant, data: ConfigType) -> Schema:
                 CONF_OPEN_METEO_SERVICE,
                 default=data[CONF_OPEN_METEO_SERVICE],
             ): selector({"select": open_meteo_dropdown}),
-            # vol.Required(
-            #     CONF_EXPERIMENTAL_FEATURES,
-            #     default=data[CONF_EXPERIMENTAL_FEATURES],
-            # ): vol.All(
-            #     vol.Coerce(bool),
-            # ),
+            vol.Required(
+                CONF_EXPERIMENTAL_FEATURES,
+                default=data[CONF_EXPERIMENTAL_FEATURES],
+            ): vol.All(
+                vol.Coerce(bool),
+            ),
         }
     )
 
