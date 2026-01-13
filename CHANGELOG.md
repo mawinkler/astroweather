@@ -1,4 +1,4 @@
-# [0.75.0](https://github.com/mawinkler/astroweather/compare/v0.74.0...v0.75.0) (2026-01-03)
+# [0.75.0](https://github.com/mawinkler/astroweather/compare/v0.74.0...v0.75.0) (2026-01-13)
 
 ### Fixes
 
@@ -15,7 +15,32 @@
 
 ### New
 
-- New methods have been implemented to estimate seeing, magnitude degradation, lifted index, and fog density. To use these methods, activate "Experimental Features" in the configuration flow.
+***Ask: If the currently experimental calculations improve the results for you, please provide feedback by creating an issue or emailing me. See below.***
+
+- New methods have been implemented for estimating seeing, magnitude degradation, lifted index, and fog density. To use these methods, activate "Experimental Features" in the configuration flow.
+  - Lifted Index calculates a rough Lifted Index (LI) proxy in °C. Real LI requires an environmental temperature profile (a sounding).
+      With only surface data, we:
+      - Estimate station pressure from sea-level pressure + altitude.
+      - Estimate LCL temperature using a common approximation.
+      - Estimate parcel temperature at 500 hPa via:
+        dry-adiabatic to LCL, then a simplified moist-adiabatic adjustment.
+      - Estimate environmental temperature at 500 hPa using a standard lapse proxy.
+  - Magnitude Degradation:
+      - Transparency -> mag uses a physically meaningful transform:
+        mag_loss ≈ -2.5 * log10(transparency)
+      - Uses improved LI + seeing as modifiers.
+      - Keeps output bounded by MAG_DEGRATION_MAX.
+      - Uses humidity haze risk, blowing aerosols, clouds quickly dominating, air unstability by lifted index, and seeing.
+  - Seeing calculates a rough seeing estimate in arcseconds, tuned to behave more like common forecast products (e.g., meteoblue) in terms of directionality. Still a heuristic: with only surface inputs one cannot model free-atmosphere seeing.
+      - Uses stable, bounded mapping driven by:
+        * wind (mechanical turbulence),
+        * dewpoint depression & RH (near-surface stability / saturation),
+        * cloud cover (proxy for active layers),
+        * altitude (usually helps boundary-layer seeing).
+  - Fog density calculates a 0..1 "fog likelihood/density" proxy.
+      - Uses dewpoint depression (T - Td) + RH with a logistic curve (stable).
+      - Stronger penalty for wind mixing (fog dispersal).
+      - Handles edge cases (negative RH, etc.) safely.
 
 # [0.74.0](https://github.com/mawinkler/astroweather/compare/v0.73.0...v0.74.0) (2025-11-13)
 
