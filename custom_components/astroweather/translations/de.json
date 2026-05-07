@@ -7,7 +7,7 @@
           "location_name": "Name für den Standort Deines Teleskops",
           "latitude": "Breitengrad (-89° bis 89°)",
           "longitude": "Längengrad (-180° bis 180°)",
-          "elevation": "Höhe über dem Meeresspiegel (0m bis 4000m)",
+          "elevation": "Höhe über dem Meeresspiegel (-50m bis 9000m)",
           "timezone_info": "Zeitzone im TZ Datenbankformat"
         }
       },
@@ -43,7 +43,7 @@
           "location_name": "Name für den Standort Deines Teleskops",
           "latitude": "Breitengrad (-89° bis 89°)",
           "longitude": "Längengrad (-180° bis 180°)",
-          "elevation": "Höhe über dem Meeresspiegel (0m bis 4000m)",
+          "elevation": "Höhe über dem Meeresspiegel (-50m bis 9000m)",
           "timezone_info": "Zeitzone im TZ Datenbankformat"
         }
       },

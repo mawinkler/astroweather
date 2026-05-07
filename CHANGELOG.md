@@ -1,3 +1,16 @@
+# Unreleased (post 0.75.0)
+
+### Fixes
+
+- **Fog weight ignored** (`__init__.py`): The `fog_weight` option was commented out when constructing the `AstroWeather` client, so the user-configured fog weight was silently replaced by the library default on every startup. The argument is now passed correctly.
+- **Elevation range mismatch** (`config_flow.py`): The config flow rejected elevations outside 0–4000 m while the underlying library accepts −500–9000 m. The validation range is now aligned: −500 m (below sea level, e.g. Dead Sea) to 9000 m (high-altitude observatories).
+
+### Changes
+
+- **Improved atmospheric calculations now active by default**: The improved seeing, transparency, fog density, and lifted-index calculations (previously behind the "Experimental Features" toggle) are now always active. The toggle is preserved in the UI but has no effect; a message is logged if it is still enabled. See the pyastroweatherio changelog for details.
+- **Physically tuned cloud-layer weakening defaults** (`const.py`): High (cirrus) → 40, medium (altocumulus) → 70, low (stratus/fog) → 100. Previous default was 100 for all layers. Existing explicitly-configured values are unaffected.
+- **Condition weight minimum raised to 1** (`config_flow.py`): The config flow no longer accepts 0 for any individual condition weight. Setting a weight to 1 is effectively negligible; setting all weights to zero caused a division-by-zero in the scoring formula.
+
 # [0.75.0](https://github.com/mawinkler/astroweather/compare/v0.74.0...v0.75.0) (2026-01-13)
 
 ### Fixes
