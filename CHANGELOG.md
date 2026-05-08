@@ -11,6 +11,11 @@
 - **Physically tuned cloud-layer weakening defaults** (`const.py`): High (cirrus) → 40, medium (altocumulus) → 70, low (stratus/fog) → 100. Previous default was 100 for all layers. Existing explicitly-configured values are unaffected.
 - **Condition weight minimum raised to 1** (`config_flow.py`): The config flow no longer accepts 0 for any individual condition weight. Setting a weight to 1 is effectively negligible; setting all weights to zero caused a division-by-zero in the scoring formula.
 
+### New Features
+
+- **Binary sensor: GFS Supplementary Data** (`binary_sensor.py`, `strings.json`, `translations/`): New binary sensor that indicates whether GFS (Global Forecast System — NOAA's global numerical weather prediction model) supplementary data (boundary-layer height, lifted index, visibility, CAPE) was successfully retrieved in the last update cycle. `ON` means the improved atmospheric calculations are using real NWP model data; `OFF` means the GFS fetch failed and atmospheric conditions (seeing, fog, lifted index) are internally estimated from surface observations. The sensor is translated in all six supported languages (en, de, fr, it, pl, sk).
+- **Weather entity: `gfs_supplementary_data` attribute** (`weather.py`, `const.py`): The `gfs_supplementary_data` boolean is now exposed as `ATTR_WEATHER_GFS_SUPPLEMENTARY_DATA` in the weather entity's `extra_state_attributes`, making the GFS fetch status readable from any Lovelace card or template that consumes the weather entity without requiring direct access to the binary sensor.
+
 # [0.75.0](https://github.com/mawinkler/astroweather/compare/v0.74.0...v0.75.0) (2026-01-13)
 
 ### Fixes

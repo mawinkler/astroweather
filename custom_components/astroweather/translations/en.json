@@ -70,5 +70,16 @@
         }
       }
     }
+  },
+  "entity": {
+    "binary_sensor": {
+      "gfs_supplementary_data": {
+        "name": "GFS Supplementary Data",
+        "state": {
+          "on": "Active",
+          "off": "Estimated"
+        }
+      }
+    }
   }
 }

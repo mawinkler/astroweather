@@ -70,5 +70,16 @@
         }
       }
     }
+  },
+  "entity": {
+    "binary_sensor": {
+      "gfs_supplementary_data": {
+        "name": "Doplnkové údaje GFS",
+        "state": {
+          "on": "Aktívne",
+          "off": "Odhadované"
+        }
+      }
+    }
   }
 }
