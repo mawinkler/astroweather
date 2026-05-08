@@ -1,11 +1,13 @@
-# Unreleased (post 0.75.0)
+# Changelog
 
-### Fixes
+## Unreleased (post 0.75.0)
+
+### Bug Fixes
 
 - **Fog weight ignored** (`__init__.py`): The `fog_weight` option was commented out when constructing the `AstroWeather` client, so the user-configured fog weight was silently replaced by the library default on every startup. The argument is now passed correctly.
 - **Elevation range mismatch** (`config_flow.py`): The config flow rejected elevations outside 0–4000 m while the underlying library accepts −500–9000 m. The validation range is now aligned: −500 m (below sea level, e.g. Dead Sea) to 9000 m (high-altitude observatories).
 
-### Changes
+### Improvements
 
 - **Improved atmospheric calculations now active by default**: The improved seeing, transparency, fog density, and lifted-index calculations (previously behind the "Experimental Features" toggle) are now always active. The toggle is preserved in the UI but has no effect; a message is logged if it is still enabled. See the pyastroweatherio changelog for details.
 - **Physically tuned cloud-layer weakening defaults** (`const.py`): High (cirrus) → 40, medium (altocumulus) → 70, low (stratus/fog) → 100. Previous default was 100 for all layers. Existing explicitly-configured values are unaffected.
@@ -16,494 +18,371 @@
 - **Binary sensor: GFS Supplementary Data** (`binary_sensor.py`, `strings.json`, `translations/`): New binary sensor that indicates whether GFS (Global Forecast System — NOAA's global numerical weather prediction model) supplementary data (boundary-layer height, lifted index, visibility, CAPE) was successfully retrieved in the last update cycle. `ON` means the improved atmospheric calculations are using real NWP model data; `OFF` means the GFS fetch failed and atmospheric conditions (seeing, fog, lifted index) are internally estimated from surface observations. The sensor is translated in all six supported languages (en, de, fr, it, pl, sk).
 - **Weather entity: `gfs_supplementary_data` attribute** (`weather.py`, `const.py`): The `gfs_supplementary_data` boolean is now exposed as `ATTR_WEATHER_GFS_SUPPLEMENTARY_DATA` in the weather entity's `extra_state_attributes`, making the GFS fetch status readable from any Lovelace card or template that consumes the weather entity without requiring direct access to the binary sensor.
 
-# [0.75.0](https://github.com/mawinkler/astroweather/compare/v0.74.0...v0.75.0) (2026-01-13)
+---
 
-### Fixes
+## [0.75.0](https://github.com/mawinkler/astroweather/compare/v0.74.0...v0.75.0) (2026-01-13)
+
+### Bug Fixes
 
 - Handling of connection errors at start up.
 
 ### Changes
 
-- You can now adjust the weights for condition calculation in between 1.100 which allows more granular adjustments. I'm using
-  - Clouds: 80
-  - Fog: 50
-  - Seeing: 20
-  - Transparency: 20
-  - Calmness: 50
+- Condition calculation weights are now adjustable in the range 1–100, allowing more granular tuning. Example values: Clouds 80, Fog 50, Seeing 20, Transparency 20, Calmness 50.
+- Introduced improved calculation methods for seeing, magnitude degradation, lifted index, and fog density behind an "Experimental Features" toggle. These are now the default in the unreleased version above; see the pyastroweatherio changelog for details.
 
-### New
+## [0.74.0](https://github.com/mawinkler/astroweather/compare/v0.73.0...v0.74.0) (2025-11-13)
 
-***Ask: If the currently experimental calculations improve the results for you, please provide feedback by creating an issue or emailing me. See below.***
+### Bug Fixes
 
-- New methods have been implemented for estimating seeing, magnitude degradation, lifted index, and fog density. To use these methods, activate "Experimental Features" in the configuration flow.
-  - Lifted Index calculates a rough Lifted Index (LI) proxy in °C. Real LI requires an environmental temperature profile (a sounding).
-      With only surface data, we:
-      - Estimate station pressure from sea-level pressure + altitude.
-      - Estimate LCL temperature using a common approximation.
-      - Estimate parcel temperature at 500 hPa via:
-        dry-adiabatic to LCL, then a simplified moist-adiabatic adjustment.
-      - Estimate environmental temperature at 500 hPa using a standard lapse proxy.
-  - Magnitude Degradation:
-      - Transparency -> mag uses a physically meaningful transform:
-        mag_loss ≈ -2.5 * log10(transparency)
-      - Uses improved LI + seeing as modifiers.
-      - Keeps output bounded by MAG_DEGRATION_MAX.
-      - Uses humidity haze risk, blowing aerosols, clouds quickly dominating, air unstability by lifted index, and seeing.
-  - Seeing calculates a rough seeing estimate in arcseconds, tuned to behave more like common forecast products (e.g., meteoblue) in terms of directionality. Still a heuristic: with only surface inputs one cannot model free-atmosphere seeing.
-      - Uses stable, bounded mapping driven by:
-        * wind (mechanical turbulence),
-        * dewpoint depression & RH (near-surface stability / saturation),
-        * cloud cover (proxy for active layers),
-        * altitude (usually helps boundary-layer seeing).
-  - Fog density calculates a 0..1 "fog likelihood/density" proxy.
-      - Uses dewpoint depression (T - Td) + RH with a logistic curve (stable).
-      - Stronger penalty for wind mixing (fog dispersal).
-      - Handles edge cases (negative RH, etc.) safely.
-
-# [0.74.0](https://github.com/mawinkler/astroweather/compare/v0.73.0...v0.74.0) (2025-11-13)
-
-### Fixes
-
-- About the AstroWeather Card [v0.74.2](https://github.com/mawinkler/astroweather-card/releases/tag/v0.74.1):
-  - Highlight astronomical darkness again. This version includes shading of the background.
-  - Fixed renderRoot.host.
-
-# [0.74.0](https://github.com/mawinkler/astroweather/compare/v0.73.0...v0.74.0) (2025-11-09)
-
-### Fixes
-
-- About the AstroWeather Card [v0.74.1](https://github.com/mawinkler/astroweather-card/releases/tag/v0.74.1):
-  - The iOS flicker problem, which was caused by continuous chart redraws initiated by ResizeObserver, has been fixed.
-  - Improved and dampened the chart redraw and update logic.
-  - Fixed the forecast table.
-
-# [0.74.0](https://github.com/mawinkler/astroweather/compare/v0.73.0...v0.74.0) (2025-09-05)
-
-### Fixes
-
+- AstroWeather Card v0.74.2: Highlight astronomical darkness again (background shading). Fixed `renderRoot.host`.
+- AstroWeather Card v0.74.1: Fixed iOS flicker problem caused by continuous chart redraws from ResizeObserver. Improved and dampened chart redraw/update logic. Fixed the forecast table.
+- AstroWeather Card v0.74.0: Fixed TypeError on undefined `action`. Fixed TypeError on null `_resolveAnimations`. Fixed graph update on card resize.
 - Fix pass config entry explicitly [#73](https://github.com/mawinkler/astroweather/issues/73).
 - Fix unexpected error fetching astroweather data [#72](https://github.com/mawinkler/astroweather/issues/72).
-- About the AstroWeather Card [v0.74.0](https://github.com/mawinkler/astroweather-card/releases/tag/v0.74.0):
-  - Fixed TypeError: Cannot read properties of undefined (reading 'action').
-  - Fixed TypeError: Cannot read properties of null (reading '_resolveAnimations').
-  - Fixed graph update when resizing card.
 
-# [0.73.0](https://github.com/mawinkler/astroweather/compare/v0.72.1...v0.73.0) (2025-04-24)
+## [0.73.0](https://github.com/mawinkler/astroweather/compare/v0.72.1...v0.73.0) (2025-04-24)
 
 ### Changes
 
 - Removed dependency to 7Timer, simplified the code.
 - Added French translation. Thanks to @TallFurryMan.
 
-# [0.72.1](https://github.com/mawinkler/astroweather/compare/v0.72.0...v0.72.1) (2025-04-14)
+## [0.72.1](https://github.com/mawinkler/astroweather/compare/v0.72.0...v0.72.1) (2025-04-14)
 
-### Fixes
+### Bug Fixes
 
-- Compatibility fix for older Home Assistant versions. Does not introduce any new functionality.
+- Compatibility fix for older Home Assistant versions.
 
-### ***Deprecation Warning***
-
-I'm planning to remove the dependency on 7Timer, as the *experimental mode* seems to match my observations quite well. The advantage would be that I could remove a lot of complexity in the code. If you have any concerns, please let me know.
-
-# [0.72.0](https://github.com/mawinkler/astroweather/compare/v0.71.0...v0.72.0) (2025-04-02)
+## [0.72.0](https://github.com/mawinkler/astroweather/compare/v0.71.0...v0.72.0) (2025-04-02)
 
 ### Changes
 
-- The entities of an AstroWeather instance are now grouped into a Home Assistant device.
+- Entities of an AstroWeather instance are now grouped into a Home Assistant device.
 
-### Fixes
+### Bug Fixes
 
 - Dependencies in pyastroweatherio and bump versions.
 
-### ***Deprecation Warning***
-
-I'm planning to remove the dependency on 7Timer, as the *experimental mode* seems to match my observations quite well. The advantage would be that I could remove a lot of complexity in the code. If you have any concerns, please let me know.
-
-# [0.71.0](https://github.com/mawinkler/astroweather/compare/v0.70.2...v0.71.0) (2025-03-31)
+## [0.71.0](https://github.com/mawinkler/astroweather/compare/v0.70.2...v0.71.0) (2025-03-31)
 
 ### Changes
 
 - Calculation of the proper icon for the current moon phase. Also requested by [#67](https://github.com/mawinkler/astroweather/issues/67).
-- Calculation of the next dark night where either the moon phase is less than 5% and/or the maximum altitude during the night is less than 5° above the horizon. The limits are currently hard coded.
-- About the AstroWeather Card [v0.71.0](https://github.com/mawinkler/astroweather-card/releases/tag/v0.71.0):
-  - The card is now converted to TypeScript and includes all dependencies in one generated JavaScript file. This hopefully avoids outages when CDNs are not available. See [#21](https://github.com/mawinkler/astroweather-card/issues/21).
-  - The graph now displays the propper units in the tooltip
-  - Bumped several versions of dependent libraries, including Chart.js.
+- Calculation of the next dark night: moon phase < 5 % and/or maximum altitude during the night < 5° above the horizon.
+- AstroWeather Card v0.71.0: Converted to TypeScript with all dependencies bundled in one JS file (avoids CDN outages, see [#21](https://github.com/mawinkler/astroweather-card/issues/21)). Graph now displays proper units in the tooltip. Bumped Chart.js and other dependencies.
 
-### Fixes
+### Bug Fixes
 
 - Improved handling of missing data provided by weather services.
 
-# [0.70.2](https://github.com/mawinkler/astroweather/compare/v0.70.1...v0.70.2) (2024-11-19)
+## [0.70.2](https://github.com/mawinkler/astroweather/compare/v0.70.1...v0.70.2) (2024-11-19)
 
-### Fixes
+### Bug Fixes
 
-- Moon rising and setting and UpTonight import, fixes issue [#64](https://github.com/mawinkler/astroweather/issues/64). Bump `pyastroweatherio` version to `0.70.3`
+- Moon rising/setting and UpTonight import. Fixes [#64](https://github.com/mawinkler/astroweather/issues/64). Bumps `pyastroweatherio` to `0.70.3`.
 
-# [0.70.1](https://github.com/mawinkler/astroweather/compare/v0.70.0...v0.70.1) (2024-11-17)
+## [0.70.1](https://github.com/mawinkler/astroweather/compare/v0.70.0...v0.70.1) (2024-11-17)
 
-### Fixes
+### Bug Fixes
 
-- Bump `pyastroweatherio` version to `0.70.0`
+- Bump `pyastroweatherio` to `0.70.0`.
 
-# [0.70.0](https://github.com/mawinkler/astroweather/compare/v0.61.1...v0.70.0) (2024-11-16)
+## [0.70.0](https://github.com/mawinkler/astroweather/compare/v0.61.1...v0.70.0) (2024-11-16)
 
-### Major changes
+### Major Changes
 
-- Weather services provide forecast data of varying quality for different regions of the world. This makes further calculations such as ground fog, seeing etc. difficult. AstroWeather can therefore now also use data from the following services for internal calculations:
-  - DWD Germany
-  - Met Norway
-  - NOAA U.S.
-  - ECMWF
-  - enventually more to come.
-- This data is optionally retrieved via Open-Meteo and supplements or replaces the previous basic data. It makes sense to try out the different services and compare them with actual measured values, for example from your own weather station. This should allow you to find the best service for your area. ***I'd love to hear your feedback on this new feature and which Open-Meteo service you have chosen for your region.***
-- Refactored `pyastroweatherio` from the ground up and is now using typeguard and dataframes. It was a lot of work, but it made the code much easier to read and extend, and it was fun.
-- AsterWeather now requires the AstroWeather-Card in version 0.70.0+. If you get a `Entity is not a AstroWeather entity`-error clean your browser cache and reload.
+- Weather services now selectable: DWD Germany, Met Norway, NOAA U.S., ECMWF, and more to come. Data is retrieved via Open-Meteo and supplements or replaces previous basic data. Try different services and compare with local measurements to find the best fit for your area.
+- `pyastroweatherio` refactored from the ground up using typeguard and DataFrames.
+- Requires AstroWeather Card v0.70.0+. If you see "Entity is not an AstroWeather entity", clear your browser cache and reload.
 
 ### Changes
 
-- Condition calculation now includes fog density. The fog density forecast is also included on the chart. Since fog is a very important factor in the condition calculation, AstroWeather can additionally estimate the density using temperature, relative humidity, dew point, and wind speed at ground level if you have activated the experimental mode. The condition calculation will then take into account fog forecast and the self-calculated fog density by using the worst value.
-- The constellation of the Sun and Moon are now calculated.
-- Additional calculations for Sun and Moon:
-  - Current constallation of Sun and Moon.
-  - Moon angular size, distance, relative distance and relative size, and more.
+- Condition calculation now includes fog density. AstroWeather can additionally estimate fog density from temperature, RH, dewpoint, and wind speed when experimental mode is active.
+- Sun and Moon constellation calculations added.
+- Moon angular size, distance, relative distance, and relative size added.
 
-# [0.61.1](https://github.com/mawinkler/astroweather/compare/v0.61.0...v0.61.1) (2024-10-10)
+## [0.61.1](https://github.com/mawinkler/astroweather/compare/v0.61.0...v0.61.1) (2024-10-10)
 
-### Fixes
+### Bug Fixes
 
-- Hopefully fixes some install problems which occured on arm64 platforms (Yellow, RPi4) and addresses the issues [#62](https://github.com/mawinkler/astroweather/issues/62) and [#63](https://github.com/mawinkler/astroweather/issues/63). Tested platforms:
-  - HassOS (arm64) 2024.10.1 - seems resolved
-  - HassOS (amd64) 2024.10.1 - didn't have issues
-  - Dev container (amd64) 2024.11.0.dev0 - didn't have issues
-  - Non-supervised in container (amd64) 2024.10.1 - didn't have issues
-- Fixes NoneType comparison [#63](https://github.com/mawinkler/astroweather/issues/63) 
+- Fixed install problems on arm64 platforms (Yellow, RPi4). Addresses [#62](https://github.com/mawinkler/astroweather/issues/62) and [#63](https://github.com/mawinkler/astroweather/issues/63).
+- Fixed NoneType comparison [#63](https://github.com/mawinkler/astroweather/issues/63).
 
-# [0.61.0](https://github.com/mawinkler/astroweather/compare/v0.60.0...v0.61.0) (2024-10-05)
+## [0.61.0](https://github.com/mawinkler/astroweather/compare/v0.60.0...v0.61.0) (2024-10-05)
 
 ### Changes
 
-- AstroWeather can now analyse the UpTonight report on comets. This makes it possible to know which comets will be in the sky tonight, their distance to the Sun and Earth and their current visual magnitude.
-- One more thing with UpTonight: Check the altitude vs. time diagrams for all observable objects, bodies, and comets from the Home Assistant. See the README for examples.
+- UpTonight comet analysis: shows which comets will be in the sky tonight, their distance to the Sun and Earth, and current visual magnitude.
+- UpTonight altitude vs. time diagrams accessible from Home Assistant for all observable objects, bodies, and comets.
 
-# [0.60.0](https://github.com/mawinkler/astroweather/compare/v0.50.4...v0.60.0) (2024-09-13)
-
-### Changes
-
-- AstroWeather can now analyse the UpTonight report on solar system bodies (planets). This makes it possible to know which planets will be in the sky tonight, when they will be at their maximum elevation and in which direction they can be observed.
-
-### Fixes
-
-- Return ISO format datetime from get_forecasts service. Fixes [Issue 60](https://github.com/mawinkler/astroweather/issues/60).
-
-# [0.50.4](https://github.com/mawinkler/astroweather/compare/v0.50.2...v0.50.4) (2024-07-07)
+## [0.60.0](https://github.com/mawinkler/astroweather/compare/v0.50.4...v0.60.0) (2024-09-13)
 
 ### Changes
 
-- About the AstroWeather Card [v0.52.4](https://github.com/mawinkler/astroweather-card):
-  - The card can now graph the precipitation amount.
-  - The amount of precipitation for the next 6 hours, starting with astronomical darkness, is now displayed in the status description if there is precipitation.
-- Forwarding setup to config entry platforms. Fixes [Issue 59](https://github.com/mawinkler/astroweather/issues/59).
+- UpTonight solar system body analysis: shows which planets are in the sky tonight, when they reach maximum elevation, and in which direction.
 
-# [0.50.2](https://github.com/mawinkler/astroweather/compare/v0.50.1...v0.50.2) (2024-06-05)
+### Bug Fixes
 
-A lot of changes, fixes and improvements in the AstroWeather-Card are done.
+- Return ISO format datetime from `get_forecasts` service. Fixes [#60](https://github.com/mawinkler/astroweather/issues/60).
+
+## [0.50.4](https://github.com/mawinkler/astroweather/compare/v0.50.2...v0.50.4) (2024-07-07)
 
 ### Changes
 
-- About the AstroWeather Card [v0.52.2](https://github.com/mawinkler/astroweather-card):
-  - The card can now display the precipitation forecast graphically. When activated you will get a scale on the right with up to 10mm of rainfall per hour.
-  - The lifted index got a dedicated scale on the right as well.
-  - The duration of astronomical darkness and deep sky darkness of the following night are now shown.
-  - The tabular forecast is now filtered by the enabled subcharts and shows 7 forecast hours max.
-- News on AstroWeathers condition calculation:
-  - The forecast precipitation now influences the status calculation by making it worse.
+- AstroWeather Card v0.52.4: Chart now graphs precipitation amount. Precipitation for the next 6 hours from astronomical darkness is shown in the status description when non-zero.
+- Forwarding setup to config entry platforms. Fixes [#59](https://github.com/mawinkler/astroweather/issues/59).
 
-### Fixes
+## [0.50.2](https://github.com/mawinkler/astroweather/compare/v0.50.1...v0.50.2) (2024-06-05)
 
-- The icons for precipitation are now changing depending on rainfall per hour.
-- Lots of fixes in the CSS section of the card.
+### Changes
 
-# [0.50.1](https://github.com/mawinkler/astroweather/compare/v0.50.0...v0.50.1) (2024-05-28)
+- AstroWeather Card v0.52.2: Graphical precipitation forecast with a right-hand scale up to 10 mm/h. Dedicated right-hand scale for lifted index. Duration of astronomical and deep sky darkness for the following night. Tabular forecast filtered by enabled sub-charts, capped at 7 hours.
+- Forecast precipitation now influences the condition score negatively.
 
-See full changelog for version 0.50.0 below.
+### Bug Fixes
 
-### Fixes
+- Precipitation icons now change depending on rainfall per hour.
+- Numerous CSS fixes in the card.
 
-- Minor fix in `pyastroweatherio` at seeing calculation.
+## [0.50.1](https://github.com/mawinkler/astroweather/compare/v0.50.0...v0.50.1) (2024-05-28)
 
-# [0.50.0](https://github.com/mawinkler/astroweather/compare/v0.42.3...v0.50.0) (2024-05-27)
+### Bug Fixes
 
-This is a massive release, at least under the hood. The pyastroweatherio library is more or less completely redeigned and much more resilient. It now offers an experimental mode which estimates atmospheric conditions like the lifted index. 
+- Minor fix in `pyastroweatherio` seeing calculation.
 
-### Fixes
-
-- AstroWeather-Card now uses new Forecast service instead of weather entity attributes. Fixes [Issue 34](https://github.com/mawinkler/astroweather/issues/34) and [Issue 50](https://github.com/mawinkler/astroweather/issues/50).
-- Removed the dependency to `pytz` in `AstroWeather` and `pyastroweatherio` which introduced a blocking call.
+## [0.50.0](https://github.com/mawinkler/astroweather/compare/v0.42.3...v0.50.0) (2024-05-27)
 
 ### Breaking Changes
 
-- Removed the sensor `seeing_plain`. This is now replaced by the sensor `seeing` giving you the calculated seeing in arcsecs.
-- Removed the sensor `cloudcover_plain`. Use the sensor `cloud_cover` instead.
-- Setting a name for the AstroWeather instance (see below) required to rearchitecture the entity IDs and the unique IDs. All entities of of an already existing instance will be migrated, but not the location name you defined within the AstroWeather-Card. The location name can now only be set during instance creation. If you want proper entity names, you need to delete existing instances and readd them after updating to the version 0.50 and above.
+- Removed sensor `seeing_plain`; replaced by `seeing` reporting calculated seeing in arcseconds.
+- Removed sensor `cloudcover_plain`; use `cloud_cover` instead.
+- Entity IDs and unique IDs rearchitected due to named instances. Existing entities migrate automatically; the location name configured in the card does not. Delete and re-add existing instances for clean entity names.
 
 ### Changes
 
-- AstroWeather now got an experimental mode which you can activate in the integration configuration. When using this, AstroWeather is now approximately calculating the seeing, transparency, and the lifted index based on Met.no delivered data. These calculations are a challenge and still at an early stage. They need to be validated, especially for different locations. Please report back how well it works for you.
-- The integration should now be much more resilient. Fixes [Issue 55](https://github.com/mawinkler/astroweather/issues/55) and [Issue 56](https://github.com/mawinkler/astroweather/issues/56).
-- News on AstroWeathers condition calculation:
-  - Calmness as an additional factor is now included. So the less wind the better gets the condition. Weighting can be adjusted same as seeing, transparency and the clouds.
-  - You can now weaken the influence of high, medium, and low clouds. By default, all levels are equally weighted, but high clouds can be less impairing for deep sky astronomy than medium or low clouds. Depending on your typical weather, it can make sense to weaken high clouds for the calculation. Experiemt with that.
-- About the AstroWeather Card:
-  - Some labels on the [AstroWeather Card](https://github.com/mawinkler/astroweather-card) are shortened to avoid line breaks.
-  - The card can now graph calmness and lifted index.
-- Weather services used by AstroWeather:
-  - Met.no now became the leading forecast service instead of 7Timer. This happened because 7Timer has repeatedly provided unreliable data or was inaccessible in the recent past.
-  - In case 7Timer is not available, AstroWeather automatically falls to experimental mode.
-- Replace deprecated HomeAssistantType with HomeAssistant fixes [Issue 57](https://github.com/mawinkler/astroweather/issues/57).
-- You can now name the AstroWeather instances when adding them to Home Assistant. Solves [Issue 53](https://github.com/mawinkler/astroweather/issues/53).
+- Experimental mode: AstroWeather now estimates seeing, transparency, and lifted index from Met.no data. Activate in the integration configuration.
+- Calmness added as a condition factor. Wind weighting is configurable alongside clouds, seeing, and transparency.
+- Configurable per-layer cloud weakening: high clouds can be set to have less impact than medium/low clouds.
+- AstroWeather Card: shortened labels to avoid line breaks; added calmness and lifted index graphs.
+- Met.no is now the primary forecast service (7Timer demoted to fallback due to reliability issues).
+- Named AstroWeather instances. Solves [#53](https://github.com/mawinkler/astroweather/issues/53).
 - Completely redesigned configuration and options workflow.
+- Replace deprecated `HomeAssistantType` with `HomeAssistant`. Fixes [#57](https://github.com/mawinkler/astroweather/issues/57).
 
-# [0.42.3](https://github.com/mawinkler/astroweather/compare/v0.42.2...v0.42.3) (2024-02-09)
+### Bug Fixes
 
-### Fixes
+- AstroWeather Card now uses new Forecast service instead of weather entity attributes. Fixes [#34](https://github.com/mawinkler/astroweather/issues/34) and [#50](https://github.com/mawinkler/astroweather/issues/50).
+- Removed dependency on `pytz`, which introduced a blocking call.
 
-- [Issue 51](https://github.com/mawinkler/astroweather/issues/51): Added missing User-Agent header in [pyastroweatherio](https://github.com/mawinkler/pyastroweatherio).
+## [0.42.3](https://github.com/mawinkler/astroweather/compare/v0.42.2...v0.42.3) (2024-02-09)
 
-### Changes
+### Bug Fixes
 
-- Bumped versions of `aiohttp`, and `pytz` in [pyastroweatherio](https://github.com/mawinkler/pyastroweatherio).
+- [#51](https://github.com/mawinkler/astroweather/issues/51): Added missing User-Agent header in pyastroweatherio.
+- Bumped `aiohttp` and `pytz` in pyastroweatherio.
 
-# [0.42.2](https://github.com/mawinkler/astroweather/compare/v0.42.1...v0.42.2) (2024-01-10)
+## [0.42.2](https://github.com/mawinkler/astroweather/compare/v0.42.1...v0.42.2) (2024-01-10)
 
-### Fixes
+### Bug Fixes
 
-- Fixed deprication warning "TEMP_CELSIUS". Thanks @ChristophCaina
+- Fixed deprecation warning `TEMP_CELSIUS`. Thanks @ChristophCaina.
 
-# [0.42.1](https://github.com/mawinkler/astroweather/compare/v0.42.0...v0.42.1) (2023-11-12)
+## [0.42.1](https://github.com/mawinkler/astroweather/compare/v0.42.0...v0.42.1) (2023-11-12)
 
-### Fixes
+### Bug Fixes
 
-- Fixed daily Deep Sky Forceast.
- 
-# [0.42.0](https://github.com/mawinkler/astroweather/compare/v0.31.0...v0.42.0) (2023-11-10)
+- Fixed daily Deep Sky Forecast.
 
-### Fixes
-
-- Fixed weired behaviour of rise and set calclations depending on the earth location.
-- Fixed the Deep Sky Darkness calculation which was a tough one.
-- Fixed errors at astronomical night and forecast visualization in the Lovelace card.
-
-I spent hours on testing all the calculations for multiple geographic locations (Anchorage, Sydney, Chile, Namibia, and my location (nearby Munich)). All show a deviation of less than a couple of seconds compared to United States Naval Observatory. Please report any issues.
+## [0.42.0](https://github.com/mawinkler/astroweather/compare/v0.31.0...v0.42.0) (2023-11-10)
 
 ### Changes
 
-- Moon set and rise time now calculated according to Naval Observatory Risings and Settings.
+- Moon set and rise calculated according to Naval Observatory Risings and Settings.
 - Optional integration with [UpTonight](https://github.com/mawinkler/uptonight).
 - Added Slovak translation. Thanks to @misa1515.
-- New sensor on request: Next full Moon.
-- New binary sensor for moon down during astronomical night.
+- New sensor: next full Moon.
+- New binary sensor: moon down during astronomical night.
 - Card now displays local time for remote locations.
 
-# [0.31.0](https://github.com/mawinkler/astroweather/compare/v0.30.0...v0.31.0) (2023-10-12)
+### Bug Fixes
+
+- Fixed rise/set calculations for different geographic locations.
+- Fixed Deep Sky Darkness calculation.
+- Fixed errors at astronomical night and forecast visualisation in the card.
+
+## [0.31.0](https://github.com/mawinkler/astroweather/compare/v0.30.0...v0.31.0) (2023-10-12)
 
 ### Changes
 
-- Calculation of deep sky darkness.
-- Calculation of astronomical night duration.
-- Binary sensors for moon rising/setting or up during astronomical night.
-- Updated lovelace card.
+- Deep sky darkness calculation.
+- Astronomical night duration calculation.
+- Binary sensors for moon rising/setting/up during astronomical night.
+- Updated Lovelace card.
 
-# [0.30.0](https://github.com/mawinkler/astroweather/compare/v0.23.2...v0.30.0) (2023-10-06)
+## [0.30.0](https://github.com/mawinkler/astroweather/compare/v0.23.2...v0.30.0) (2023-10-06)
 
 ### Changes
 
-- Implemented hourly forecast.
+- Hourly forecast implemented.
 - Changed nightly condition display.
 - Card now indicates astronomical darkness graphically.
-- Italien translation.
-- Calculate next new Moon.
-- Astronomical calculations can now be done every minute.
-- Sun/Moon set and rise time is now updated after the previous one has happened.
-- Beautified AstroWeather-Card Lovelace card. Card is now more customizable and able to show cloud coverage for low, medium and high clouds.
+- Italian translation added.
+- Next new Moon calculation.
+- Astronomical calculations can now run every minute.
+- Sun/Moon set and rise time updated after the previous event has passed.
+- Card more customisable; shows cloud coverage for low, medium, and high clouds separately.
 
-# [0.23.2](https://github.com/mawinkler/astroweather/compare/v0.23.1...v0.23.2) (2023-09-12)
-
-### Changes
-
-- [Issue 32](https://github.com/mawinkler/astroweather/issues/32): Implemented the new Weather forecast service for 2023.9.
-
-# [0.23.1](https://github.com/mawinkler/astroweather/compare/v0.23.0...v0.23.1) (2023-04-26)
+## [0.23.2](https://github.com/mawinkler/astroweather/compare/v0.23.1...v0.23.2) (2023-09-12)
 
 ### Changes
 
-- [Issue 30](https://github.com/mawinkler/astroweather/issues/30): Updated attribution to include Met.no.
+- [#32](https://github.com/mawinkler/astroweather/issues/32): Implemented the new Weather forecast service for HA 2023.9.
 
-# [0.23.0](https://github.com/mawinkler/astroweather/compare/v0.22.5.1...v0.23.0) (2023-04-24)
-
-### Changes
-
-- AstroWeather does now integrate with Met.no in addition to 7Timer. Met.no seems to deliver a more accurate cloud forecast. If enabled in the configuration the Met.no cloud forecast overrides the 7Timer cloud forecast.
-- New sensors for total, high, medium and low clouds added:
-  - `astroweather_clouds_area` Percentage for total cloud coverage
-  - `astroweather_clouds_area_high` Percentage for high altitude cloud coverage
-  - `astroweather_clouds_area_medium` Percentage for medium altitude cloud coverage
-  - `astroweather_clouds_area_low` Percentage for low altitude cloud coverage
-
-# [0.22.5.1](https://github.com/mawinkler/astroweather/compare/v0.22.5...v0.22.5.1) (2023-03-22)
-
-### Fixes
-
-- [Issue #27](https://github.com/mawinkler/astroweather/issues/27): Bumped pyastroweatherio to v0.22.5.3 for better handling or erroneous data.
-
-# [0.22.5](https://github.com/mawinkler/astroweather/compare/v0.22.4...v0.22.5) (2023-02-09)
-
-### Fixes
-
-- [Issue #25](https://github.com/mawinkler/astroweather/issues/25): Fixed sensor units for string values.
-
-# [0.22.4](https://github.com/mawinkler/astroweather/compare/v0.22.3...v0.22.4) (2023-01-15)
-
-### Fixes
-
-- [Issue #21](https://github.com/mawinkler/astroweather/issues/21): Changed `DEVICE_CLASS_*` to SensorDeviceClass enums. The `DEVICE_CLASS_*` constants have been deprecated and replaced in Home Assistant Core 2021.12.
-
-# [0.22.3](https://github.com/mawinkler/astroweather/compare/v0.22.2...v0.22.3) (2022-10-29)
-
-### Fixes
-
-- [Issue #19](https://github.com/mawinkler/astroweather/issues/19): As of Home Assistant Core 2022.11, the IMPERIAL_SYSTEM is deprecated, replaced by US_CUSTOMARY_SYSTEM. The is_metric and name properties of a unit system are likewise deprecated and should not be used. Adjusted to use instance check instead.
-
-# [0.22.2](https://github.com/mawinkler/astroweather/compare/v0.22.1...v0.22.2) (2022-07-22)
-
-### Fixes
-
-- [Issue #18](https://github.com/mawinkler/astroweather/issues/18): Temperature conversions with `native_value` and `native_unit_of_measurement` are now implemented in the sensor entity [Reference](https://developers.home-assistant.io/blog/2021/08/12/sensor_temperature_conversion/).
-
-# [0.22.1](https://github.com/mawinkler/astroweather/compare/v0.22.0...v0.22.1) (2022-07-20)
+## [0.23.1](https://github.com/mawinkler/astroweather/compare/v0.23.0...v0.23.1) (2023-04-26)
 
 ### Changes
 
-- Calculate the timezone of the AstroWeather instance based on configured timezone. This makes it possible to configure multiple instances of AstroWeather for different locations with potentially different time zones.
+- [#30](https://github.com/mawinkler/astroweather/issues/30): Updated attribution to include Met.no.
 
-### Fixes
+## [0.23.0](https://github.com/mawinkler/astroweather/compare/v0.22.5.1...v0.23.0) (2023-04-24)
 
-- [Issue #16](https://github.com/mawinkler/astroweather/issues/16) and [Issue #17](https://github.com/mawinkler/astroweather/issues/17): The introduction of the module [timezonefinder](https://github.com/jannikmi/timezonefinder) with it's nested dependency to [py-h3](https://github.com/uber/h3-py) failed while compiling the `c`-module h3 on some home assistant deployment variants (e.g. Home Assistant Operating System on RPi). The config flow now allows to select the timezone for the specific AstroWeather instance for which reason the dependency to `timezonefinder` is not required anymore.
+### Changes
+
+- Met.no integration added alongside 7Timer. Met.no delivers a more accurate cloud forecast; when enabled it overrides the 7Timer cloud forecast.
+- New sensors for total, high, medium, and low cloud coverage: `astroweather_clouds_area`, `astroweather_clouds_area_high`, `astroweather_clouds_area_medium`, `astroweather_clouds_area_low`.
+
+## [0.22.5.1](https://github.com/mawinkler/astroweather/compare/v0.22.5...v0.22.5.1) (2023-03-22)
+
+### Bug Fixes
+
+- [#27](https://github.com/mawinkler/astroweather/issues/27): Bumped pyastroweatherio to v0.22.5.3 for better handling of erroneous data.
+
+## [0.22.5](https://github.com/mawinkler/astroweather/compare/v0.22.4...v0.22.5) (2023-02-09)
+
+### Bug Fixes
+
+- [#25](https://github.com/mawinkler/astroweather/issues/25): Fixed sensor units for string values.
+
+## [0.22.4](https://github.com/mawinkler/astroweather/compare/v0.22.3...v0.22.4) (2023-01-15)
+
+### Bug Fixes
+
+- [#21](https://github.com/mawinkler/astroweather/issues/21): Replaced deprecated `DEVICE_CLASS_*` constants with `SensorDeviceClass` enums (deprecated since HA Core 2021.12).
+
+## [0.22.3](https://github.com/mawinkler/astroweather/compare/v0.22.2...v0.22.3) (2022-10-29)
+
+### Bug Fixes
+
+- [#19](https://github.com/mawinkler/astroweather/issues/19): Replaced deprecated `IMPERIAL_SYSTEM` and `is_metric`/`name` properties with instance checks (deprecated since HA Core 2022.11).
+
+## [0.22.2](https://github.com/mawinkler/astroweather/compare/v0.22.1...v0.22.2) (2022-07-22)
+
+### Bug Fixes
+
+- [#18](https://github.com/mawinkler/astroweather/issues/18): Implemented `native_value` and `native_unit_of_measurement` for temperature conversions.
+
+## [0.22.1](https://github.com/mawinkler/astroweather/compare/v0.22.0...v0.22.1) (2022-07-20)
 
 ### Breaking Changes
 
-- The config flow now requires an additional config entry. To upgrade from any previous version please delete the integration and add it again via the `Devices & Services` section of your Home Assistant
-
-# [0.22.0](https://github.com/mawinkler/astroweather/compare/v0.21.0...v0.22.0) (2022-07-10)
+- Config flow now requires an additional timezone entry. Delete and re-add the integration via Devices & Services when upgrading from any previous version.
 
 ### Changes
 
-- Calculate the timezone of the AstroWeather instance based on configured geographical location for the instance. This makes it possible to configure multiple instances of AstroWeather for different locations with potentially different time zones. Previously the timezone of the os was used.
-- Added nautical dusk calculated for -12 degrees
-- Added dew point calculation based on the Magnus-Tetens formula
-- Added sun altitude and azimuth calculations
-- Added moon altitude and azimuth calculations
+- Timezone calculated from the configured timezone entry, enabling multiple instances with different time zones.
 
-### Fixes
+### Bug Fixes
 
-- Calculations for civil sunset and sunrise are now calculated for -6 degrees (dusk)
-- [Issue #15](https://github.com/mawinkler/astroweather/issues/15): Properties `native_temperature`, `native_temperature_unit`, `native_wind_speed`
-- [Issue #16](https://github.com/mawinkler/astroweather/issues/16): Added some missing weather types in `pyastroweatherio` (`tsday`, `tsnight`, `tsrainday`, `tsrainnight`)
+- [#16](https://github.com/mawinkler/astroweather/issues/16) and [#17](https://github.com/mawinkler/astroweather/issues/17): Removed `timezonefinder` / `py-h3` dependency which failed to compile on some HA deployments (e.g. HassOS on RPi).
 
-# [0.21.0](https://github.com/mawinkler/astroweather/compare/v0.20.9...v0.21.0) (2022-05-13)
-
-### Fixes
-
-- Calculations for sunset and sunrise in polar regions are now supported. Thank you for @samhaa reporting [this](https://github.com/mawinkler/astroweather/issues/13).
-
-# [0.20.9](https://github.com/mawinkler/astroweather/compare/v0.20.8...v0.20.9) (2022-04-08)
+## [0.22.0](https://github.com/mawinkler/astroweather/compare/v0.21.0...v0.22.0) (2022-07-10)
 
 ### Changes
 
-- The weightings for the condition calculation is now configurable and can be adapted to your needs. Default isto weight clouds three times, seeing twice and transparency once.
-- Reintroduced cloud coverage sensor alongside cloudless sensor
-- Added forecast length sensor giving the available time period of forecast data in hours
-- Day names instead of `Today` and `Tomorrow` for the nightly forecast
-- Updated German and Polish translations
+- Timezone calculated from configured geographic location, enabling multiple instances with different time zones.
+- Added nautical dusk (−12°), dew point (Magnus-Tetens), sun altitude/azimuth, and moon altitude/azimuth calculations.
 
-### Fixes
+### Bug Fixes
 
-- `strings.json`
+- Civil sunset/sunrise now correctly calculated for −6° (dusk).
+- [#15](https://github.com/mawinkler/astroweather/issues/15): `native_temperature`, `native_temperature_unit`, `native_wind_speed`.
+- [#16](https://github.com/mawinkler/astroweather/issues/16): Added missing weather types (`tsday`, `tsnight`, `tsrainday`, `tsrainnight`).
 
-# [0.20.8](https://github.com/mawinkler/astroweather/compare/v0.20.7...v0.20.8) (2022-03-14)
+## [0.21.0](https://github.com/mawinkler/astroweather/compare/v0.20.9...v0.21.0) (2022-05-13)
+
+### Bug Fixes
+
+- Sunset/sunrise calculations for polar regions now supported. Fixes [#13](https://github.com/mawinkler/astroweather/issues/13). Thanks @samhaa.
+
+## [0.20.9](https://github.com/mawinkler/astroweather/compare/v0.20.8...v0.20.9) (2022-04-08)
+
+### Changes
+
+- Condition calculation weights now configurable. Default: clouds ×3, seeing ×2, transparency ×1.
+- Reintroduced cloud coverage sensor alongside cloudless sensor.
+- Added forecast length sensor (available forecast hours).
+- Day names instead of "Today"/"Tomorrow" for the nightly forecast.
+- Updated German and Polish translations.
+
+### Bug Fixes
+
+- `strings.json` fixes.
+
+## [0.20.8](https://github.com/mawinkler/astroweather/compare/v0.20.7...v0.20.8) (2022-03-14)
 
 ### Changes
 
 - Improved resilience against incomplete data.
 
-# [0.20.7](https://github.com/mawinkler/astroweather/compare/v0.20.6...v0.20.7) (2022-03-10)
+## [0.20.7](https://github.com/mawinkler/astroweather/compare/v0.20.6...v0.20.7) (2022-03-10)
 
 ### Changes
 
-- Added the moon phase as an attribute for the weather component.
-- Changed the maximum precision for the API query to 7Timer to two digits to protect your privacy.
-- Changed the forecast polling interval to be in a range of 30 mins to 4 hours with a default of 1h.
+- Moon phase added as a weather entity attribute.
+- API query precision to 7Timer reduced to two decimal digits to protect location privacy.
+- Forecast polling interval changed to 30 min – 4 h range (default 1 h) to reduce load on 7Timer.
 
-> Note: The change about the forecast polling interval was required since AstroWeather is becoming more popular and has started to overwhelm the 7Timer service. The integration was already consuming about 20% of its capacity. The forecast quality will not downgrade since the service is updating its data on a six-hourly basis.
+## [0.20.6](https://github.com/mawinkler/astroweather/compare/v0.20.5...v0.20.6) (2022-02-22)
 
-# [0.20.6](https://github.com/mawinkler/astroweather/compare/v0.20.5...v0.20.6) (2022-02-22)
+### Bug Fixes
 
-### Fixes
+- Corrected unit for lifted index (LI).
 
-- Corrected unit for lifted index (LI)
+## [0.20.5](https://github.com/mawinkler/astroweather/compare/v0.20.4...v0.20.5) (2022-02-22)
 
-# [0.20.5](https://github.com/mawinkler/astroweather/compare/v0.20.4...v0.20.5) (2022-02-22)
+### Bug Fixes
 
-### Fixes
+- Proper handling of timestamps.
 
-- Proper handling of timestamps
-
-# [0.20.4](https://github.com/mawinkler/astroweather/compare/v0.20.1...v0.20.4) (2022-02-19)
-
-### Fixes
-
-- Wind speed now showing in m/s
+## [0.20.4](https://github.com/mawinkler/astroweather/compare/v0.20.1...v0.20.4) (2022-02-19)
 
 ### Changes
 
-- New icons for moon rising and setting
-- Added sensor astroweatherq_10m_wind_speed_plain
+- New icons for moon rising and setting.
+- Added sensor `astroweather_10m_wind_speed_plain`.
 
-# [0.20.1](https://github.com/mawinkler/astroweather/compare/v0.20.0...v0.20.1) (2022-02-16)
+### Bug Fixes
 
-### Fixes
+- Wind speed now showing in m/s.
 
-- Timestamps not showing correctly on the companion app
-- The sun_next_rising attribute was actually showing the sun_next_setting value
+## [0.20.1](https://github.com/mawinkler/astroweather/compare/v0.20.0...v0.20.1) (2022-02-16)
 
-# [0.20.0](https://github.com/mawinkler/astroweather/compare/v0.0.18.3...v0.20.0) (2022-02-15)
+### Bug Fixes
 
-### Features
+- Timestamps not showing correctly on the companion app.
+- `sun_next_rising` attribute was returning the `sun_next_setting` value.
 
-- Added a Home Assistant weather entity
-- Added support for an optional [weather card](https://github.com/mawinkler/astroweather-card) for Lovelace
-- Bump to version 0.20.0
-- New sensors:
-  - `deepsky_forecast_today_desc` Deepsky forecast today description
-  - `deepsky_forecast_tomorrow_desc` Deepsky forecast tomorrow description
-  - `sun_next_setting_astronomical` Sun next setting astronomical twilight
-  - `sun_next_rising_astronomical` Sun next rising astronomical twilight
-  - `sun_next_setting` Sun next setting civil twilight
-  - `sun_next_rising` Sun next rising civil twilight
-- Changed sensors now reporting as percentage (the higher the percentage, the better for sky observations):
-  - `condition`
-  - `clouds`
-  - `seeing`
-  - `transparency`
+## [0.20.0](https://github.com/mawinkler/astroweather/compare/v0.0.18.3...v0.20.0) (2022-02-15)
 
 ### Breaking Changes
 
-- The following sensors got replaced:
-  - `view_conditions` with `condition`
-  - `forecast0` with `deepsky_forecast_today`
-  - `forecast0_plain` with `deepsky_forecast_today_plain`
-  - `forecast1` with `deepsky_forecast_tomorrow`
-  - `forecast0_plain` with `deepsky_forecast_tomorrow_plain`
-  - `sun_next_setting` with `sun_next_rising_astronomical`
-- The following sensors got removed:
-  - `view_conditions_plain`
+- Replaced sensors: `view_conditions` → `condition`, `forecast0` → `deepsky_forecast_today`, `forecast0_plain` → `deepsky_forecast_today_plain`, `forecast1` → `deepsky_forecast_tomorrow`, `forecast0_plain` → `deepsky_forecast_tomorrow_plain`, `sun_next_setting` → `sun_next_rising_astronomical`.
+- Removed `view_conditions_plain`.
+
+### New Features
+
+- Home Assistant weather entity added.
+- Optional [AstroWeather Card](https://github.com/mawinkler/astroweather-card) for Lovelace.
+- New sensors: `deepsky_forecast_today_desc`, `deepsky_forecast_tomorrow_desc`, `sun_next_setting_astronomical`, `sun_next_rising_astronomical`, `sun_next_setting`, `sun_next_rising`.
+- Condition, clouds, seeing, and transparency sensors now report as percentage (higher = better).
