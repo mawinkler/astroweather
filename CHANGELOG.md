@@ -1,11 +1,6 @@
 # Changelog
 
-## Unreleased (post 0.75.0)
-
-### Bug Fixes
-
-- **Fog weight ignored** (`__init__.py`): The `fog_weight` option was commented out when constructing the `AstroWeather` client, so the user-configured fog weight was silently replaced by the library default on every startup. The argument is now passed correctly.
-- **Elevation range mismatch** (`config_flow.py`): The config flow rejected elevations outside 0–4000 m while the underlying library accepts −500–9000 m. The validation range is now aligned: −500 m (below sea level, e.g. Dead Sea) to 9000 m (high-altitude observatories).
+## [0.80.0](https://github.com/mawinkler/astroweather/compare/v0.75.0...v0.80.0) (2026-05-29)
 
 ### Improvements
 
@@ -15,8 +10,42 @@
 
 ### New Features
 
+- **GFS Supplementary Data** Open-Meteo exposes `lifted_index`, `cape`, `boundary_layer_height`, and `visibility` only for the `gfs_seamless` model (GFS — Global Forecast System, NOAA's global numerical weather prediction model). A second, lightweight Open-Meteo request is now made in parallel with the primary model fetch — always targeting `gfs_seamless` — so these physically superior inputs are available regardless of which primary model the user has selected.
 - **Binary sensor: GFS Supplementary Data** (`binary_sensor.py`, `strings.json`, `translations/`): New binary sensor that indicates whether GFS (Global Forecast System — NOAA's global numerical weather prediction model) supplementary data (boundary-layer height, lifted index, visibility, CAPE) was successfully retrieved in the last update cycle. `ON` means the improved atmospheric calculations are using real NWP model data; `OFF` means the GFS fetch failed and atmospheric conditions (seeing, fog, lifted index) are internally estimated from surface observations. The sensor is translated in all six supported languages (en, de, fr, it, pl, sk).
 - **Weather entity: `gfs_supplementary_data` attribute** (`weather.py`, `const.py`): The `gfs_supplementary_data` boolean is now exposed as `ATTR_WEATHER_GFS_SUPPLEMENTARY_DATA` in the weather entity's `extra_state_attributes`, making the GFS fetch status readable from any Lovelace card or template that consumes the weather entity without requiring direct access to the binary sensor.
+
+### Notes on methodology and accuracy
+
+The promoted calculation variants improve the *inputs* and *mathematics* of each estimate, but all three quantities operate under fundamental constraints imposed by the data that weather APIs expose.
+
+#### Lifted Index
+
+**Standard path**: The Bolton (1980) approximation lifts a surface air parcel dry-adiabatically to the Lifting Condensation Level (LCL), then moist-adiabatically to 500 hPa, using only 2 m temperature, dewpoint, and sea-level pressure. The environmental temperature at 500 hPa is estimated from a fixed standard-atmosphere lapse rate — there is no actual sounding. Errors of ±3–5 °C LI are typical.
+
+**GFS path**: Uses the `lifted_index` value computed by the GFS NWP model from its full 3-D temperature and humidity fields. This is physically far more accurate because the model has complete profile information. GFS horizontal resolution is ~13 km, which is adequate for a synoptic-scale stability indicator.
+
+**Why it may differ from Meteoblue**: Meteoblue derives LI from ECMWF or GFS soundings too, but may apply additional post-processing, blend multiple models, or display a different vertical layer (e.g. surface-based vs. most-unstable parcel). Differences of 1–2 °C between providers are normal.
+
+#### Seeing
+
+**Surface-only path**: Purely empirical; estimates a seeing factor from near-surface water vapour pressure, wind speed, and relative pressure, then converts to arcseconds. Captures only the lowest few metres of the atmosphere.
+
+**GFS path**: The planetary boundary layer (PBL) height is the primary driver (60 % weight). A shallow, stable nocturnal boundary layer (100–300 m) indicates good seeing; a deep daytime convective layer (> 1500 m) indicates poor seeing.
+
+**Fundamental limitation — free-atmosphere turbulence is not captured**: Astronomical seeing has two independent components:
+
+1. *Boundary-layer turbulence* (lowest 1–2 km): captured reasonably well by PBL height and surface wind. Typically contributes 0.3–0.8″ FWHM.
+2. *Free-atmosphere turbulence* (2–20 km, dominated by the jet stream): contributes 0.5–1.5″ FWHM and accounts for 60–70 % of the total variance in seeing at most mid-latitude sites.
+
+GFS does not expose upper-atmosphere turbulence metrics via the Open-Meteo API. Meteoblue's seeing forecast is based on the Antoniazzi–Giordano model, which uses wind speed and wind shear at multiple pressure levels (300, 200 hPa) extracted from ECMWF IFS — this is why Meteoblue can resolve the free-atmosphere component. A further timing effect: the GFS PBL is at its daily maximum near sunset (1500–2500 m in spring/summer), causing the seeing estimate to spike just as observations begin; the nocturnal stable boundary layer typically collapses to 100–500 m within 1–2 hours after sunset.
+
+#### Transparency / Magnitude Degradation
+
+**Surface-only path**: Linearly combines normalised temperature, humidity, wind, dewpoint, LI, seeing, pressure, cloud cover, and altitude with equal weights. Physically not very motivated.
+
+**Promoted path**: Uses the Pogson relation `mag_loss = −2.5·log₁₀(transparency)` where transparency is assembled from physically motivated penalties (cloud cover 50 %, humidity haze 18 %, wind-blown aerosol 12 %, LI instability 10 %, seeing correlation 10 %).
+
+**Fundamental limitation — aerosol and water vapour column**: Real atmospheric extinction is dominated by Rayleigh scattering (well-modelled from pressure), aerosol extinction (AOD — now partially addressed via CAMS), and precipitable water vapour (PWV — requires a humidity sounding, not just 2 m RH). Meteoblue uses CAMS aerosol forecasts and ECMWF PWV columns, which is why it can distinguish a hazy high-humidity night from a dry night with similar cloud cover.
 
 ---
 
