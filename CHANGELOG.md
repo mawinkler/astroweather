@@ -1,5 +1,13 @@
 # Changelog
 
+## Unreleased
+
+### New Features
+
+- **Staggered updates**: Each instance now refreshes at a stable offset within the update interval instead of all instances fetching at the same moment (`__init__.py`).
+- **`astroweather.refresh` service**: Fetches current data and forecast right away for the targeted entities/devices, or for all instances if no target is given.
+- **Manual-only mode**: A forecast interval of `0` disables automatic updates, so updates can be driven by the new service from an automation.
+
 ## [0.80.0](https://github.com/mawinkler/astroweather/compare/v0.75.0...v0.80.0) (2026-05-29)
 
 ### Improvements

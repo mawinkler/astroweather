@@ -1,0 +1,6 @@
+refresh:
+  target:
+    entity:
+      integration: astroweather
+    device:
+      integration: astroweather

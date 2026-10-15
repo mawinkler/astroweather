@@ -1,18 +1,24 @@
 """AstroWeather Integration for Home Assistant."""
 
 import asyncio
-from datetime import timedelta
 import logging
+import zlib
+from datetime import datetime, timedelta
 
-from pyastroweatherio import AstroWeather
-
+import voluptuous as vol
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.core import HomeAssistant, callback
-from homeassistant.exceptions import ConfigEntryNotReady
+from homeassistant.const import ATTR_DEVICE_ID, ATTR_ENTITY_ID
+from homeassistant.core import HomeAssistant, ServiceCall, callback
+from homeassistant.exceptions import ConfigEntryNotReady, ServiceValidationError
+from homeassistant.helpers import config_validation as cv
+from homeassistant.helpers import device_registry as dr
+from homeassistant.helpers import entity_registry as er
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from homeassistant.helpers.entity_registry import async_migrate_entries
+from homeassistant.helpers.event import async_call_later, async_track_time_interval
 from homeassistant.helpers.typing import ConfigType
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator
+from pyastroweatherio import AstroWeather
 
 from .const import (
     ASTROWEATHER_PLATFORMS,
@@ -52,13 +58,72 @@ from .const import (
     DISABLED,
     DOMAIN,
     FORECAST_TYPE_HOURLY,
+    SERVICE_REFRESH,
 )
 
 _LOGGER = logging.getLogger(__name__)
 
+REFRESH_SERVICE_SCHEMA = vol.Schema(
+    {
+        vol.Optional(ATTR_ENTITY_ID): cv.entity_ids,
+        vol.Optional(ATTR_DEVICE_ID): cv.ensure_list,
+    }
+)
+
+
+async def _async_refresh_entry(hass: HomeAssistant, entry_id: str) -> None:
+    """Refresh the current data and forecast of one config entry."""
+
+    data = hass.data.get(DOMAIN, {}).get(entry_id)
+    if not isinstance(data, dict):
+        return
+    await data["coordinator"].async_refresh()
+    await data["fcst_coordinator"].async_refresh()
+
+
+def _refresh_offset(entry_id: str, interval: int) -> int:
+    """Return a stable per-entry offset in seconds within one interval.
+
+    Used to spread the instances over the interval instead of letting them all
+    fetch at the same moment.
+    """
+
+    return zlib.crc32(entry_id.encode()) % (interval * 60)
+
 
 async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
     """Set up configured AstroWeather."""
+
+    async def async_handle_refresh(call: ServiceCall) -> None:
+        """Refresh the targeted config entries, or all of them if no target is given."""
+
+        entity_ids = call.data.get(ATTR_ENTITY_ID, [])
+        device_ids = call.data.get(ATTR_DEVICE_ID, [])
+        entry_ids: list[str] = []
+
+        if entity_ids or device_ids:
+            ent_reg = er.async_get(hass)
+            dev_reg = dr.async_get(hass)
+            for entity_id in entity_ids:
+                if (reg_entry := ent_reg.async_get(entity_id)) and reg_entry.platform == DOMAIN:
+                    entry_ids.append(reg_entry.config_entry_id)
+            for device_id in device_ids:
+                if device := dev_reg.async_get(device_id):
+                    entry_ids.extend(
+                        entry_id
+                        for entry_id in device.config_entries
+                        if (entry := hass.config_entries.async_get_entry(entry_id)) and entry.domain == DOMAIN
+                    )
+            if not entry_ids:
+                raise ServiceValidationError("None of the targets belong to AstroWeather")
+        else:
+            entry_ids = [entry.entry_id for entry in hass.config_entries.async_entries(DOMAIN)]
+
+        # Sequential on purpose, so a multi-target call does not hit the services all at once.
+        for entry_id in dict.fromkeys(entry_ids):
+            await _async_refresh_entry(hass, entry_id)
+
+    hass.services.async_register(DOMAIN, SERVICE_REFRESH, async_handle_refresh, schema=REFRESH_SERVICE_SCHEMA)
 
     # We allow setup only through config flow type of config
     return True
@@ -210,7 +275,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         _LOGGER,
         name=DOMAIN,
         update_method=astroweather.get_location_data,
-        update_interval=timedelta(minutes=entry.options.get(CONF_FORECAST_INTERVAL, DEFAULT_FORECAST_INTERVAL)),
+        update_interval=None,  # scheduled below so the instances can be staggered
         config_entry=entry,
     )
     await coordinator.async_config_entry_first_refresh()
@@ -228,7 +293,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         _LOGGER,
         name=DOMAIN,
         update_method=astroweather.get_hourly_forecast,
-        update_interval=timedelta(minutes=entry.options.get(CONF_FORECAST_INTERVAL, DEFAULT_FORECAST_INTERVAL)),
+        update_interval=None,  # scheduled below so the instances can be staggered
         config_entry=entry,
     )
     await fcst_coordinator.async_config_entry_first_refresh()
@@ -247,6 +312,35 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     }
 
     _LOGGER.debug("Forecast updated")
+
+    interval = entry.options.get(CONF_FORECAST_INTERVAL, DEFAULT_FORECAST_INTERVAL)
+    if interval > 0:
+        offset = _refresh_offset(entry.entry_id, interval)
+        cancel_timer = None
+
+        async def _async_scheduled_refresh(_now: datetime | None = None) -> None:
+            await _async_refresh_entry(hass, entry.entry_id)
+
+        @callback
+        def _async_start_timer(_now: datetime) -> None:
+            nonlocal cancel_timer
+            cancel_timer = async_track_time_interval(
+                hass, _async_scheduled_refresh, timedelta(minutes=interval), cancel_on_shutdown=True
+            )
+            hass.async_create_task(_async_scheduled_refresh())
+
+        cancel_start = async_call_later(hass, offset, _async_start_timer)
+
+        @callback
+        def _async_cancel_schedule() -> None:
+            cancel_start()
+            if cancel_timer is not None:
+                cancel_timer()
+
+        entry.async_on_unload(_async_cancel_schedule)
+        _LOGGER.debug("Automatic refresh every %d min, first refresh in %d s", interval, offset)
+    else:
+        _LOGGER.debug("Automatic refresh disabled, use the %s.%s service", DOMAIN, SERVICE_REFRESH)
 
     # Set up all platforms for this device/entry.
     await hass.config_entries.async_forward_entry_setups(entry, ASTROWEATHER_PLATFORMS)

@@ -38,7 +38,7 @@ There is also a custom weather card available [here](https://github.com/mawinkle
 - During setup of the integration you're asked for some location info via a config flow.
 - AstroWeather will then create a couple of sensors, binary sensors and a weather component to integrate with Home Assistant.
 - For Lovelace you can either build your own configuration or use the [AstroWeather Card](https://github.com/mawinkler/astroweather-card). The card does provide a config editor for customization.
-- All data is updated within a configurable interval in between 1 minute to 4 hours.
+- All data is updated within a configurable interval in between 1 minute to 4 hours. Instances are spread over the interval, so several of them do not fetch at the same moment. An interval of `0` disables automatic updates, see [Refreshing manually](#refreshing-manually).
 - It is possible to use multiple instances of AstroWeather at the same time, even within different timezones.
 
 ## Usage
@@ -83,6 +83,28 @@ During installation you will have the option to:
 - (optional) enable one of the supported Open-Meteo services.
 
 The interval for updating forecast data and the weightings can also be changed after you add the Integration, by using the *Options* link on the Integration widget.
+
+### Refreshing manually
+
+The `astroweather.refresh` service fetches fresh data right away. Target one or more AstroWeather entities or devices, or leave the target empty to refresh every instance (one after the other). Together with an interval of `0` (automatic updates off) this lets you schedule the updates yourself, for example to stagger many instances:
+
+```yaml
+automation:
+  - alias: Refresh AstroWeather
+    triggers:
+      - trigger: time_pattern
+        minutes: "/30"
+    actions:
+      - repeat:
+          for_each:
+            - weather.astroweather_home
+            - weather.astroweather_cabin
+          sequence:
+            - action: astroweather.refresh
+              target:
+                entity_id: "{{ repeat.item }}"
+            - delay: "00:00:20"
+```
 
 ### Lovelace
 
