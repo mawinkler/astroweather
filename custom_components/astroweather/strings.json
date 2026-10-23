@@ -19,7 +19,7 @@
           "seeing_weight": "Seeing weight",
           "transparency_weight": "Transparency weight",
           "calm_weight": "Weighting of the degree of calmness",
-          "forecast_interval": "Interval between forecast updates (min)",
+          "forecast_interval": "Interval between forecast updates (min, 0 = manual only)",
           "uptonight_path": "Path to /conf/www",
           "experimental_features": "Experimental features",
           "open_meteo_service": "Open Meteo Service to use"
@@ -55,7 +55,7 @@
           "seeing_weight": "Seeing weight",
           "transparency_weight": "Transparency weight",
           "calm_weight": "Weighting of calmness",
-          "forecast_interval": "Interval between forecast updates (min)",
+          "forecast_interval": "Interval between forecast updates (min, 0 = manual only)",
           "uptonight_path": "Path to conf/www",
           "experimental_features": "Experimental features",
           "open_meteo_service": "Open Meteo Service to use"
@@ -80,6 +80,12 @@
           "off": "Estimated"
         }
       }
+    }
+  },
+  "services": {
+    "refresh": {
+      "name": "Refresh",
+      "description": "Fetch fresh data now for the targeted AstroWeather instances, or for all of them if no target is given. Targets are refreshed one after the other."
     }
   }
 }

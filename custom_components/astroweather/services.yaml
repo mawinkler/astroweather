@@ -1,0 +1,4 @@
+refresh:
+  target:
+    entity:
+      integration: astroweather
