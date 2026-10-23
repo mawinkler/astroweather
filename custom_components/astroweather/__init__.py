@@ -63,6 +63,8 @@ from .const import (
 
 _LOGGER = logging.getLogger(__name__)
 
+CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
+
 REFRESH_SERVICE_SCHEMA = vol.Schema(
     {
         vol.Optional(ATTR_ENTITY_ID): cv.entity_ids,
