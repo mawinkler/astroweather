@@ -8,6 +8,10 @@
 - **`astroweather.refresh` service**: Fetches current data and forecast right away for the targeted entities/devices, or for all instances if no target is given.
 - **Manual-only mode**: A forecast interval of `0` disables automatic updates, so updates can be driven by the new service from an automation.
 
+### Bug Fixes
+
+- **Forecast update interval is now saved** (`config_flow.py`): `_get_config_data` read `forecast_interval` from the previously stored data instead of the submitted `user_input`, so the interval entered in the setup or options flow was silently discarded and the 5 minute default stayed in effect. It now behaves like every other field in the flow.
+
 ## [0.80.0](https://github.com/mawinkler/astroweather/compare/v0.75.0...v0.80.0) (2026-05-29)
 
 ### Improvements
