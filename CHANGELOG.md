@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## [0.81.0](https://github.com/mawinkler/astroweather/compare/v0.80.0...v0.81.0) (2026-10-25)
 
 ### New Features
 
@@ -11,6 +11,9 @@
 ### Bug Fixes
 
 - **Forecast update interval is now saved** (`config_flow.py`): `_get_config_data` read `forecast_interval` from the previously stored data instead of the submitted `user_input`, so the interval entered in the setup or options flow was silently discarded and the 5 minute default stayed in effect. It now behaves like every other field in the flow.
+- **Library pin** (`manifest.json`): Require the released `pyastroweatherio==0.80.0` instead of the pre-release `0.76.0.dev8` (identical code).
+
+Thanks to [@fwump38](https://github.com/fwump38) for both contributions!
 
 ## [0.80.0](https://github.com/mawinkler/astroweather/compare/v0.75.0...v0.80.0) (2026-05-29)
 
