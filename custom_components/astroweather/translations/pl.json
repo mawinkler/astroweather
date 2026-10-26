@@ -16,7 +16,7 @@
         "data": {
           "cloudcover_weight": "Waga pokrycia zachmurzenia do obliczania stanu",
           "fog_weight": "Ważenie gęstości mgły",
-          "seeing_weight": "Widząc wagę do obliczenia stanu",
+          "seeing_weight": "Waga seeingu do obliczania stanu",
           "transparency_weight": "Waga przezroczystości do obliczania stanu",
           "calm_weight": "Waga spokoju do obliczania stanu",
           "forecast_interval": "Odstęp czasu między aktualizacjami prognoz (min.)",
@@ -52,7 +52,7 @@
         "data": {
           "cloudcover_weight": "Waga pokrycia zachmurzenia do obliczania stanu",
           "fog_weight": "Ważenie gęstości mgły",
-          "seeing_weight": "Widząc wagę do obliczenia stanu",
+          "seeing_weight": "Waga seeingu do obliczania stanu",
           "transparency_weight": "Waga przezroczystości do obliczania stanu",
           "calm_weight": "Waga spokoju do obliczania stanu",
           "forecast_interval": "Odstęp czasu między aktualizacjami prognoz (min.)",

@@ -16,7 +16,7 @@
         "data": {
           "cloudcover_weight": "Váha pokrytia oblačnosti pre výpočet stavu",
           "fog_weight": "Hmotnosť hustoty hmly pre výpočet stavu",
-          "seeing_weight": "Váha dohľadnosti pre výpočet stavu",
+          "seeing_weight": "Váha seeingu pre výpočet stavu",
           "transparency_weight": "Váha priehľadnosti pre výpočet stavu",
           "calm_weight": "Váha pokoja pre výpočet stavu",
           "forecast_interval": "Interval medzi aktualizáciami prognózy (min)",
@@ -52,7 +52,7 @@
         "data": {
           "cloudcover_weight": "Váha pokrytia oblačnosti pre výpočet stavu",
           "fog_weight": "Hmotnosť hustoty hmly pre výpočet stavu",
-          "seeing_weight": "Váha dohľadnosti pre výpočet stavu",
+          "seeing_weight": "Váha seeingu pre výpočet stavu",
           "transparency_weight": "Váha priehľadnosti pre výpočet stavu",
           "calm_weight": "Váha pokoja pre výpočet stavu",
           "forecast_interval": "Interval medzi aktualizáciami prognózy (min)",

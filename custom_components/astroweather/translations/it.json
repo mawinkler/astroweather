@@ -16,7 +16,7 @@
         "data": {
           "cloudcover_weight": "Peso della copertura nuvolosa per il calcolo delle condizioni",
           "fog_weight": "Ponderazione della densità della nebbia",
-          "seeing_weight": "Vedere il peso per il calcolo delle condizioni",
+          "seeing_weight": "Peso del seeing per il calcolo delle condizioni",
           "transparency_weight": "Peso della trasparenza per il calcolo delle condizioni",
           "calm_weight": "Ponderazione della calma per il calcolo delle condizioni",
           "forecast_interval": "Intervallo tra gli aggiornamenti delle previsioni (min)",
@@ -52,7 +52,7 @@
         "data": {
           "cloudcover_weight": "Peso della copertura nuvolosa per il calcolo delle condizioni",
           "fog_weight": "Ponderazione della densità della nebbia",
-          "seeing_weight": "Vedere il peso per il calcolo delle condizioni",
+          "seeing_weight": "Peso del seeing per il calcolo delle condizioni",
           "transparency_weight": "Peso della trasparenza per il calcolo delle condizioni",
           "calm_weight": "Ponderazione della calma per il calcolo delle condizioni",
           "forecast_interval": "Intervallo tra gli aggiornamenti delle previsioni (min)",

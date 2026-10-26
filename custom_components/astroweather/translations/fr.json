@@ -16,7 +16,7 @@
         "data": {
           "cloudcover_weight": "Contribution de la couverture nuageuse",
           "fog_weight": "Contribution de la densité du brouillard",
-          "seeing_weight": "Contribution de la visibilité",
+          "seeing_weight": "Contribution du seeing",
           "transparency_weight": "Contribution de la transparence",
           "calm_weight": "Contribution du degré de temps calme",
           "forecast_interval": "Intervalle entre les mises à jour des prévisions (min)",
@@ -52,7 +52,7 @@
         "data": {
           "cloudcover_weight": "Contribution de la couverture nuageuse",
           "fog_weight": "Contribution de la densité du brouillard",
-          "seeing_weight": "Contribution de la visibilité",
+          "seeing_weight": "Contribution du seeing",
           "transparency_weight": "Contribution de la transparence",
           "calm_weight": "Contribution du degré de temps calme",
           "forecast_interval": "Intervalle entre les mises à jour des prévisions (min)",

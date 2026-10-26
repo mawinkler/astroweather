@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+### Bug Fixes
+
+- **"Seeing" translations** (`translations/fr.json`, `it.json`, `pl.json`, `sk.json`): The seeing weight in the setup and options flow was translated as the verb "to see" (Italian, Polish) or as visibility (French, Slovak). It now uses the astronomical term "seeing" like the German translation.
+
 ## [0.82.0](https://github.com/mawinkler/astroweather/compare/v0.81.0...v0.82.0) (2026-10-26)
 
 ### Breaking Changes
