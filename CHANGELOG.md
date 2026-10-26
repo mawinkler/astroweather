@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## [0.82.0](https://github.com/mawinkler/astroweather/compare/v0.81.0...v0.82.0) (2026-10-26)
 
 ### Breaking Changes
 
