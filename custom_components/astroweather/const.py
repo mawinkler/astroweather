@@ -135,6 +135,53 @@ ATTR_FORECAST_PRECIPITATION_AMOUNT = "precipitation_amount"
 # #####################################################
 CONDITION_CLASSES = ["excellent", "good", "fair", "poor", "bad"]
 
+# Met.no weather symbols without the _day/_night/_polartwilight suffix, see
+# https://github.com/metno/weathericons/blob/main/weather/legend.csv
+# The "lights..." typos are part of the met.no API.
+WEATHER_SYMBOLS = [
+    "clearsky",
+    "fair",
+    "partlycloudy",
+    "cloudy",
+    "fog",
+    "lightrainshowers",
+    "rainshowers",
+    "heavyrainshowers",
+    "lightrainshowersandthunder",
+    "rainshowersandthunder",
+    "heavyrainshowersandthunder",
+    "lightsleetshowers",
+    "sleetshowers",
+    "heavysleetshowers",
+    "lightssleetshowersandthunder",
+    "sleetshowersandthunder",
+    "heavysleetshowersandthunder",
+    "lightsnowshowers",
+    "snowshowers",
+    "heavysnowshowers",
+    "lightssnowshowersandthunder",
+    "snowshowersandthunder",
+    "heavysnowshowersandthunder",
+    "lightrain",
+    "rain",
+    "heavyrain",
+    "lightrainandthunder",
+    "rainandthunder",
+    "heavyrainandthunder",
+    "lightsleet",
+    "sleet",
+    "heavysleet",
+    "lightsleetandthunder",
+    "sleetandthunder",
+    "heavysleetandthunder",
+    "lightsnow",
+    "snow",
+    "heavysnow",
+    "lightsnowandthunder",
+    "snowandthunder",
+    "heavysnowandthunder",
+]
+
 OPEN_METEO_SERVICES = [
     {
         "label": "DWD Germany",

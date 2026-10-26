@@ -52,6 +52,9 @@ SENSOR_TYPES = {
     ],
 }
 
+# Binary sensors with translated states in strings.json (entity.binary_sensor.<key>)
+TRANSLATED_SENSORS = ("gfs_supplementary_data",)
+
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry, async_add_entities) -> None:
     """Set up the AstroWeather binary sensor platform."""
@@ -91,6 +94,9 @@ class AstroWeatherBinarySensor(AstroWeatherEntity, BinarySensorEntity):
         self._attr_unique_id = f"{entry.entry_id}_{DOMAIN.lower()}_{self._sensor_name.lower().replace(' ', '_')}"
         self._unique_id = f"{entry.entry_id}_{DOMAIN.lower()}"
         self._name = f"{DOMAIN.capitalize()} {self._location_name} {self._sensor_name}"
+
+        if self._sensor in TRANSLATED_SENSORS:
+            self._attr_translation_key = self._sensor
 
     @property
     def name(self):

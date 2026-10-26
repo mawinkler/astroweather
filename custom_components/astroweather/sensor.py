@@ -17,8 +17,24 @@ from homeassistant.core import HomeAssistant
 from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.util import dt as dt_util
 
-from .const import CONF_LOCATION_NAME, DEFAULT_LOCATION_NAME, DOMAIN, MANUFACTURER, UPTONIGHT, VERSION
+from .const import (
+    CONF_LOCATION_NAME,
+    DEFAULT_LOCATION_NAME,
+    DOMAIN,
+    MANUFACTURER,
+    UPTONIGHT,
+    VERSION,
+    WEATHER_SYMBOLS,
+)
 from .entity import AstroWeatherEntity
+
+# Deep sky forecast description sensors and the night they describe (0 = today, 1 = tomorrow).
+# Their state is the met.no weather symbol, translated via the sensor key as translation key.
+# Separate keys per night let the AstroWeather card tell the sensors apart.
+DESCRIPTION_SENSORS = {
+    "deepsky_forecast_today_desc": 0,
+    "deepsky_forecast_tomorrow_desc": 1,
+}
 
 SENSOR_NAME = 0
 SENSOR_UNIT = 1
@@ -428,7 +444,7 @@ SENSOR_TYPES = {
         "Deepsky Forecast Today Description",
         None,
         "mdi:calendar-star",
-        None,
+        SensorDeviceClass.ENUM,
         None,
     ],
     "deepsky_forecast_tomorrow": [
@@ -449,7 +465,7 @@ SENSOR_TYPES = {
         "Deepsky Forecast Tomorrow Description",
         None,
         "mdi:calendar-star",
-        None,
+        SensorDeviceClass.ENUM,
         None,
     ],
     UPTONIGHT: [
@@ -506,16 +522,35 @@ class AstroWeatherSensor(AstroWeatherEntity, SensorEntity):
         self._unique_id = f"{entry.entry_id}_{DOMAIN.lower()}"
         self._name = f"{DOMAIN.capitalize()} {self._location_name} {self._sensor_name}"
 
+        if self._sensor in DESCRIPTION_SENSORS:
+            self._attr_translation_key = self._sensor
+            self._attr_options = WEATHER_SYMBOLS
+
     @property
     def name(self):
         """Return the name of the sensor."""
 
         return self._name
 
+    def _weather_symbol(self, night: int) -> str | None:
+        """Return the met.no weather symbol of a forecast night without its _day/_night suffix."""
+
+        deepsky_forecast = self.coordinator.data[SENSOR_NAME].deepsky_forecast
+        if len(deepsky_forecast) <= night:
+            return None
+        # pyastroweatherio returns the symbol formatted, e.g. "Partlycloudy night" for "partlycloudy_night"
+        symbol = str(deepsky_forecast[night].weather).lower().replace(" ", "_").split("_")[0]
+        if symbol not in WEATHER_SYMBOLS:
+            _LOGGER.debug("Unknown weather symbol %s", deepsky_forecast[night].weather)
+            return None
+        return symbol
+
     @property
     def native_value(self):
         """Return the state of the sensor."""
 
+        if self._sensor in DESCRIPTION_SENSORS:
+            return self._weather_symbol(DESCRIPTION_SENSORS[self._sensor])
         if SENSOR_TYPES[self._sensor][SENSOR_DEVICE_CLASS] == SensorDeviceClass.TIMESTAMP:
             return dt_util.parse_datetime(str(getattr(self.coordinator.data[SENSOR_NAME], self._sensor, None)))
         return getattr(self.coordinator.data[SENSOR_NAME], self._sensor, None)

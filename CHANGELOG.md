@@ -1,5 +1,15 @@
 # Changelog
 
+## Unreleased
+
+### Breaking Changes
+
+- **Deep sky forecast description sensors are now translated** (`sensor.py`, `const.py`, `strings.json`, `translations/`, [#71](https://github.com/mawinkler/astroweather/issues/71)): `deepsky_forecast_today_description` and `deepsky_forecast_tomorrow_description` are now enum sensors. Their state is the met.no weather symbol without the `_day`/`_night`/`_polartwilight` suffix (e.g. `partlycloudy` instead of `Partlycloudy night`), and the frontend shows it translated, e.g. "Partly cloudy" or "Teilweise bewölkt". Automations and templates that compare against the old text need to be updated to the symbol. The `deepsky_forecast_*_desc` attributes of the weather entity are unchanged.
+
+### Bug Fixes
+
+- **GFS Supplementary Data states are now translated** (`binary_sensor.py`): The binary sensor was missing its translation key, so the translated states ("Active" / "Estimated" and their translations) were never used and the frontend showed the generic "On" / "Off".
+
 ## [0.81.0](https://github.com/mawinkler/astroweather/compare/v0.80.0...v0.81.0) (2026-10-25)
 
 ### New Features
